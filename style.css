@@ -24,6 +24,7 @@ body {
 	position: fixed;
 	top: -52px;
 	left: 0px;
+	z-index: 9001;
 }
 
 .header b {
@@ -59,6 +60,10 @@ h1.red {
 	background-color: #EECCBB;
 }
 
+h1.green {
+	background-color: #BBEECC;
+}
+
 h2 {
 	font-family: "Kadwa", sans-serif;
 	width: 100%;
@@ -72,16 +77,17 @@ h2 {
 }
 
 small {
-font-size: 40%;
+	font-size: 40%;
 }
 
 .unit {
 	width: 90%;
 	display: flex;
 	box-sizing: border-box;
-	margin: 20 auto;
+	margin: 30 auto;
+	margin-bottom: 50px;
 	background-color: #CCCCCC;
-	box-shadow: 16px 16px #777777;
+	box-shadow: 16px 16px #999999;
 	padding: 20px;
 	line-height: 1.5;
 }
@@ -108,6 +114,7 @@ font-size: 40%;
 	animation: circle-in 1s;
 	transition: clip-path 0.7s ease-in-out;
 	-webkit-transition: -webkit-clip-path 0.7s ease-in-out;
+	z-index: 1;
 }
 
 .unit-image:hover {
@@ -127,4 +134,14 @@ font-size: 40%;
 		clip-path: circle(30% at 50% 50%);
 		-webkit-clip-path: circle(30% at 50% 50%);
 	}
+}
+
+a {
+	text-decoration: none;
+	color: #555555;
+	font-weight: bold;
+}
+
+a:hover {
+	text-decoration: underline;
 }
