@@ -21,7 +21,7 @@ body {
 	background: #9988BB;
 	font-size: 40px;
 	font-family: "Oleo Script Swash Caps", sans-serif;
-	position: fixed;
+	position: absolute;
 	top: -52px;
 	left: 0px;
 	z-index: 9001;
