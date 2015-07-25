@@ -145,3 +145,10 @@ a {
 a:hover {
 	text-decoration: underline;
 }
+
+.contacticons {
+	margin: 20 auto;
+	padding: 0px;
+	height: 75px;
+	text-align: center;
+}
