@@ -112,16 +112,16 @@ small {
 	clip-path: circle(30% at 50% 50%);
 	-webkit-clip-path: circle(30% at 50% 50%);
 	animation: circle-in 1s;
-	transition: clip-path 0.7s ease-in-out;
-	-webkit-transition: -webkit-clip-path 0.7s ease-in-out;
+	transition: clip-path 0.4s ease-in-out;
+	-webkit-transition: -webkit-clip-path 0.4s ease-in-out;
 	z-index: 1;
 }
 
 .unit-image:hover {
 	clip-path: circle(80% at 50% 50%);
 	-webkit-clip-path: circle(80% at 50% 50%);
-	transition: clip-path 0.7s ease-in-out;
-	-webkit-transition: -webkit-clip-path 0.7s ease-in-out;
+	transition: clip-path 0.4s ease-in-out;
+	-webkit-transition: -webkit-clip-path 0.4s ease-in-out;
 }
 
 @keyframes circle-in {
