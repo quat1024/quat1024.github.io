@@ -65,6 +65,10 @@ body {
   list-style-type: lower-greek;
 }
 
+.body ul:not(.links) {
+  list-style-type: square;
+}
+
 .body ul li {
   margin-top: 15px;
   line-height: 30px;
