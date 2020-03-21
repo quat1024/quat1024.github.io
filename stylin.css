@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Libre+Franklin&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap');
 
 * {
   box-sizing: border-box;
@@ -14,11 +15,14 @@ html {
   margin: 0;
   background-color: black;
   color: white;
+
+  min-height: 100vh;
+  position: relative;
 }
 
 body {
   width: 900px;
-  margin: 50px auto 0 auto;
+  margin: 0 auto 0 auto;
 
   display: flex;
   flex-direction: column;
@@ -27,21 +31,13 @@ body {
 .head {
   height: 170px;
 
-  padding: 10px;
+  margin: 50px 10px 25px 10px;
+  padding: 0 10px;
   
+  border: 1px solid white;
   border-bottom: 10px solid white;
   display: flex;
   align-items: center;
-}
-
-.head img {
-  height: 100%;
-  animation: spin 40s linear infinite;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(-360deg); }
 }
 
 .head h1 {
@@ -51,14 +47,16 @@ body {
   text-align: center;
   flex-grow: 1;
   font-size: 64px;
+  line-height: 100%;
 
-  text-shadow: 3px 3px 0px #444;
+  font-family: "Roboto Mono", monospace;
 }
 
 .body {
   font-size: 24px;
   margin-top: 25px;
   padding: 0 25px;
+  line-height: 120%;
 }
 
 .body ul {
@@ -71,7 +69,7 @@ body {
 
 .body ul li {
   margin-top: 15px;
-  line-height: 30px;
+  
 }
 
 .body a {
@@ -84,8 +82,12 @@ body {
 
 .body a:hover {
   color: white;
-  background-color: black;
+  background-color: #202020;
   text-decoration: underline;
+}
+
+.body a:active {
+  color: red;
 }
 
 .body .construction {
@@ -107,7 +109,7 @@ body {
   }
 }
 
-@media (max-width: 750px) {
+@media (max-width: 770px) {
   .head h1 {
     font-size: 30px;
   }

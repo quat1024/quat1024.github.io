@@ -1,0 +1,81 @@
+.logo {
+	--size: 150px;
+
+	width: var(--size);
+	height: var(--size);
+	
+	display: grid;
+	grid-template-areas: "everything";
+	
+	align-items: center;
+	justify-items: center;
+}
+
+.logo * {
+	grid-area: everything;
+	width: 100%;
+	height: 100%;
+}
+
+.logo .circle1 {
+	border-radius: 100%;
+	border: calc(var(--size) / 6) solid white;
+	z-index: 0;
+}
+
+.logo .cover1 {
+	background-color: black;
+	width: 101%; /* makes it just a bit wider than the circle to cover up AA artifacts*/
+	height: calc(var(--size) / 6);
+	animation: spin 40s linear -15s infinite;
+	z-index: 1;
+}
+
+.logo .circle2 {
+	border-radius: 100%;
+	border: calc(var(--size) / 8) solid white;
+	width: 45%;
+	height: 45%;
+	z-index: 2;
+}
+
+.logo .cover2 {
+	z-index: 3;
+	background-color: black;
+	width: 50%;
+	height: calc(var(--size) / 15);
+	animation: spin 30s linear -10s infinite reverse;
+}
+
+.logo .iris {
+	z-index: 4;
+	width: 0;
+	height: 0;
+	border: calc(var(--size) / 15) solid red;
+	border-radius: 100%;
+	
+	animation: blink 17s ease-in 4s infinite;
+}
+
+@keyframes spin {
+	0% {
+		transform: rotate(0turn);
+	}
+	100% {
+		transform: rotate(1turn);
+	}
+}
+
+@keyframes blink {
+	0% {
+		transform: scaleY(100%)
+	}
+	
+	0.5% {
+		transform: scaleY(0%);
+	}
+	
+	1% {
+		transform: scaleY(100%);
+	}
+}
