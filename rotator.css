@@ -3,6 +3,7 @@
 
 	width: var(--size);
 	height: var(--size);
+	flex-shrink: 0;
 	
 	display: grid;
 	grid-template-areas: "everything";

@@ -21,7 +21,7 @@ html {
 }
 
 body {
-  width: 900px;
+  max-width: 80%;
   margin: 0 auto 0 auto;
 
   display: flex;
@@ -53,8 +53,10 @@ body {
 }
 
 .body {
+  max-width: 900px;
+  margin: 25px auto 70px auto;
+
   font-size: 24px;
-  margin-top: 25px;
   padding: 0 25px;
   line-height: 120%;
 }
@@ -69,7 +71,6 @@ body {
 
 .body ul li {
   margin-top: 15px;
-  
 }
 
 .body a {
@@ -91,7 +92,8 @@ body {
 }
 
 .body .construction {
-  color: #555;
+  color: #222;
+  font-family: "Roboto Mono", monospace;
 
   position: absolute;
   right: 25px;
@@ -99,21 +101,18 @@ body {
   text-align: right;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 950px) {
   body {
     width: unset;
   }
 
   .head h1 {
     text-align: right;
+    font-size: 40px;
   }
 }
 
 @media (max-width: 770px) {
-  .head h1 {
-    font-size: 30px;
-  }
-
   .body {
     font-size: 16px;
   }
