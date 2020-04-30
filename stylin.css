@@ -91,6 +91,13 @@ body {
   color: red;
 }
 
+.body .censor {
+  display: inline-block;
+  color: white;
+  background-color: white;
+  transform: rotate(4deg);
+}
+
 .body .construction {
   color: #222;
   font-family: "Roboto Mono", monospace;
