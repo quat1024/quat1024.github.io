@@ -1,126 +1,153 @@
-@import url('https://fonts.googleapis.com/css?family=Libre+Franklin&display=swap');
+/* @import url('https://fonts.googleapis.com/css?family=Libre+Franklin&display=swap'); */
+
 @import url('https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap');
 
 * {
   box-sizing: border-box;
-  font-family: "Libre Franklin", sans-serif;
+  font-family: "Roboto Mono", monospace;
+
+  --bgcolor: #151111;
+  --fgcolor: #cbc;
+  --fgaccent: #eee;
 }
 
 ::selection {
-  background-color: white;
-  color: black;
+  background-color: var(--fgcolor);
+  color: var(--bgcolor);
+}
+
+.fade {
+  opacity: 0.5;
 }
 
 html {
   margin: 0;
-  background-color: black;
-  color: white;
-
-  min-height: 100vh;
-  position: relative;
+  background-color: var(--bgcolor);
+  color: var(--fgcolor);
 }
 
 body {
   max-width: 80%;
-  margin: 0 auto 0 auto;
+  margin: 0 auto;
 
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
-.head {
-  height: 170px;
+:not(h1) > a {
+  color: var(--bgcolor);
+  background-color: var(--fgcolor);
+  text-decoration: none;
+  font-weight: bold;
+  padding: 0.1em 0.3em;
+}
 
-  margin: 50px 10px 25px 10px;
-  padding: 0 10px;
+h1 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--fgaccent);
+  background-color: var(--bgcolor);
+  text-decoration: underline;
+}
+
+a:active {
+  color: red;
+}
+
+header {
+  min-height: 170px;
+
+  border: 10px solid var(--fgcolor);
+  margin-top: 20px;
+  padding: 20px;
   
-  border: 1px solid white;
-  border-bottom: 10px solid white;
   display: flex;
   align-items: center;
 }
 
-.head h1 {
+header h1 {
+  color: var(--fgaccent);
+
   margin: 0;
+  margin-left: 10px;
 
   text-transform: uppercase;
   text-align: center;
   flex-grow: 1;
   font-size: 64px;
   line-height: 100%;
-
-  font-family: "Roboto Mono", monospace;
 }
 
-.body {
-  max-width: 900px;
-  margin: 25px auto 70px auto;
+article {
+  width: 900px;
 
-  font-size: 24px;
+  font-size: 20px;
   padding: 0 25px;
-  line-height: 120%;
+  line-height: 135%;
 }
 
-.body ul {
-  list-style-type: lower-greek;
+article h1 {
+  font-size: 2.3em;
 }
 
-.body ul:not(.links) {
-  list-style-type: square;
+article h1, article h2 {
+  width: 100%;
+
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-gap: 20px;
+  align-items: center;
 }
 
-.body ul li {
+article h1, article h2, article h3 {
+  color: var(--fgaccent);
+}
+
+article h1:after, article h2:after {
+  content: "";
+  border-top: 2px solid white;
+}
+
+article .byline {
+  font-size: 75%;
+}
+
+article blockquote {
+  border-left: 10px solid var(--fgcolor);
+  padding-left: 30px;
+  font-size: 80%;
+  line-height: 110%;
+}
+
+article ul {
+  list-style-type: '- ';
+}
+
+article ul li {
   margin-top: 15px;
 }
 
-.body a {
-  color: black;
-  background-color: white;
-  text-decoration: none;
-  padding: 5px;
-  font-weight: bold;
-}
-
-.body a:hover {
-  color: white;
-  background-color: #202020;
-  text-decoration: underline;
-}
-
-.body a:active {
-  color: red;
-}
-
-.body .censor {
-  display: inline-block;
-  color: white;
-  background-color: white;
-  transform: rotate(4deg);
-}
-
-.body .construction {
-  color: #222;
-  font-family: "Roboto Mono", monospace;
-
-  position: absolute;
-  right: 25px;
-  bottom: 25px;
-  text-align: right;
-}
-
-@media (max-width: 950px) {
-  body {
-    width: unset;
+@media (max-width: 1000px) {
+  article {
+    width: 100%;
   }
 
-  .head h1 {
+  header h1 {
     text-align: right;
     font-size: 40px;
   }
 }
 
 @media (max-width: 770px) {
-  .body {
+  body {
+    max-width: 90%;
+  }
+
+  article {
     font-size: 16px;
   }
 }

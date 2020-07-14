@@ -20,12 +20,12 @@
 
 .logo .circle1 {
 	border-radius: 100%;
-	border: calc(var(--size) / 6) solid white;
+	border: calc(var(--size) / 6) solid var(--fgcolor);
 	z-index: 0;
 }
 
 .logo .cover1 {
-	background-color: black;
+	background-color: var(--bgcolor);
 	width: 101%; /* makes it just a bit wider than the circle to cover up AA artifacts*/
 	height: calc(var(--size) / 6);
 	animation: spin 40s linear -15s infinite;
@@ -34,7 +34,7 @@
 
 .logo .circle2 {
 	border-radius: 100%;
-	border: calc(var(--size) / 8) solid white;
+	border: calc(var(--size) / 8) solid var(--fgcolor);
 	width: 45%;
 	height: 45%;
 	z-index: 2;
@@ -42,7 +42,7 @@
 
 .logo .cover2 {
 	z-index: 3;
-	background-color: black;
+	background-color: var(--bgcolor);
 	width: 50%;
 	height: calc(var(--size) / 15);
 	animation: spin 30s linear -10s infinite reverse;
