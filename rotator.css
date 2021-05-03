@@ -1,5 +1,5 @@
 .logo {
-	--size: 150px;
+	--size: 4em;
 
 	width: var(--size);
 	height: var(--size);
@@ -20,32 +20,34 @@
 
 .logo .circle1 {
 	border-radius: 100%;
-	border: calc(var(--size) / 6) solid var(--fgcolor);
+	border: calc(var(--size) / 6) solid var(--bgcolor);
 	z-index: 0;
 }
 
 .logo .cover1 {
-	background-color: var(--bgcolor);
-	width: 101%; /* makes it just a bit wider than the circle to cover up AA artifacts*/
+	z-index: 1;
+	background-color: var(--fgcolor);
+	width: 104%; /* makes it just a bit wider than the circle to cover up AA artifacts*/
 	height: calc(var(--size) / 6);
 	animation: spin 40s linear -15s infinite;
-	z-index: 1;
+	outline: 1px solid transparent; /* also for some AA */
 }
 
 .logo .circle2 {
+	z-index: 2;
 	border-radius: 100%;
-	border: calc(var(--size) / 8) solid var(--fgcolor);
+	border: calc(var(--size) / 8) solid var(--bgcolor);
 	width: 45%;
 	height: 45%;
-	z-index: 2;
 }
 
 .logo .cover2 {
 	z-index: 3;
-	background-color: var(--bgcolor);
-	width: 50%;
+	background-color: var(--fgcolor);
+	width: 52%;
 	height: calc(var(--size) / 15);
 	animation: spin 30s linear -10s infinite reverse;
+	outline: 1px solid transparent; /* also for some AA */
 }
 
 .logo .iris {
@@ -78,5 +80,19 @@
 	
 	1% {
 		transform: scaleY(100%);
+	}
+}
+
+@media (prefers-reduced-motion) {
+	.logo .cover1, .logo .cover2, .logo .iris {
+		animation-duration: 0s !important;
+	}
+	
+	.logo .cover1 {
+		transform: rotate(-40deg);
+	}
+	
+	.logo .cover2 {
+		transform: rotate(35deg);
 	}
 }
