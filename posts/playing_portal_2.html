@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>Highly Suspect Agency - How to play Portal 2 without losing your mind</title>
+		<link rel="stylesheet" type="text/css" href="../stylin.css" />
+		<link rel="stylesheet" type="text/css" href="../rotator.css" />
+		
+		<link rel="icon" type="image/x-icon" href="../favicon.ico" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+	</head>
+	<body>
+		<header>
+			<a href="../index.html" class="logo" aria-hidden="true">
+				<div class="circle1"></div>
+				<div class="cover1"></div>
+				<div class="circle2"></div>
+				<div class="cover2"></div>
+				<div class="iris"></div>
+			</a>
+			<h1><a href="../index.html">Highly Suspect Agency</a></h1>
+			<div class="spacefiller"></div>
+			
+			<nav><a href="../posts.html">Blog</a></nav>
+		</header>
+		<article>
+
+
+<h1>How to play Portal 2 without losing your mind</h1>
+<div class="byline">quat, May 06, 2021<br/>
+<a href="../tags/games.html">games</a> <a href="../tags/portal2.html">portal2</a> </div>
+
+<p>Ok so I want to collect all of the &quot;things that 99% of the dedicated portal2 players use but noone ever really talks about&quot; into one post I can point to. Here we go!</p>
+<h1>Saves</h1>
+<p><code>F6</code> and <code>F7</code> save and load the game. Not everyone knows this, but now you do!</p>
+<h1>Console</h1>
+<p>The developer console is where you enter commands. It can be enabled in settings (under &quot;Keyboard and Mouse&quot;), and the default key to open the console is ` (backtick). You can also add the <code>-console</code> launch option to open the console when the game starts, useful in Portal Reloaded where the console isn't available for some reason.</p>
+<p>If you create a file at <code>steamapps/common/Portal 2/portal2/cfg/autoexec.cfg</code>, every time you start the game, it will execute each line of the file as if you typed it in the developer console.</p>
+<p>The console will show command completions, and the <code>find</code> command can be used to search through commands.</p>
+<h2>Hey what's a bind</h2>
+<p>I'm going to talk about &quot;binds&quot; a lot. The in-game settings menu allows you to customize some keybinds, but if you open the developer console and use the <code>bind</code> command, you can bind things to <em>any</em> arbitrary command. Running <code>bind x &quot;noclip&quot;</code>, for example, will run <code>noclip</code> when you press <code>x</code>.</p>
+<p>You can print a listing of all bindings with <code>key_listboundkeys</code>, and e.g. <code>unbind x</code> can be used to delete a binding. Multiple commands can be bound to the same key by separating them with <code>;</code> (a semicolon).</p>
+<p>The in-game keybindings menu uses this bind system internally as well; enter <code>key_listboundkeys</code> and observe how it's already populated with a bunch of stuff.</p>
+<p>To bind things to the mouse wheel, bind them to <code>MWHEELDOWN</code> or <code>MWHEELUP</code>. The numpad can be addressed with <code>KP_END</code> for 1, <code>KP_DOWNARROW</code> for 2, <code>KP_PGDN</code> for 3 etc.</p>
+<h2>Useful cheats and bindings</h2>
+<p>I'll preface this by saying <em>everybody</em> cheats. Basically everyone has a keyboard full of their own cheat keybinds, and you'll be hard-pressed to find someone in the community who like, never cheats. This is a puzzle game first and foremost, it doesn't matter if you accidentally fell off a ledge and used noclip to get back on. As long as you had fun figuring out the puzzle and your solution would have worked without any noclip, it counts! (Don't go into p2 speedrunning with this mindset.)</p>
+<p>If you're entering these into a <code>bind</code> command don't forget to wrap them in double quotes btw. And it's handy to prefix cheat commands with <code>sv_cheats 1;</code> so you don't need a separate &quot;enable cheats&quot; bind.</p>
+<p>When playing in co-op, only Atlas can enable <code>sv_cheats</code>, but after that both players can use cheats.</p>
+<p>With all that out of the way! Your bread-and-butter binds:</p>
+<ul>
+<li><code>sv_cheats 1; noclip</code> - Toggle noclip, allowing you to fly through walls and outside the map.
+<ul>
+<li>Goo pits, bottomless pits, and laserfields will still kill you!!!</li>
+</ul>
+</li>
+<li><code>sv_cheats 1; god</code> - Toggle god mode, removing all damage.
+<ul>
+<li>Maybe a good idea to combine with the <code>noclip</code> bind</li>
+</ul>
+</li>
+<li><code>sv_cheats 1; ent_create_portal_companion_cube</code> - Spawn a companion cube in the wall at your crosshair position.
+<ul>
+<li>There are also commands like <code>ent_create_portal_reflector_cube</code> for laser cubes, <code>ent_create_portal_weighted_sphere</code> for spheres, etc. I don't have these bound to keys, but they're good to know about in case you need to spawn one.</li>
+</ul>
+</li>
+<li><code>sv_cheats 1; host_timescale 3&quot;</code> - Run the game at triple speed!</li>
+<li><code>sv_cheats 1; host_timescale 0.25&quot;</code> - Run the game at quarter speed.</li>
+<li><code>sv_cheats 1; host_timescale 1&quot;</code> - Run the game at normal speed again.</li>
+<li><code>sv_cheats 1; toggle host_timescale 1 3 0.25&quot;</code> - One key to toggle between a bunch of game speeds, if you prefer that!
+<ul>
+<li>If you don't have sv_cheats on, <code>host_timescale</code> just changes the pitch of in-game audio, which is pretty funny</li>
+</ul>
+</li>
+<li><code>ent_fire !picker use</code> - &quot;Long range Use&quot;. This acts the same as the E key, but doesn't have any distance limitations, so you can pick things up and press pedestal buttons from any distance.
+<ul>
+<li>Hilariously this is <em>not</em> a cheat command according to the game lol</li>
+<li>It's not safe to <em>replace</em> your usual &quot;use&quot; key with this because there are lots of differences and bugs. But put it on an easy-to-reach key.</li>
+</ul>
+</li>
+<li><code>save XXXX</code> and <code>load XXXX</code>, with whatever filename you want - More save slots!
+<ul>
+<li>F6 and F7, the default quicksave keys, use the filename <code>quick</code>.</li>
+</ul>
+</li>
+</ul>
+<p>And some more specialized binds:</p>
+<ul>
+<li><code>sv_cheats 1; buddha</code> - Toggle &quot;buddha mode&quot;, where you can still take damage but can't actually die.
+<ul>
+<li>Useful to see <em>if</em> you are taking damange, since godmode removes the red overlay as well.</li>
+</ul>
+</li>
+<li><code>sv_cheats 1; notarget</code> - Toggle notarget mode. Turrets can't see you.
+<ul>
+<li>useful for really awful community maps</li>
+</ul>
+</li>
+<li><code>incrementvar crosshair 0 1 1;incrementvar r_drawviewmodel 0 1 1</code> - Toggle the crosshair and portal gun.
+<ul>
+<li>I have this on <code>F1</code> like Minecraft.</li>
+<li>In some mods <code>r_drawviewmodel</code> doesn't remove all of the portal gun. Replace it with like, <code>viewmodel_offset_x 0 2000 2000</code> to move it way off screen instead.</li>
+<li>Make sure to enable the HUD again before you exit a map, because <code>r_drawviewmodel</code> doesn't carry over between maps but <code>crosshair</code> does lol, just one of those things.</li>
+</ul>
+</li>
+<li><code>;+remote_view</code> (with a semicolon at the start) - &quot;Sticky&quot; partner view for co-op. Pressing this key opens the viewport of your co-op partner, but you don't need to hold it down to keep it open. It is safe to replace your usual partner view bind with this if you want; you can create a separate &quot;disable remote view&quot; bind with <code>;-remote_view</code> as well.
+<ul>
+<li>Putting a semicolon in front of any bind that starts with <code>+</code> will make it sticky. Usually not that useful except for this one.</li>
+</ul>
+</li>
+<li><code>jpeg</code> - Takes a screenshot!</li>
+<li><code>cl_fov 110</code> (or whatever number) - Change the game's horizontal field-of-view.
+<ul>
+<li>Unfortunately you need to press this after every loading screen because the game resets it to 90.</li>
+<li>Sometimes people bind their W key to <code>+forward;cl_fov 110</code>, so walking forwards, a thing you do anyway, resets the FOV.</li>
+<li>Hot tip but reducing the field of view makes it easier to take nice screenshots, handy for thumbnails and stuff, so you might want to bind a few keys to <code>cl_fov 60</code> and such. I have the whole bottom-right of my keyboard dedicated to FOV-changing keys for posing screenshots.</li>
+</ul>
+</li>
+</ul>
+<h2>Uhhh more useful commands</h2>
+<p>Not really things that need to be bound to a key per se, but they're nice commands to know about. Look, I just wanna dump this info on you</p>
+<ul>
+<li><code>mat_picmip &lt;number&gt;</code> - Increase the number to decrease texture resolution. Makes the game look like shit, but useful if your computer is a potato.</li>
+<li><code>viewmodel_offset_x</code> - Changes the horizonal position of the portal gun on the screen. Positive values move it to the right. <code>2</code> looks nice on widescreen.</li>
+<li><code>sv_player_collide_with_laser</code> - Setting a value of 0 removes damage and collision with lasers. You can just walk right through!</li>
+<li><code>sv_use_bendy_model</code> - Setting a value of 0 makes you use the Chell player model in community maps, if you prefer to play as her.
+<ul>
+<li>It only takes effect on the next map load and doesn't stick between game sessions, so put it in your <code>autoexec.cfg</code>.</li>
+</ul>
+</li>
+<li><code>map</code> - Loads a map!</li>
+<li><code>fadein</code> - Fades the screen back in, useful if you touched a bottomless pit with godmode and the screen faded to black.</li>
+<li><code>phys_timescale</code> - Adjusts the speed of the physics engine. You can set it to <code>0</code> safely, causing objects to freeze in place. Useful for posing screenshots.
+<ul>
+<li>Hilariously this is also not cheat protected, don't use this in your speedruns lol</li>
+</ul>
+</li>
+<li><code>cl_showpos 1</code> - Show your position and angles in the upper left of the screen.</li>
+<li><code>setpos</code> and <code>setang</code> - Set your position and angle exactly. Useful for lining up screenshots.</li>
+<li><code>ent_fire !picker &lt;way too many things to list here&gt;</code> - There's tab-completion on this for the available options. Fires an input to the thing under your crosshair, causing something to happen to it. You can change the color, parent it to something, delete it... My favorite is <code>ignite</code> which makes it catch on fire</li>
+<li><code>r_portal_use_pvs_optimization 0</code> - Stops the screen turning white when you noclip out of bounds then disable noclip. Doesn't seem to noticeably impact framerate.</li>
+<li><code>+mouse_menu_playtest</code> - Unused co-op ping menu with thumbs-up, thumbs-down, ?, and ?!* reactions. Broken in singleplayer and you will softlock if you press it!!!</li>
+</ul>
+<p>Okay next section!</p>
+<h1>SAR and loading fixes</h1>
+<p><a href="https://wiki.portal2.sr/SAR">SAR</a> is a plugin/mod/tool/thing that Portal 2 speedrunners use. You can download the latest version <a href="https://github.com/Blenderiste09/SourceAutoRecord/releases">over here</a>. It's like 99% nerdy speedrunner stuff, but there is a <em>really</em> nice-to-have loading screen fix as well, that makes loading take <em>much</em> less time.</p>
+<p>In particular this makes quicksaves fun and useful again: loading a quicksave created on the same map takes less than a second, on my PC.</p>
+<p>Full installation instructions are available on the <a href="https://wiki.portal2.sr/SAR#How_to_install">Portal speedrunners wiki</a> but in short, to enable the load remover:</p>
+<ul>
+<li>Download the <code>.dll</code> on Windows or <code>.so</code> on Linux. Uhh if you're on Mac, good luck!</li>
+<li>Put it wherever you want in <code>steamapps/common/Portal 2</code>. I have it right next to <code>portal2.exe</code>.</li>
+<li>Open your <code>autoexec.cfg</code> and enter:</li>
+</ul>
+<pre><code class="language-codeblock">plugin_load sar
+sar_fast_load_preset normal
+</code></pre>
+<ul>
+<li>You can write <code>full</code> instead of <code>normal</code> for even <em>faster</em> loads, but this disables all loading screen rendering, including things like the name of the community map.
+<ul>
+<li>Full details on loading presets <a href="https://wiki.portal2.sr/SAR#Loading_Fixes">on the speedrunners wiki</a> of course.</li>
+</ul>
+</li>
+<li>Start the game and enjoy speedy loading screens.</li>
+</ul>
+<p>SAR also has a few more commands that might be useful to casual players. Put these in your autoexec under <code>plugin_load</code> as well.</p>
+<ul>
+<li><code>sar_force_fov 110</code> - It's like <code>cl_fov</code>, but sticks around after map loads so you don't have to press your fov bind every time.</li>
+<li><code>sar_autojump</code> - Makes you jump continuously while holding your jump key.</li>
+</ul>
+<p>A full list of commands is available <a href="https://github.com/Blenderiste09/SourceAutoRecord/blob/master/doc/cvars.md">here</a>. There are a lot.</p>
+<p>Oh and if you're curious it stands for &quot;Source Auto Record&quot;, because the original purpose of the tool is to automatically record demos on the first tick of loading a map, but as you can see it's grown in scope quite a bit...</p>
+<h1>BEEMOD</h1>
+<p>This is more for making maps and not playing them, but I want to point you in the direction of <a href="https://github.com/BEEmod/BEE2.4">BEEMOD</a>. It's a tool to customize the items available in Puzzlemaker. There's custom test elements, but also things like additional map geometry (wedges, blocks, holes-in-glass), more features for the vanilla map elements (you can enable Portal 1-style victory lifts that only move when you stand on them), more map themes, and more. All available in the in-game editor for you to use, no Hammer knowledge needed.</p>
+<p>I will say a few things:</p>
+<ul>
+<li>Beemod's packages are a fairly big download, be prepared to wait.</li>
+<li>The custom styles are kinda ugly imo... I'm really sorry because there's a lot of work put into them, but the &quot;Original Clean&quot; style is still my favorite. It's the most readable.</li>
+<li>Due to limitations it's not possible for BEE to add new <em>types</em> of checkboxes to the editor. But they can take e.g. the &quot;Auto-drop first cube&quot; checkbox from cube droppers, graft it on to other items, and make it do something else. So the Portal 1-style victory lift setting I mentioned earlier is enabled by right-clicking a lift and enabling &quot;Auto-drop first cube&quot;. It's very, very weird. You get used to it. Everything is documented in the BEEMOD application.</li>
+<li>The invisible logic gate items are useful for way more than logic gates! The gates might be invisible, but antline and signage connections to them are not. Be creative.</li>
+<li>Light strips now have a Cube Type. The first 3 change the temperature of the emitted light and the 5th makes an invisible light strip that blocks antlines. (4th is not used.)</li>
+</ul>
+<h1>How do I bunnyhop?</h1>
+<p>Really really quick overview:</p>
+<ul>
+<li>Bind jump to your mousewheel. Scroll whenever you get close to the ground to input a jump as early as possible.</li>
+<li>Tap forward to get some initial speed, but once you have speed, move by strafing sideways instead of by walking forwards.</li>
+</ul>
+<p>That's basically it.</p>
+<p>There's wayyyy more detailed guides out there and I'm not an expert. It takes a lot of practice to get a &quot;feel&quot; for the right way to move and how momentum carries.</p>
+<h1>Hey quat uhh, this is all well and good, but what maps should i actually play with these newfound powers</h1>
+<p>Well I'm glad you asked, because unfortunately, browsing the workshop by &quot;Most Popular&quot; is not a very good way to find high-quality maps*.</p>
+<p>A longtime Portal 2 friend curated this collection called <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=470046703">&quot;Introduction to the Workshop&quot;</a>, which has <em>all</em> the classics. It's a bit old now but it's timeless, I always recommend it to new workshop players. You'll pick up all the puzzle techniques you'll need to solve community maps that aren't part of the main game (what?), and have a good time doing it.</p>
+<p>All of the people included in that collection are fairly prolific mappers, so browse their profiles and check out their other work and their favorites lists as well.</p>
+<p>Here's my list of <a href="https://steamcommunity.com/id/quaternary/myworkshopfiles?appid=620&amp;browsesort=myfavorites&amp;browsefilter=myfavorites&amp;p=1">workshop favorites</a>, although it's mostly hard shit and kinda outdated by now...</p>
+<p>*It's mainly because completing a map prompts you with the rating screen, so maps with more completions get more popular, so easy maps rise to the top. Occasionally you'll find bangers in there but like, approach it the way you'd approach Mario Maker's popular section.</p>
+<p>Now go forth!</p>
+
+<hr class="cool"/>
+
+<div style="text-align: left"><a href="good_title_for_my_puzzle_game.html">&larr; Good title for my puzzle game</a><br/>
+
+		<div style="text-align: right; font-size:60%">Currently not powered by <a href="https://jortage.com/">Jortage</a>™</div>
+		</article>
+	</body>
+</html>
