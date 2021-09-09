@@ -201,17 +201,17 @@ hr:after {
 	top: -12px;
 	
 	background-color: var(--bgcolor);
-	background-image: url("img/tiny_dragnmlem.png");
+	background-image: url("/img/tiny_dragnmlem.png");
 	background-position: center;
 	background-repeat: no-repeat;
 }
 
 hr.cool:after {
-	background-image: url("img/tiny_dragncool.png");
+	background-image: url("/img/tiny_dragncool.png");
 }
 
 hr.think:after {
-	background-image: url("img/tiny_dragnthink.png");
+	background-image: url("/img/tiny_dragnthink.png");
 }
 
 .youtube {

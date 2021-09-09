@@ -1,36 +1,33 @@
 <!DOCTYPE html>
-
 <html>
 	<head>
 		<title>Highly Suspect Agency - Fix stuff being broke in IntelliJ</title>
-		<link rel="stylesheet" type="text/css" href="../stylin.css" />
-		<link rel="stylesheet" type="text/css" href="../rotator.css" />
-		
-		<link rel="icon" type="image/x-icon" href="../favicon.ico" />
+		<link rel="stylesheet" type="text/css" href="/stylin.css" />
+		<link rel="stylesheet" type="text/css" href="/rotator.css" />
+		<link rel="icon" type="image/x-icon" href="/favicon.ico" />
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 	</head>
 	<body>
 		<header>
-			<a href="../index.html" class="logo" aria-hidden="true">
+			<a href="/" class="logo" aria-hidden="true">
 				<div class="circle1"></div>
 				<div class="cover1"></div>
 				<div class="circle2"></div>
 				<div class="cover2"></div>
 				<div class="iris"></div>
 			</a>
-			<h1><a href="../index.html">Highly Suspect Agency</a></h1>
+			<h1><a href="/">Highly Suspect Agency</a></h1>
 			<div class="spacefiller"></div>
 			
-			<nav><a href="../posts.html">Blog</a></nav>
+			<nav><a href="/posts">Blog</a></nav>
 		</header>
 		<article>
 
-
 <h1>Fix stuff being broke in IntelliJ</h1>
 <div class="byline">quat, Jan 19, 2020<br/>
-<a href="../tags/forge.html">forge</a> <a href="../tags/1.12.html">1.12</a> <a href="../tags/mc-modding.html">mc-modding</a> </div>
+<a href="/tags/forge">forge</a> <a href="/tags/1.12">1.12</a> <a href="/tags/mc-modding">mc-modding</a> </div>
 
-<p>This article was formerly published on my Github account <a href="https://gist.github.com/quat1024/8bf436c85e5c140d27d49a7dc6c09982/">here</a>. It was during a time when ForgeGradle didn't work well with 1.12 mods. Since most users don't mod 1.12 anymore, it's mostly historical information, but I'll leave it up in case someone finds a use for it.</p>
+<p>This article was formerly published on my Github account <a href="https://gist.github.com/quat1024/8bf436c85e5c140d27d49a7dc6c09982/">here</a>. It was during a time when ForgeGradle didn’t work well with 1.12 mods. Since most users don’t mod 1.12 anymore, it’s mostly historical information, but I’ll leave it up in case someone finds a use for it.</p>
 <hr/>
 <h1>What</h1>
 <p>When compiling mods in recent versions of IntelliJ, weird things start happening:</p>
@@ -43,31 +40,31 @@
 <h2>Hotswapping is broken / Resources are broken</h2>
 <ol>
 <li>Open Settings (head to File -&gt; Settings).</li>
-<li>Expand &quot;Build, Execution, Deployment&quot;.</li>
-<li>Expand &quot;Build Tools&quot;.</li>
-<li>Expand &quot;Gradle&quot;.</li>
-<li>Under the right pane, under &quot;Build and Run&quot;, change both from &quot;Gradle&quot; to &quot;IntelliJ Idea&quot;.</li>
+<li>Expand “Build, Execution, Deployment”.</li>
+<li>Expand “Build Tools”.</li>
+<li>Expand “Gradle”.</li>
+<li>Under the right pane, under “Build and Run”, change both from “Gradle” to “IntelliJ Idea”.</li>
 <li>Apply.</li>
 <li>Restart IntelliJ (quick way: is File -&gt; Invalidate Caches / Restart -&gt; Just Restart)</li>
 </ol>
 <p>You will need to change this once for every project.</p>
 <p>You also may have to set the project build directory after configuring this, since IntelliJ forgot; just use the <code>build/</code> directory (in the root of your project, adjacent to <code>src/</code>, probably already exists if you compiled it before).</p>
 <h2>genIntelliJRuns-generated run configs are erroring</h2>
-<p>(This probably doesn't happen in 1.13+, but it certainly does in 1.12-)</p>
+<p>(This probably doesn’t happen in 1.13+, but it certainly does in 1.12-)</p>
 <ol>
-<li>Open the Run/Debug configurations dialog (expand the run configs dropdown -&gt; Edit Configurations...)</li>
-<li>Under &quot;Use classpath of module&quot;, change it to the one that ends in &quot;.main&quot;</li>
+<li>Open the Run/Debug configurations dialog (expand the run configs dropdown -&gt; Edit Configurations…)</li>
+<li>Under “Use classpath of module”, change it to the one that ends in “.main”</li>
 <li>Do this for each run configuration.</li>
 </ol>
 <h1>Why</h1>
-<p>IntelliJ changed its model of how Gradle tasks are executed. Resources get put in a different folder from where ForgeGradle expects to find them, hot-swapping doesn't work, etc.</p>
+<p>IntelliJ changed its model of how Gradle tasks are executed. Resources get put in a different folder from where ForgeGradle expects to find them, hot-swapping doesn’t work, etc.</p>
 <h1>Who</h1>
-<p>Thanks to Tama for figuring out the resources issue on MMD. Thanks to Paul Fulham for pointing out that it also breaks hotswapping and by &quot;pointing out&quot; I mean that he found out the hard way and had to find out how to fix it. I'm just posting this somewhere I can link to it.</p>
+<p>Thanks to Tama for figuring out the resources issue on MMD. Thanks to Paul Fulham for pointing out that it also breaks hotswapping and by “pointing out” I mean that he found out the hard way and had to find out how to fix it. I’m just posting this somewhere I can link to it.</p>
 
 <hr class="cool"/>
 
-<div style="text-align: left"><a href="we_out_here_reloadin.html">&larr; Overview of Resource Reloading in 1.14.4/Fabric</a><br/>
-<div style="text-align: right"><a href="how_2_angry_lex.html">how 2 angry lex.md &rarr;</a>
+<div style="text-align: left"><a href="/posts/we_out_here_reloadin">&larr; Overview of Resource Reloading in 1.14.4/Fabric</a><br/>
+<div style="text-align: right"><a href="/posts/how_2_angry_lex">how 2 angry lex.md &rarr;</a>
 		<div style="text-align: right; font-size:60%">Currently not powered by <a href="https://jortage.com/">Jortage</a>™</div>
 		</article>
 	</body>

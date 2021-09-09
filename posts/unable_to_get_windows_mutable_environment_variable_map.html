@@ -1,36 +1,33 @@
 <!DOCTYPE html>
-
 <html>
 	<head>
 		<title>Highly Suspect Agency - &quot;Unable to get Windows mutable environment variable map&quot;</title>
-		<link rel="stylesheet" type="text/css" href="../stylin.css" />
-		<link rel="stylesheet" type="text/css" href="../rotator.css" />
-		
-		<link rel="icon" type="image/x-icon" href="../favicon.ico" />
+		<link rel="stylesheet" type="text/css" href="/stylin.css" />
+		<link rel="stylesheet" type="text/css" href="/rotator.css" />
+		<link rel="icon" type="image/x-icon" href="/favicon.ico" />
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 	</head>
 	<body>
 		<header>
-			<a href="../index.html" class="logo" aria-hidden="true">
+			<a href="/" class="logo" aria-hidden="true">
 				<div class="circle1"></div>
 				<div class="cover1"></div>
 				<div class="circle2"></div>
 				<div class="cover2"></div>
 				<div class="iris"></div>
 			</a>
-			<h1><a href="../index.html">Highly Suspect Agency</a></h1>
+			<h1><a href="/">Highly Suspect Agency</a></h1>
 			<div class="spacefiller"></div>
 			
-			<nav><a href="../posts.html">Blog</a></nav>
+			<nav><a href="/posts">Blog</a></nav>
 		</header>
 		<article>
 
-
 <h1>&quot;Unable to get Windows mutable environment variable map&quot;</h1>
 <div class="byline">quat, May 26, 2021<br/>
-<a href="../tags/java.html">java</a> <a href="../tags/mc-modding.html">mc-modding</a> </div>
+<a href="/tags/java">java</a> <a href="/tags/mc-modding">mc-modding</a> </div>
 
-<p>I'm gonna tell a debugging story. It involves Gradle, Windows, Java 8, Java 16, and a funky package manager.</p>
+<p>I’m gonna tell a debugging story. It involves Gradle, Windows, Java 8, Java 16, and a funky package manager.</p>
 <p>Okay, time to update my Gradle wrapper from an ancient Gradle 4 to the latest version as of writing this, Gradle 7.0.2.</p>
 <pre><code class="language-console">$ ./gradlew wrapper --gradle-version 7.0.2
 
@@ -46,7 +43,7 @@ Run with --stacktrace option to get the stack trace. Run with --info or --debug 
 </code></pre>
 <p>Hm.</p>
 <p>I googled for this error and, while several people have had this problem (including a few fellow Minecraft modders), nobody had posted a solution. Time to debug it myself.</p>
-<p>Let's try <code>--stacktrace</code>.</p>
+<p>Let’s try <code>--stacktrace</code>.</p>
 <pre><code class="language-console">$ ./gradlew wrapper --gradle-version 7.0.2 --stacktrace
 
 [same error as before]
@@ -64,7 +61,7 @@ unnamed module @7dc36524
         at java.base/java.lang.reflect.Field.setAccessible(Field.java:171)
         at net.rubygrapefruit.platform.internal.WrapperProcess.getWindowsEnv(WrapperProcess.java:124)
 </code></pre>
-<p>Some stuff about modules, accessibility... What version of Java is this thing running on, again?</p>
+<p>Some stuff about modules, accessibility… What version of Java is this thing running on, again?</p>
 <pre><code class="language-console">$ ./gradlew --version
 
 ------------------------------------------------------------
@@ -82,7 +79,7 @@ JVM:          16.0.1 (AdoptOpenJDK 16.0.1+9-202105072336)
 OS:           Windows 10 10.0 amd64
 </code></pre>
 <p>Java 16 - yeah, that would do it. Frustrating. I do have both Java 8 and Java 16 installed on my computer (through <a href="https://scoop.sh/">scoop</a>, a Windows package manager), so this looks like a matter of telling Gradle which version to use.</p>
-<p>Let's determine how the Gradle wrapper script, <code>gradlew</code>, discovers the Java command to use.</p>
+<p>Let’s determine how the Gradle wrapper script, <code>gradlew</code>, discovers the Java command to use.</p>
 <pre><code class="language-shell"># Determine the Java command to use to start the JVM.
 if [ -n &quot;$JAVA_HOME&quot; ] ; then
     if [ -x &quot;$JAVA_HOME/jre/sh/java&quot; ] ; then
@@ -110,12 +107,12 @@ fi
 <pre><code class="language-console">$ echo $JAVA_HOME
 C:\Users\quat\scoop\apps\adopt16-hotspot-nightly\current
 </code></pre>
-<p>I'll change it to where my Java 8 installation is:</p>
+<p>I’ll change it to where my Java 8 installation is:</p>
 <pre><code class="language-console">$ export JAVA_HOME=&quot;C:\Users\quat\scoop\apps\adopt8-hotspot\current&quot;
 
 $
 </code></pre>
-<p>Let's try it:</p>
+<p>Let’s try it:</p>
 <pre><code class="language-console">$ ./gradlew wrapper --gradle-version 7.0.2
 Starting a Gradle Daemon, 2 incompatible Daemons could not be reused, use --status for details
 
@@ -138,10 +135,10 @@ Run with --stacktrace option to get the stack trace. Run with --info or --debug 
 
 BUILD FAILED in 5s
 </code></pre>
-<p>Different error, so hey, that's something!</p>
-<p>Here we have a chicken-and-egg problem. I wanted to update my wrapper in the first place, because the version of the plugin I was using, <code>fabric-loom</code> version 0.8, isn't happy with Java 8 anymore.</p>
-<p>But the plugin's error is preventing the wrapper-update script from running in the first place.</p>
-<p>I'll resolve this by cheating, and renaming my <code>build.gradle</code> to like, <code>build.gradle.old</code> or something. Try again.</p>
+<p>Different error, so hey, that’s something!</p>
+<p>Here we have a chicken-and-egg problem. I wanted to update my wrapper in the first place, because the version of the plugin I was using, <code>fabric-loom</code> version 0.8, isn’t happy with Java 8 anymore.</p>
+<p>But the plugin’s error is preventing the wrapper-update script from running in the first place.</p>
+<p>I’ll resolve this by cheating, and renaming my <code>build.gradle</code> to like, <code>build.gradle.old</code> or something. Try again.</p>
 <pre><code class="language-console">$ ./gradlew wrapper --gradle-version 7.0.2
 &gt; Task :wrapper
 
@@ -166,9 +163,9 @@ OS:           Windows 10 10.0 amd64
 </code></pre>
 <p>Looks like it did!</p>
 <p>Finally I can put back my <code>build.gradle</code>, and reset my JAVA_HOME to point at Java 16. Success?</p>
-<h2>Things that didn't work</h2>
-<p>Initially tried to change my system PATH to put the <code>adopt8-hotspot</code> version before <code>adopt16-hotspot-nightly</code>, but that didn't work. I wasn't familiar with the <code>JAVA_HOME</code> variable and that's the one the gradle wrapper script checks first.</p>
-<p>I also tried editing environment variables through the Windows &quot;edit system environment variables&quot; dialog, but I'm not sure when the &quot;git bash&quot; environment picks up on those changes...? I tried everything short of restarting my computer and changes to <code>JAVA_HOME</code> through the dialog didn't seem to be reflected. I don't know if there's another script resetting it to the adopt16 path lying around somewhere, or caching, or if I need to restart, or what.</p>
+<h2>Things that didn’t work</h2>
+<p>Initially tried to change my system PATH to put the <code>adopt8-hotspot</code> version before <code>adopt16-hotspot-nightly</code>, but that didn’t work. I wasn’t familiar with the <code>JAVA_HOME</code> variable and that’s the one the gradle wrapper script checks first.</p>
+<p>I also tried editing environment variables through the Windows “edit system environment variables” dialog, but I’m not sure when the “git bash” environment picks up on those changes…? I tried everything short of restarting my computer and changes to <code>JAVA_HOME</code> through the dialog didn’t seem to be reflected. I don’t know if there’s another script resetting it to the adopt16 path lying around somewhere, or caching, or if I need to restart, or what.</p>
 <h2>Oh</h2>
 <p>A friend mentioned that you can change <code>distributionUrl</code> in <code>{project root}/.gradle/wrapper/gradle.properties</code>. That might be an easier and less error-prone way to update Gradle. Ah well.</p>
 <h2>Takeaways</h2>
@@ -177,36 +174,36 @@ OS:           Windows 10 10.0 amd64
 <ul>
 <li>The module system introduced in Java 9 has brought nothing but suffering into the world.</li>
 <li>Pain, pain and suffering.</li>
-<li>Always scan stacktraces for &quot;module&quot;-related issues, because random reflection-related crashes are almost always caused by Java 16.</li>
+<li>Always scan stacktraces for “module”-related issues, because random reflection-related crashes are almost always caused by Java 16.</li>
 <li>Having both Java 8 and 16 installed on your computer is:
 <ul>
 <li>useful,</li>
-<li><em>&quot;fun&quot;</em>,</li>
-<li>probably neccesary for dealing with old Java crap - I dunno what I'd do if I didn't have a Java 8 installation lying around.</li>
-<li>Maybe I should get one of those &quot;java version manager&quot; programs?</li>
+<li><em>“fun”</em>,</li>
+<li>probably neccesary for dealing with old Java crap - I dunno what I’d do if I didn’t have a Java 8 installation lying around.</li>
+<li>Maybe I should get one of those “java version manager” programs?</li>
 </ul>
 </li>
 <li>Renaming build.gradle makes gradle not pick up on it. Good to keep in the back of my head.</li>
 </ul>
 <h1>Hey uh, wait, Loom is still crashing</h1>
-<p>Now the blogpost transitions from &quot;debugging a Gradle issue&quot; to &quot;debugging Loom&quot;, because I'm updating an old Minecraft mod and it's, uh, it's still not working.</p>
+<p>Now the blogpost transitions from “debugging a Gradle issue” to “debugging Loom”, because I’m updating an old Minecraft mod and it’s, uh, it’s still not working.</p>
 <p>First two issues:</p>
 <ul>
-<li>Loom whined about getting ran on Java 8 again, so I checked <code>Build, Execution, Deployment &gt; Build Tools &gt; Gradle</code> in IntelliJ and set Gradle to run on Java 16 from there as well. (There's an option to make it use whatever Java's in <code>JAVA_HOME</code>.)</li>
+<li>Loom whined about getting ran on Java 8 again, so I checked <code>Build, Execution, Deployment &gt; Build Tools &gt; Gradle</code> in IntelliJ and set Gradle to run on Java 16 from there as well. (There’s an option to make it use whatever Java’s in <code>JAVA_HOME</code>.)</li>
 <li>Gradle complained about insecure Maven repositories. If you cloned from <code>fabric-example-mod</code>, just open settings.gradle and change <code>'http://maven.fabricmc.net/'</code> to start with <code>https://</code>. Or wherever the repo links happen to be in your setup.</li>
 </ul>
 <p>Now what:</p>
 <pre><code class="language-console">A problem occurred evaluating root project 'carvedmelons'.
 &gt; Could not find method modCompile() for arguments [net.fabricmc:fabric-loader:0.11.0] on object of type org.gradle.api.internal.artifacts.dsl.dependencies.DefaultDependencyHandler.
 </code></pre>
-<p>This is because: some time between Gradle 4 and 7, they removed the &quot;compile&quot; method and renamed it to &quot;implementation&quot;. Loom folowed suit, renaming &quot;modCompile&quot; to &quot;modImplementation&quot;. Perform that rename in your buildscript.</p>
+<p>This is because: some time between Gradle 4 and 7, they removed the “compile” method and renamed it to “implementation”. Loom folowed suit, renaming “modCompile” to “modImplementation”. Perform that rename in your buildscript.</p>
 <p>Crossing my claws:</p>
 <pre><code class="language-console">BUILD SUCCESSFUL in 45s
 </code></pre>
 <p>Cool.</p>
 <h1>Wait one more thing</h1>
-<p>I tried to run <code>build</code> to produce a release .jar and it said something about fabric.mod.json and &quot;duplicates&quot;. Another Gradle 4 to Gradle 7 mess.</p>
-<p>In the buildscript's <code>processResources</code> block, change this:</p>
+<p>I tried to run <code>build</code> to produce a release .jar and it said something about fabric.mod.json and “duplicates”. Another Gradle 4 to Gradle 7 mess.</p>
+<p>In the buildscript’s <code>processResources</code> block, change this:</p>
 <pre><code class="language-groovy">from(sourceSets.main.resources.srcDirs) {
 	include &quot;fabric.mod.json&quot;
 	expand &quot;gradleversion&quot;: project.version
@@ -217,12 +214,12 @@ OS:           Windows 10 10.0 amd64
 	expand &quot;version&quot;: project.version
 }
 </code></pre>
-<p>And you're golden.</p>
+<p>And you’re golden.</p>
 
 <hr class="cool"/>
 
-<div style="text-align: left"><a href="fabric_datagens.html">&larr; Fabric 1.16 Datagens</a><br/>
-
+<div style="text-align: left"><a href="/posts/fabric_datagens">&larr; Fabric 1.16 Datagens</a><br/>
+<div style="text-align: right"><a href="/posts/one_point_seventeen_notes">Updating to Fabric 1.17 notes &rarr;</a>
 		<div style="text-align: right; font-size:60%">Currently not powered by <a href="https://jortage.com/">Jortage</a>™</div>
 		</article>
 	</body>
