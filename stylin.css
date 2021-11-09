@@ -1,8 +1,11 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;900&display=swap');
+
+/* global styles */
 
 * {
 	box-sizing: border-box;
-	font-family: "Roboto Mono", monospace;
+	font-family: "Inconsolata", sans-serif;
+	font-weight: 400;
 
 	--fgcolor: #151111;
 	--fgaccent: #200000;
@@ -36,35 +39,22 @@ body {
 	flex-direction: column;
 	align-items: center;
 	
-	font-size: 1.25rem;
-	line-height: 135%;
-}
-
-:not(h1) > a:not(.logo) {
-	color: var(--bgcolor);
-	background-color: var(--fgcolor);
-	text-decoration: none;
-	font-weight: bold;
-	padding: 0.1em 0.3em;
-}
-
-h1 a {
-	color: inherit;
-	text-decoration: none;
-}
-
-:not(h1) > a:not(.logo):hover, :not(h1) > a:not(.logo):focus {
-	color: var(--fgaccent);
-	background-color: var(--bgcolor);
-}
-
-a:hover, a:focus {
-	text-decoration: underline;
+	font-size: 18px;
+	line-height: 140%;
 }
 
 a:active {
-	color: red;
+	color: red !important; /* so it overrides hover coloration even on more specific selectors */
 }
+
+/* all headings (page header and body) */
+
+h1, h2, h3, h4, h5, h6 {
+	font-weight: 900;
+	line-height: 100%;
+}
+
+/******** Page header ********/
 
 header {
 	width: 100%;
@@ -82,15 +72,37 @@ header .logo {
 }
 
 header h1 {
-	color: var(--bgcolor);
-
 	margin: 0;
-
-	text-transform: uppercase;
-	font-size: min(4em, 5.7vw);
-	line-height: 100%;
 }
 
+/* header links coloring, reverse of the usual colors for text */
+header a {
+	color: var(--bgcolor);
+	text-decoration: none;
+}
+
+/* big homepage link */
+header h1 a {
+	text-transform: uppercase;
+	font-size: min(4em, 5.7vw);
+	font-weight: 900;
+}
+
+header h1 a:hover {
+	text-decoration: underline;
+}
+
+/* nav link */
+header nav a {
+	padding: 0.1em 0.3em;
+}
+
+header nav a:hover {
+	color: var(--fgcolor);
+	background-color: var(--bgcolor);
+}
+
+/* spacing */
 header .spacefiller {
 	flex-grow: 1;
 }
@@ -99,9 +111,11 @@ header nav {
 	margin-right: .5rem;
 }
 
+/******** Page body ********/
+
 article {
 	width: 70rem;
-	max-width: 90%;
+	max-width: 85%;
 	margin: 0 auto;
 
 	padding: 0 1em;
@@ -117,19 +131,35 @@ article h1 {
 article h1, article h2 {
 	width: 100%;
 
+	/* Fancy line thing */
 	display: grid;
 	grid-template-columns: auto 1fr;
 	gap: 0.5em;
 	align-items: center;
 }
 
-article h1, article h2, article h3 {
-	color: var(--fgaccent);
-}
-
 article h1:after, article h2:after {
+	/* Fancy line thing */
 	content: "";
 	border-top: 2px solid var(--fgaccent);
+}
+
+article h1, article h2, article h3 {
+	color: var(--fgaccent);
+	font-weight: 900;
+}
+
+article a {
+	color: var(--bgcolor);
+	background-color: var(--fgcolor);
+	text-decoration: none;
+	padding: 0.1em 0.3em;
+}
+
+article a:hover, article a:focus {
+	color: var(--fgaccent);
+	background-color: var(--bgcolor);
+	text-decoration: underline;
 }
 
 article .byline {
@@ -151,7 +181,8 @@ article blockquote {
 }
 
 article ul {
-	list-style-type: '- ';
+	padding-left: 0; /* override browser style */
+	list-style: '- ';
 }
 
 article ul li {
@@ -167,8 +198,8 @@ article code[class^="language"] {
 	max-width: 100%;
 	overflow-x: auto;
 	
-	tab-size: 4;
-	-moz-tab-size: 4;
+	tab-size: 2;
+	-moz-tab-size: 2;
 }
 
 article code:not([class^="language"]) {
@@ -178,12 +209,12 @@ article code:not([class^="language"]) {
 
 /* Quick hack lmao */
 h1 code, h2 code, h3 code, h4 code {
-	padding: .5em;
+	padding: .45em;
 }
 
 hr {
 	border: none;
-	border-top: 1px solid var(--fgcolor);
+	border-top: 2px solid var(--fgcolor);
 	overflow: visible;
 	text-align: center;
 	width: 70%;

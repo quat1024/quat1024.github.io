@@ -77,8 +77,8 @@ if (JavaVersion.current().isJava9Compatible()) {
 <p><em>After</em> getting everything prepared for Gradle 7 and Java 16, change the Loom version at the top to <code>0.8-SNAPSHOT</code>.</p>
 <h3>Github CI</h3>
 <p>Since Loom 0.8 only runs on Java 16, you will need to update your CI file to use Java 16. Here, go <a href="https://github.com/quat1024/AutoThirdPerson/blob/bb387e048a1463cb0c0f58112a360048ed1dd204/.github/workflows/build.yml">copy-paste mine</a>.</p>
-<h1>part 2: running <code>migrateMappings</code></h1>
-<p>See https://fabricmc.net/versions.html. The provided gradle incantation will remap the sources in <code>/src/main/java</code> and put them in <code>/remappedSrc</code>. It’s not done in-place, but since you <em>are</em> using version control (right 👀) it’s okay to overwrite your old sources.</p>
+<h1>part 2: running migrateMappings</h1>
+<p>See <a href="https://fabricmc.net/versions.html">the Fabric versions page</a>. The provided gradle incantation will remap the sources in <code>/src/main/java</code> and put them in <code>/remappedSrc</code>. It’s not done in-place, but since you <em>are</em> using version control (right 👀) it’s okay to overwrite your old sources.</p>
 <p>You can skip this if your mod is really small; a couple missing mappings here-and-there aren’t hard to manually fix. They don’t crop up very often.</p>
 <h2>Getting acquainted with the new mappings</h2>
 <p>Late in the 1.17 cycle, Mojang stopped instructing ProGuard to strip unused fields and methods. Many of these are as-of-now unmapped, and Fabric’s tooling (controversially?) does not use the official Mojang names.</p>
@@ -120,7 +120,7 @@ public static &lt;A extends BlockEntity, B extends BlockEntity&gt; BlockEntityTi
 
 <div style="text-align: left"><a href="/posts/unable_to_get_windows_mutable_environment_variable_map">&larr; &quot;Unable to get Windows mutable environment variable map&quot;</a><br/>
 <div style="text-align: right"><a href="/posts/what_the_hell_is_a_build_system">What the hell is a good build system &rarr;</a>
-		<div style="text-align: right; font-size:60%">Currently not powered by <a href="https://jortage.com/">Jortage</a>™</div>
+		<div style="text-align: right; font-size:60%">Powered by <a href="https://github.com/quat1024/quatweb-static">Rust</a>™</div>
 		</article>
 	</body>
 </html>
