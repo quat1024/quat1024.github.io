@@ -1,5 +1,5 @@
 .logo {
-	--size: 4em;
+	--size: 5em;
 
 	width: var(--size);
 	height: var(--size);
@@ -85,14 +85,6 @@
 
 @media (prefers-reduced-motion) {
 	.logo .cover1, .logo .cover2, .logo .iris {
-		animation-duration: 0s !important;
-	}
-	
-	.logo .cover1 {
-		transform: rotate(-40deg);
-	}
-	
-	.logo .cover2 {
-		transform: rotate(35deg);
+		animation-play-state: paused !important;
 	}
 }

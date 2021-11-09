@@ -43,15 +43,26 @@ body {
 	line-height: 140%;
 }
 
-a:active {
-	color: red !important; /* so it overrides hover coloration even on more specific selectors */
-}
-
 /* all headings (page header and body) */
 
 h1, h2, h3, h4, h5, h6 {
 	font-weight: 900;
 	line-height: 100%;
+	margin: 0;
+}
+
+/* all links */
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:active {
+	color: red !important; /* so it overrides hover coloration even on more specific selectors */
 }
 
 /******** Page header ********/
@@ -62,30 +73,32 @@ header {
 
 	background-color: var(--fgcolor);
 	padding: 0px;
+	padding-right: 5px;
 	
 	display: flex;
 	align-items: center;
+}
+
+header .spacefiller {
+	flex-grow: 1;
 }
 
 header .logo {
 	margin: 0 .5rem;
 }
 
-header h1 {
-	margin: 0;
-}
-
-/* header links coloring, reverse of the usual colors for text */
+/* header links coloring, reverse of the usual colors for text 
+note that this selector also applies to the glyph!! */
 header a {
 	color: var(--bgcolor);
-	text-decoration: none;
 }
 
 /* big homepage link */
 header h1 a {
 	text-transform: uppercase;
-	font-size: min(4em, 5.7vw);
 	font-weight: 900;
+	font-size: min(3.8em, 7.5vw); /* might have to poke at this when changing the font lol */
+	line-height: 100%;
 }
 
 header h1 a:hover {
@@ -102,19 +115,10 @@ header nav a:hover {
 	background-color: var(--bgcolor);
 }
 
-/* spacing */
-header .spacefiller {
-	flex-grow: 1;
-}
-
-header nav {
-	margin-right: .5rem;
-}
-
 /******** Page body ********/
 
 article {
-	width: 70rem;
+	width: 60rem;
 	max-width: 85%;
 	margin: 0 auto;
 
@@ -152,7 +156,6 @@ article h1, article h2, article h3 {
 article a {
 	color: var(--bgcolor);
 	background-color: var(--fgcolor);
-	text-decoration: none;
 	padding: 0.1em 0.3em;
 }
 
@@ -250,22 +253,33 @@ hr.think:after {
 	margin: 0 auto;
 }
 
+/* "mobile" layout */
 @media (max-width: 40rem) {
+	/* reduce the font size a little bit */
 	body {
-		font-size: 1em;
+		font-size: 16px;
 	}
 	
+	/* use more of the screen */
 	article {
 		max-width: 95%;
 		padding: unset;
 	}
 	
-	header h1 {
-		font-size: 1.5em;
-		max-width: 5em; /* forces a line break after all three words */
+	/* hardcode a font size for the top homepage link, and force it to wrap on three lines */
+	header h1 a {
+		font-size: 1em;
+		display: block;
+		max-width: 1px;
 	}
 	
-	:not(h1) > a {
-		padding: unset;
+	/* desktop layouts place list bullets in the gutter, but this falls off the page with a thin left margin */
+	article ul {
+		padding-left: 1em;
+	}
+	
+	/* force a line break after dates in the post listing */
+	li .date {
+		display: block;
 	}
 }
