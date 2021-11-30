@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Highly Suspect Agency - Updating to Fabric 1.18 notes</title>
+		<link rel="stylesheet" type="text/css" href="/stylin.css" />
+		<link rel="stylesheet" type="text/css" href="/rotator.css" />
+		<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+	</head>
+	<body>
+		<header>
+			<a href="/" class="logo" aria-hidden="true">
+				<div class="circle1"></div>
+				<div class="cover1"></div>
+				<div class="circle2"></div>
+				<div class="cover2"></div>
+				<div class="iris"></div>
+			</a>
+			<h1><a href="/">Highly Suspect Agency</a></h1>
+			<div class="spacefiller"></div>
+			
+			<nav><a href="/posts">Blog</a></nav>
+		</header>
+		<article>
+
+<h1>Updating to Fabric 1.18 notes</h1>
+<div class="byline">quat, Nov 30, 2021<br/>
+<a href="/tags/fabric">fabric</a> <a href="/tags/1.18">1.18</a> <a href="/tags/mc-modding">mc-modding</a> </div>
+
+<p>I want to get off Mx. Mojang’s Wild Ride</p>
+<h1>Java 17</h1>
+<p>Unlike the big Java 8 to 16 jump we did last time, there are fewer weird tooling troubles with Java 17.</p>
+<p>I don’t know why the process of “getting the most recent version of OpenJDK” seems to change every 15 minutes, but these days, go to <a href="https://adoptium.net/">Eclipse Adoptium</a> and get Temurin 17, which is relabeled OpenJDK, which is relabeled Hotspot. Why. I’m sure come the next Minecraft java version bump the process will be different again.</p>
+<p>If you’re on Windows and use Scoop, <code>scoop install temurin17-jdk</code>. If you’re on Linux, I (for once) get to make fun of your package manager because it’s probably still stuck on 11. Don’t bother with Oracle’s site.</p>
+<p>Couple things to check:</p>
+<ul>
+<li>make sure your <code>JAVA_HOME</code> is pointing at the new Java installation</li>
+<li>make sure to update <code>sourceCompatibility</code>/<code>targetCompatiblity</code> in build.gradle to 17</li>
+<li>make sure to update <code>compatibilityLevel</code> in your <code>mixin.json</code></li>
+<li>Don’t forget to change the Java version in your continuous integration pipelines too, if you use that!</li>
+</ul>
+<h1>Gradle</h1>
+<p>Update Gradle to 7.3. It has better support for Java 17. It sometimes works without updating the wrapper, but Github Actions in particular is <em>super</em> picky.</p>
+<pre><code class="language-console">./gradlew wrapper --gradle-version 7.3
+
+# check
+./gradlew --version
+</code></pre>
+<h2>Troubleshooting</h2>
+<p>If you’re getting crap like <code>major version 61 is newer than 60, the highest major version supported by this compiler. It is recommended that the compiler be upgraded.</code> or <code>invalid source release: 17</code>, here are some magical incantations to try:</p>
+<ul>
+<li>Project structure -&gt; get everything on to Java 17</li>
+<li>In IntelliJ, settings -&gt; build, execution, deployment -&gt; build tools -&gt; gradle, make <em>Triple Sure</em> that the Gradle JVM is set to <code>Project SDK</code>, or is otherwise on Java 17. This is like 90% of the issues.</li>
+</ul>
+<p>If that didn’t work:</p>
+<ul>
+<li>Make sure everyone’s actually on Java 17: restart Intellij, run <code>./gradlew --stop</code> to kill the gradle daemon, etc. Double check your <code>JAVA_HOME</code></li>
+<li>Delete <code>.gradle/caches/fabric-loom/1.18</code> then run any gradle task (<code>clean</code> will do) to dump any .jar files that might have been put together with an old compiler</li>
+<li>If all of that doesnt work uhh idk., try lighting your computer on fire</li>
+</ul>
+<h3>Native libraries problem?</h3>
+<p>I had some weird issue about LWJGL not being able to find native libraries, which caused the game to crash with a <code>NoClassDefFound</code> on <code>blaze3d.RenderSystem</code>. I don’t know if the following actually fixed it, but I did this and then it worked: delete the “Minecraft Client” and “Minecraft Server” run configurations, then run <code>clean</code> to have Loom re-create them.</p>
+<h1>Loom</h1>
+<p><a href="https://fabricmc.net/versions.html">Fabricmc versions</a> says at the bottom in bold letters, <em>The recommended loom version is 0.10-SNAPSHOT</em>, so, do that. It’s at the top of your build.gradle. It also works ok on Minecraft 1.17 so why not.</p>
+<h1>Remapping</h1>
+<p>If you haven’t started using official Mojang names, now is a good time to start. Yarn is atrophying a bit in the presence of Mojang’s names, since the project isn’t as needed anymore.</p>
+<p>I recommend remapping to official names first, and then updating to 1.18 next. Just so you have less to worry about at each step.</p>
+<p>To run the auto-remapper, before changing anything relating to mappings in the buildscript (so loom can figure out what mappings you’re <em>currently</em> on), run <code>gradlew migrateMappings --mappings &quot;net.minecraft:mappings:1.17.1&quot;</code>, or maybe ending in only <code>1.17</code> if your mod was written against 1.17.0. Finish up by copying <code>remappedSrc</code> over <code>src/main</code>.</p>
+<p>Then, adjust your buildscript as follows. If you don’t mind not having parameter names in <code>genSources</code>, replace this:</p>
+<pre><code class="language-groovy">mappings &quot;net.fabricmc:yarn:${project.yarn_mappings}:v2&quot;
+</code></pre>
+<p>with this:</p>
+<pre><code class="language-groovy">mappings loom.officialMojangMappings() //notice the &quot;loom&quot;
+</code></pre>
+<p>And if you want some parameter names, the ParchmentMC project provides some. Add them to your repositories block:</p>
+<pre><code class="language-groovy">repositories {
+	maven {
+		name = &quot;ParchmentMC&quot;
+		url = &quot;https://maven.parchmentmc.net/&quot;
+	}
+}
+</code></pre>
+<p>and use this for your <code>mappings</code> instead:</p>
+<pre><code class="language-groovy">mappings loom.layered() {
+	officialMojangMappings() //notice no &quot;loom&quot;
+	parchment(&quot;org.parchmentmc.data:parchment-1.17.1:2021.10.31@zip&quot;)
+}
+</code></pre>
+<p>I don’t think there is a Parchment release for 1.18 yet. Parchment releases for the wrong version actually still work, though (more or less).</p>
+<p>The auto remapper is a <em>little</em> busted so you might have some things to fix manually. Most things having to do with Mixin do not get remapped.</p>
+
+<hr class="cool"/>
+
+<div style="text-align: left"><a href="/posts/what_the_hell_is_a_build_system">&larr; What the hell is a good build system</a><br/>
+
+		<div style="text-align: right; font-size:60%">Powered by <a href="https://github.com/quat1024/quatweb-static">Rust</a>™</div>
+		</article>
+	</body>
+</html>

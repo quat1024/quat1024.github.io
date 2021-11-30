@@ -266,7 +266,7 @@ hr.think:after {
 		padding: unset;
 	}
 	
-	/* hardcode a font size for the top homepage link, and force it to wrap on three lines */
+	/* hardcode a font size for the top homepage link, and force it to wrap onto three lines */
 	header h1 a {
 		font-size: 1em;
 		display: block;
