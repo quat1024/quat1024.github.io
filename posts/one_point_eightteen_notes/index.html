@@ -64,7 +64,7 @@
 <p><a href="https://fabricmc.net/versions.html">Fabricmc versions</a> says at the bottom in bold letters, <em>The recommended loom version is 0.10-SNAPSHOT</em>, so, do that. It’s at the top of your build.gradle. It also works ok on Minecraft 1.17 so why not.</p>
 <h1>Remapping</h1>
 <p>If you haven’t started using official Mojang names, now is a good time to start. Yarn is atrophying a bit in the presence of Mojang’s names, since the project isn’t as needed anymore.</p>
-<p>I recommend remapping to official names first, and then updating to 1.18 next. Just so you have less to worry about at each step.</p>
+<p>I recommend remapping to official names first, and then updating to 1.18 next. Just so you have fewer changes and less to worry about at each step.</p>
 <p>To run the auto-remapper, before changing anything relating to mappings in the buildscript (so loom can figure out what mappings you’re <em>currently</em> on), run <code>gradlew migrateMappings --mappings &quot;net.minecraft:mappings:1.17.1&quot;</code>, or maybe ending in only <code>1.17</code> if your mod was written against 1.17.0. Finish up by copying <code>remappedSrc</code> over <code>src/main</code>.</p>
 <p>Then, adjust your buildscript as follows. If you don’t mind not having parameter names in <code>genSources</code>, replace this:</p>
 <pre><code class="language-groovy">mappings &quot;net.fabricmc:yarn:${project.yarn_mappings}:v2&quot;
@@ -87,7 +87,44 @@
 }
 </code></pre>
 <p>I don’t think there is a Parchment release for 1.18 yet. Parchment releases for the wrong version actually still work, though (more or less).</p>
-<p>The auto remapper is a <em>little</em> busted so you might have some things to fix manually. Most things having to do with Mixin do not get remapped.</p>
+<p>Some sharp edges with the auto remapper:</p>
+<ul>
+<li>If you played with Java 16 Records in your 1.17 mod, Mercury currently blows up on them. Use the intellij intention to convert them to normal classes, remap, then convert back.</li>
+<li><code>@Inject</code> targets and some other Mixin string-things don’t get remapped.</li>
+</ul>
+<h1>Fabric API</h1>
+<h2>Tool Tags</h2>
+<p><code>fabric-tool-tags</code> has been deprecated. It still works, for now, but is marked <code>Deprecated(forRemoval = true)</code>. I encourage you to migrate to the vanilla <code>mineable/blah</code> block tags now, before you <em>have</em> to do it. Throw em in your datagen if you want. (fabric-api JUST landed some datagen tools, btw)</p>
+<p><code>fabric-mining-level-api</code> adds additional <code>fabric:mineable/sword</code> and <code>fabric:mineable/shears</code> block tags.</p>
+<h2>Block Entity Syncing</h2>
+<p><code>BlockEntityClientSerializable</code> is gone 🦀</p>
+<p>The reason it existed in the first place was that <code>BlockEntity#getUpdatePacket</code> was not pluggable by mods, and it was hard to convince the game to actually sync your block entity data with the client. 1.18 changed <code>getUpdatePacket</code> so mods can use it, meaning a workaround is no longer needed.</p>
+<p>There is a general-purpose block entity syncing vanilla packet, mojang name <code>ClientboundBlockEntityDataPacket</code>. It calls <code>BlockEntity#getUpdateTag</code> on the server and sends the resulting compound tag to the client, which proceeds to call the normal <code>BlockEntity#load</code> method on the client world with it.</p>
+<p>Many vanilla <code>BlockEntity</code>s have this boilerplate:</p>
+<pre><code class="language-java">@Override
+public Packet&lt;ClientGamePacketListener&gt; getUpdatePacket() {
+	return ClientboundBlockEntityDataPacket.create(this);
+}
+
+@Override
+public CompoundTag getUpdateTag() {
+	//calls into &quot;saveAdditional&quot;, which is the mojang name for
+	//the general-purpose &quot;write my data to NBT&quot; method on BlockEntities
+	//that you are familiar with
+	return saveWithoutMetadata();
+}
+</code></pre>
+<p>This setup will sync the entirety of the server’s NBT tag (save the redundant <code>id</code> and <code>x</code>/<code>y</code>/<code>z</code> fields, which aren’t written when using <code>saveWithoutMetadata</code>) to the client. If you don’t want to send the <em>entire</em> tag, return something different in <code>getUpdateTag</code> (see: the campfire).</p>
+<p>Calling <code>level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);</code> will fire the server-to-client sync packet, just like what <code>BlockEntityClientSerializable#sync</code> did. That’s kind of a mouthful of a method name, and you typically want to call it in the same contexts you’d mark the chunk dirty in, so many vanilla <code>BlockEntity</code>s have this helper method defined as well:</p>
+<pre><code class="language-java">//(not an @Override!)
+private void markUpdated() {
+	//you may know this one as &quot;markDirty&quot;:
+	setChanged();
+	//causes the update packet to be sent:
+	level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
+}
+</code></pre>
+<p>Know that the vanilla <code>ClientboundBlockEntityDataPacket</code> calls the same <code>load</code> method that loading a <code>BlockEntity</code> on the server calls. (You are free to make your own <code>Packet&lt;?&gt;</code> and return it in <code>getUpdatePacket</code>, although it’s a bit awkward because I don’t know if you can use the fabric-api convention of custom payload packets here.)</p>
 
 <hr class="cool"/>
 
