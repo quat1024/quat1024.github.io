@@ -125,11 +125,13 @@ private void markUpdated() {
 }
 </code></pre>
 <p>Know that the vanilla <code>ClientboundBlockEntityDataPacket</code> calls the same <code>load</code> method that loading a <code>BlockEntity</code> on the server calls. (You are free to make your own <code>Packet&lt;?&gt;</code> and return it in <code>getUpdatePacket</code>, although it’s a bit awkward because I don’t know if you can use the fabric-api convention of custom payload packets here.)</p>
+<h1>Of interest to codecbrained dorks:</h1>
+<p><code>Registry&lt;T&gt;</code> no longer directly implements <code>Codec&lt;T&gt;</code>, but it does offer a <code>byNameCodec()</code> method. The returned codec works the same as it used to; i.e. it saves and loads the registry entry to its <code>ResourceLocation</code>.</p>
 
 <hr class="cool"/>
 
 <div style="text-align: left"><a href="/posts/what_the_hell_is_a_build_system">&larr; What the hell is a good build system</a><br/>
-
+<div style="text-align: right"><a href="/posts/where_has_all_the_memory_gone">Where has all the memory gone? &rarr;</a>
 		<div style="text-align: right; font-size:60%">Powered by <a href="https://github.com/quat1024/quatweb-static">Rust</a>™</div>
 		</article>
 	</body>
