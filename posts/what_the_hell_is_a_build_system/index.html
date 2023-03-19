@@ -1,32 +1,35 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Highly Suspect Agency - What the hell is a good build system</title>
-		<link rel="stylesheet" type="text/css" href="/stylin.css" />
-		<link rel="stylesheet" type="text/css" href="/rotator.css" />
-		<link rel="icon" type="image/x-icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-	</head>
-	<body>
-		<header>
-			<a href="/" class="logo" aria-hidden="true">
-				<div class="circle1"></div>
-				<div class="cover1"></div>
-				<div class="circle2"></div>
-				<div class="cover2"></div>
-				<div class="iris"></div>
-			</a>
-			<h1><a href="/">Highly Suspect Agency</a></h1>
-			<div class="spacefiller"></div>
-			
-			<nav><a href="/posts">Blog</a></nav>
-		</header>
-		<article>
-
-<h1>What the hell is a good build system</h1>
-<div class="byline">quat, Sep 09, 2021<br/>
-<a href="/tags/design">design</a> <a href="/tags/mc-modding">mc-modding</a> <a href="/tags/java">java</a> </div>
-<center>- DRAFT POST -</center>
+<head>
+	<title>What the hell is a good build system - Highly Suspect Agency</title>
+	<link rel="stylesheet" type="text/css" href="/stylin.css"/>
+	<link rel="stylesheet" type="text/css" href="/rotator.css"/>
+	<link rel="icon" type="image/x-icon" href="/favicon.ico"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<header>
+	<a href="/" class="logo" aria-hidden="true">
+		<div class="circle1"></div>
+		<div class="cover1"></div>
+		<div class="circle2"></div>
+		<div class="cover2"></div>
+		<div class="iris"></div>
+	</a>
+	<h1><a href="/">Highly Suspect Agency</a></h1>
+	<div style="flex-grow: 1"></div>
+	<nav><a href="/posts">Blog</a></nav>
+</header>
+<div class="bigheader">
+<h1 class="bigheader">What the hell is a good build system</h1>
+<div class="byline">quat, Sep 09, 2021 &mdash; 
+<a href="/tags/design">design</a>
+<a href="/tags/mc-modding">mc-modding</a>
+<a href="/tags/java">java</a>
+</div>
+<div class="draftmarker">DRAFT</div>
+</div>
+<article>
 <p>Minecraft modding is in kind of a weird spot when it comes to build systems. It’s a Java game, Java IDEs all have great integration with Gradle, and Gradle is pretty useful, so all the build tools are written as Gradle plugins.</p>
 <p>The only problem is that Gradle is, well…</p>
 <p>Loom <a href="https://github.com/FabricMC/fabric-loom/blob/2bc7522a260434abd308a4652c5db569a17f7c6a/src/main/java/net/fabricmc/loom/LoomRepositoryPlugin.java#L76-L86">declares a bunch of Ivy repositories</a> for some reason, ForgeGradle leverages its library <a href="https://github.com/MinecraftForge/Artifactural/tree/master">Artifactural</a> to do truly terrifying and fragile things to Gradle internals, I heard VanillaGradle may or may not be writing directly to the Gradle cache directory…</p>
@@ -107,10 +110,9 @@
 </ul>
 
 <hr class="cool"/>
-
 <div style="text-align: left"><a href="/posts/one_point_seventeen_notes">&larr; Updating to Fabric 1.17 notes</a><br/>
 <div style="text-align: right"><a href="/posts/one_point_eightteen_notes">Updating to Fabric 1.18 notes &rarr;</a>
-		<div style="text-align: right; font-size:60%">Powered by <a href="https://github.com/quat1024/quatweb-static">Rust</a>™</div>
-		</article>
-	</body>
+<div style="text-align: right; font-size:60%">Powered by <a href="https://github.com/quat1024/quatweb-static">Rust</a>™</div>
+</article>
+</body>
 </html>

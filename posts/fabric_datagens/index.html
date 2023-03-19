@@ -1,32 +1,35 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Highly Suspect Agency - Fabric 1.16 Datagens</title>
-		<link rel="stylesheet" type="text/css" href="/stylin.css" />
-		<link rel="stylesheet" type="text/css" href="/rotator.css" />
-		<link rel="icon" type="image/x-icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-	</head>
-	<body>
-		<header>
-			<a href="/" class="logo" aria-hidden="true">
-				<div class="circle1"></div>
-				<div class="cover1"></div>
-				<div class="circle2"></div>
-				<div class="cover2"></div>
-				<div class="iris"></div>
-			</a>
-			<h1><a href="/">Highly Suspect Agency</a></h1>
-			<div class="spacefiller"></div>
-			
-			<nav><a href="/posts">Blog</a></nav>
-		</header>
-		<article>
-
-<h1>Fabric 1.16 Datagens</h1>
-<div class="byline">quat, May 16, 2021<br/>
-<a href="/tags/fabric">fabric</a> <a href="/tags/1.16">1.16</a> <a href="/tags/mc-modding">mc-modding</a> </div>
-<center>- DRAFT POST -</center>
+<head>
+	<title>Fabric 1.16 Datagens - Highly Suspect Agency</title>
+	<link rel="stylesheet" type="text/css" href="/stylin.css"/>
+	<link rel="stylesheet" type="text/css" href="/rotator.css"/>
+	<link rel="icon" type="image/x-icon" href="/favicon.ico"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<header>
+	<a href="/" class="logo" aria-hidden="true">
+		<div class="circle1"></div>
+		<div class="cover1"></div>
+		<div class="circle2"></div>
+		<div class="cover2"></div>
+		<div class="iris"></div>
+	</a>
+	<h1><a href="/">Highly Suspect Agency</a></h1>
+	<div style="flex-grow: 1"></div>
+	<nav><a href="/posts">Blog</a></nav>
+</header>
+<div class="bigheader">
+<h1 class="bigheader">Fabric 1.16 Datagens</h1>
+<div class="byline">quat, May 16, 2021 &mdash; 
+<a href="/tags/fabric">fabric</a>
+<a href="/tags/1.16">1.16</a>
+<a href="/tags/mc-modding">mc-modding</a>
+</div>
+<div class="draftmarker">DRAFT</div>
+</div>
+<article>
 <p>It’s really late right now but I want to type these up before I forget.</p>
 <p>I’ve just started using vanilla data generators in my Fabric 1.16 mod <a href="https://github.com/quat1024/dazzle-2/">Dazzle 2</a>. It’s not easy to set them up, certainly not as easy as I heard it is in Forge, and you don’t have any modloader support. So I’m going to walk through my process.</p>
 <p>This was influenced heavily by the <a href="https://github.com/AppliedEnergistics/Applied-Energistics-2/tree/fabric/master">Applied Energistics fabric branch</a>, which does some datagenning. comp500 also helped me a lot and answered some of my questions.</p>
@@ -254,10 +257,9 @@ DataProvider.writeToPath(GSON, cache, root, outPath.resolve(&quot;data/mymod/adv
 <p>[ is it possible to use a Gradle task to merge the language entries? right now d2 reaches over into the main source set and merges them in itself, which is a bit hacky ]</p>
 
 <hr class="cool"/>
-
 <div style="text-align: left"><a href="/posts/playing_portal_2">&larr; How to play Portal 2 without losing your mind</a><br/>
-<div style="text-align: right"><a href="/posts/unable_to_get_windows_mutable_environment_variable_map">&quot;Unable to get Windows mutable environment variable map&quot; &rarr;</a>
-		<div style="text-align: right; font-size:60%">Powered by <a href="https://github.com/quat1024/quatweb-static">Rust</a>™</div>
-		</article>
-	</body>
+<div style="text-align: right"><a href="/posts/unable_to_get_windows_mutable_environment_variable_map">"Unable to get Windows mutable environment variable map" &rarr;</a>
+<div style="text-align: right; font-size:60%">Powered by <a href="https://github.com/quat1024/quatweb-static">Rust</a>™</div>
+</article>
+</body>
 </html>

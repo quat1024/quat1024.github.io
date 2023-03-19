@@ -1,30 +1,70 @@
-@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Pro&family=Source+Serif+Pro:ital,wght@1,900&family=JetBrains+Mono&display=swap');
 
-/* global styles */
-
+/* settings */
 * {
 	box-sizing: border-box;
-	font-family: "Inconsolata", sans-serif;
-	font-weight: 400;
-
-	--fgcolor: #151111;
-	--fgaccent: #200000;
-	--bgcolor: #ffefef;
-	
-	--codeblockfg: white;
-	--codeblockbg: #222;
-	--codeinlinefg: #020202;
-	--codeinlinebg: #dccccc;
 }
 
-::selection {
-	background-color: var(--fgcolor);
-	color: var(--bgcolor);
+/* fonts */
+
+body {
+	font-family: "Crimson Pro", sans-serif;
+	font-weight: 400;
+	font-size: 22px;
+	line-height: 1.4;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: "Source Serif Pro", serif;
+	font-weight: 900;
+	font-style: italic;
+}
+
+code {
+	font-family: "JetBrains Mono", monospace;
+	font-size: 18px; /* optically comparable to 22px Crimson Pro */
+}
+
+/* colors */
+
+* {
+	--fgcolor: black;
+	--linkcolor: #950000;
+	--linecolor: #cbbbbb;
+	
+	--bgcolor: #fcf8f4;
+	--bgaccentcolor: #f5eeeb;
+	
+	--blockbgcolor: rgba(0, 0, 0, 0.05);
+	--inlinecodebgcolor: rgba(50, 0, 0, 0.1);
 }
 
 .fade {
 	opacity: 0.5;
 }
+
+a {
+	color: var(--linkcolor);
+}
+
+a:active {
+	color: red !important;
+}
+
+blockquote, code[class^="language"] {
+	background-color: var(--blockbgcolor);
+}
+
+code:not([class^="language"]) {
+	background-color: var(--inlinecodebgcolor);
+}
+
+::selection {
+	background-color: #872222;
+	color: var(--bgcolor);
+}
+
+/* high level layout */
 
 html {
 	margin: 0;
@@ -38,149 +78,102 @@ body {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	
-	font-size: 18px;
-	line-height: 140%;
 }
 
-/* all headings (page header and body) */
-
 h1, h2, h3, h4, h5, h6 {
-	font-weight: 900;
-	line-height: 100%;
 	margin: 0;
 }
 
-/* all links */
-
-a {
-	text-decoration: none;
-}
-
-a:hover {
-	text-decoration: underline;
-}
-
-a:active {
-	color: red !important; /* so it overrides hover coloration even on more specific selectors */
-}
-
-/******** Page header ********/
+/* page header */
 
 header {
 	width: 100%;
-	height: 7rem;
-
-	background-color: var(--fgcolor);
+	height: 130px;
+	
+	background-color: var(--bgaccentcolor);
+	
 	padding: 0px;
-	padding-right: 5px;
 	
 	display: flex;
 	align-items: center;
-}
-
-header .spacefiller {
-	flex-grow: 1;
+	
+	/* used in rotator.css */
+	--size: 120px;
 }
 
 header .logo {
+	background-color: var(--fgcolor);
+	border-radius: 100%;
 	margin: 0 .5rem;
+	padding: .5rem;
 }
 
-/* header links coloring, reverse of the usual colors for text 
-note that this selector also applies to the glyph!! */
-header a {
-	color: var(--bgcolor);
-}
-
-/* big homepage link */
-header h1 a {
-	text-transform: uppercase;
+header h1 {
+	font-size: min(5vw, 100px); /* might have to poke at this when changing the font lol */
+	font-family: "JetBrains Mono", monospace;
+	font-style: normal;
 	font-weight: 900;
-	font-size: min(3.8em, 7.5vw); /* might have to poke at this when changing the font lol */
-	line-height: 100%;
+	
+	line-height: 1;
+	text-transform: uppercase;
+	overflow-wrap: normal !important;
 }
 
-header h1 a:hover {
-	text-decoration: underline;
+header h1 a {
+	text-decoration: none;
+	color: var(--fgcolor);
+	overflow-wrap: normal !important;
 }
 
-/* nav link */
 header nav a {
 	padding: 0.1em 0.3em;
 }
 
-header nav a:hover {
-	color: var(--fgcolor);
-	background-color: var(--bgcolor);
+/* bigheader (for article pages) */
+
+.bigheader {
+	width: 100%;
+	text-align: center;
 }
 
-/******** Page body ********/
+.bigheader h1 {
+	font-size: 65px;
+	padding: 0.3em 1em;
+	line-height: 110%;
+	background-color: var(--fgcolor);
+	color: var(--bgcolor);
+}
+
+.draftmarker {
+	background: repeating-linear-gradient(135deg, black 0px, black 40px, #F5A601 40px, #F5A601 80px);
+	background-attachment: fixed; /* ;) */
+	color: white;
+	font-family: "JetBrains Mono", monospace;
+	height: 70px;
+	font-size: 70px;
+	line-height: 70px;
+}
+
+/* most page content */
 
 article {
-	width: 60rem;
+	width: 57rem;
 	max-width: 85%;
-	margin: 0 auto;
-
-	padding: 0 1em;
+	margin: 1em auto;
 }
 
 article h1 {
-	font-size: 2.3em;
-	
-	margin: 1.6rem 0;
-	line-height: 110%;
+	font-size: 50px;
+	border-bottom: 5px solid var(--linecolor);
 }
 
-article h1, article h2 {
-	width: 100%;
-
-	/* Fancy line thing */
-	display: grid;
-	grid-template-columns: auto 1fr;
-	gap: 0.5em;
-	align-items: center;
-}
-
-article h1:after, article h2:after {
-	/* Fancy line thing */
-	content: "";
-	border-top: 2px solid var(--fgaccent);
-}
-
-article h1, article h2, article h3 {
-	color: var(--fgaccent);
-	font-weight: 900;
-}
-
-article a {
-	color: var(--bgcolor);
-	background-color: var(--fgcolor);
-	padding: 0.1em 0.3em;
-}
-
-article a:hover, article a:focus {
-	color: var(--fgaccent);
-	background-color: var(--bgcolor);
-	text-decoration: underline;
-}
-
-article .byline {
-	position: relative;
-	top: -2em;
-	font-size: 75%;
-	text-align: right;
-	margin-bottom: -2em;
+article h2 {
+	border-bottom: 2px solid var(--linecolor);
 }
 
 article blockquote {
-	font-size: 80%;
-	
-	border-left: 0.5em solid var(--fgcolor);
-	padding-top: 0.25em;
-	padding-bottom: 0.25em;
-	padding-left: 2em;
-	line-height: 110%;
+	border-left: 2px solid var(--fgcolor);
+	padding: 0.25em 1.5em;
 }
 
 article ul {
@@ -193,11 +186,10 @@ article ul li {
 }
 
 /* Unfortunately my current markdown parser outputs <code> for both inline code and codeblocks. That's annoying. */
+/* This is codeblocks */
 article code[class^="language"] {
 	display: block;
-	color: var(--codeblockfg);
 	padding: 1em;
-	background-color: var(--codeblockbg);
 	max-width: 100%;
 	overflow-x: auto;
 	
@@ -205,19 +197,26 @@ article code[class^="language"] {
 	-moz-tab-size: 2;
 }
 
+/* This is inline code */
 article code:not([class^="language"]) {
-	background-color: var(--codeinlinebg);
-	color: var(--codeinlinefg);
+	background-color: var(--inlinecodebgcolor);
+	padding: 0.1em 0.2em;
 }
 
-/* Quick hack lmao */
-h1 code, h2 code, h3 code, h4 code {
+/* fix inline code in headings */
+h1 code, h2 code, h3 code, h4 code, h5 code, h6 code {
 	padding: .45em;
+	font-style: normal;
+}
+
+.youtube {
+	display: block;
+	margin: 0 auto;
 }
 
 hr {
 	border: none;
-	border-top: 2px solid var(--fgcolor);
+	border-top: 2px solid var(--linecolor);
 	overflow: visible;
 	text-align: center;
 	width: 70%;
@@ -248,29 +247,28 @@ hr.think:after {
 	background-image: url("/img/tiny_dragnthink.png");
 }
 
-.youtube {
-	display: block;
-	margin: 0 auto;
-}
-
 /* "mobile" layout */
 @media (max-width: 40rem) {
-	/* reduce the font size a little bit */
-	body {
-		font-size: 16px;
-	}
-	
 	/* use more of the screen */
-	article {
-		max-width: 95%;
-		padding: unset;
-	}
+	article { max-width: 95%; }
+	
+	/* reduce the font size a little bit */
+	body { font-size: 18px; }
+	code { font-size: 15px; }
+	.bigheader h1 { font-size: 38px; }
+	
+	/* try to avoid horizontal scroll at all costs (long words in eg codeblocks can do it */
+	* { overflow-wrap: anywhere; }
 	
 	/* hardcode a font size for the top homepage link, and force it to wrap onto three lines */
 	header h1 a {
-		font-size: 1em;
+		font-size: min(8vw, 1.4em);
 		display: block;
 		max-width: 1px;
+	}
+	
+	header {
+		--size: 100px;
 	}
 	
 	/* desktop layouts place list bullets in the gutter, but this falls off the page with a thin left margin */
@@ -278,7 +276,7 @@ hr.think:after {
 		padding-left: 1em;
 	}
 	
-	/* force a line break after dates in the post listing */
+	/* force a line break after dates in post listings */
 	li .date {
 		display: block;
 	}

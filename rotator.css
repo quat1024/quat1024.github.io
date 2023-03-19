@@ -1,6 +1,4 @@
 .logo {
-	--size: 5em;
-
 	width: var(--size);
 	height: var(--size);
 	flex-shrink: 0;
@@ -27,7 +25,7 @@
 .logo .cover1 {
 	z-index: 1;
 	background-color: var(--fgcolor);
-	width: 104%; /* makes it just a bit wider than the circle to cover up AA artifacts*/
+	width: 104%; /* makes it just a bit wider than the circle to cover up AA artifacts */
 	height: calc(var(--size) / 6);
 	animation: spin 40s linear -15s infinite;
 	outline: 1px solid transparent; /* also for some AA */
@@ -54,7 +52,7 @@
 	z-index: 4;
 	width: 0;
 	height: 0;
-	border: calc(var(--size) / 15) solid red;
+	border: calc(var(--size) / 18) solid red;
 	border-radius: 100%;
 	
 	animation: blink 17s ease-in 4s infinite;
