@@ -177,12 +177,12 @@ article blockquote {
 }
 
 article ul {
-	padding-left: 0; /* override browser style */
+	padding-left: 2em; /* override browser style */
 	list-style: '- ';
 }
 
 article ul li {
-	margin-top: 1em;
+	margin-top: 0.7em;
 }
 
 /* Unfortunately my current markdown parser outputs <code> for both inline code and codeblocks. That's annoying. */

@@ -193,7 +193,7 @@
 <p>The implementation is pretty different in SM3.9 and in OpenITG/SM5.</p>
 <h4>SM3.9</h4>
 <p>A command is a semicolon-delimited list of tween instructions. Commands are always stored in <code>metrics.ini</code>. <a href="https://github.com/openitg/stepmania/blob/tags/v390release/stepmania/Themes/default/metrics.ini#L132">Here’s one from the Stepmania 3.9 default theme</a>:</p>
-<pre><code>[ScreenSelectStyle]
+<pre><code class="language-ini">[ScreenSelectStyle]
 # ...
 PremiumOnCommand=addx,400;bounceend,0.5;addx,-400;glowshift;effectcolor1,1,1,1,0;effectcolor2,1,1,1,0.3
 </code></pre>
@@ -216,7 +216,7 @@ PremiumOnCommand=addx,400;bounceend,0.5;addx,-400;glowshift;effectcolor1,1,1,1,0
 <p>Commands are now stored <em>on the actor itself</em>, in a map indexed by the command name. When loading an XML actor, if there’s an XML attribute with a <code>Command</code> suffix, the prefix of the string is used as the name, and the text is parsed as a command.</p>
 <p>Commands are always Lua functions. OpenITG added a Lua API to configure the same things the old command system could configure.</p>
 <p>The <a href="https://github.com/openitg/openitg/blob/master/src/ActorCommands.cpp">command parser</a> became much stranger. If the command string starts with <code>%</code>, it is replaced with <code>return </code>, and the resultant string is returned. This lets you write Lua functions as a command, like this one from the <a href="https://github.com/openitg/openitg/blob/f2c129fe65c65e4a9b3a691ff35e7717b4e8de51/assets/d4/Themes/default/metrics.ini">OpenITG theme metrics.ini</a>:</p>
-<pre><code>ScrollerOnCommand=%function(self) self:z(-200); self:SetDrawByZPosition(true) end
+<pre><code class="language-ini">ScrollerOnCommand=%function(self) self:z(-200); self:SetDrawByZPosition(true) end
 </code></pre>
 <p>If it doesn’t start with a percent sign, the string is assumed to be a command in the SM3.9 format, and the engine will <em>update it</em> into a Lua function:</p>
 <ul>
@@ -324,7 +324,7 @@ PremiumOnCommand=addx,400;bounceend,0.5;addx,-400;glowshift;effectcolor1,1,1,1,0
 <li>due to haha funny macro stuff (<code>REGISTER_ACTOR_CLASS(_WITH_NAME)?</code> in <code>ActorUtil.h</code>), this leads to constructing the actor (with the <code>new</code> keyword), calling <code>LoadFromNode</code> on it with the xml, and returning it</li>
 </ul>
 <p>For <code>ActorFrame</code>s, well first when you make it with XML you actually get a slightly different <code>ActorFrameAutoDeleteChildren</code> instance, but its <code>LoadFromNode</code> method will recurse into the XML structure and call <code>ActorUtil::LoadFromActorFile</code> again.</p>
-<p>TODO: What I’m struggling to find is what connects Screens and Actors. The only method that looks in the screen registry is <code>ScreenManager::MakeNewScreenInternal</code>, which constructs the screen with the given archetype and (in the <code>REGISTER_SCREEN_CLASS</code> macro) calls <code>init</code>. I think this is the wrong place to look and the lua stuff is actually in <code>BGAnimations</code>?</p>
+<p>TODO: What I’m struggling to find is what connects Screens and Actors. The only method that looks in the screen registry is <code>ScreenManager::MakeNewScreenInternal</code>, which constructs the screen with the given archetype and (in the <code>REGISTER_SCREEN_CLASS</code> macro) calls <code>init</code>. I think this is the wrong place to look and the lua stuff is actually in <code>BGAnimations</code> with the underlay/overlay system?</p>
 
 <hr class="cool"/>
 <div style="text-align: left"><a href="/posts/command_line">&larr; How the hell do you use the command line</a><br/>
