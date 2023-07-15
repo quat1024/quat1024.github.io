@@ -40,8 +40,7 @@ impl Deref for MyDate {
 
 impl Display for MyDate {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-		//TODO: is there a cuter way to do this (that's chrono::delayedformat)
-		f.write_fmt(format_args!("{}", self.format(EPIC_DATE_FORMAT)))
+		self.inner.format(EPIC_DATE_FORMAT).fmt(f)
 	}
 }
 
