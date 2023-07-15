@@ -1,76 +1,73 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<title>Where has all the memory gone? - Highly Suspect Agency</title>
-	<link rel="stylesheet" type="text/css" href="/stylin.css"/>
-	<link rel="stylesheet" type="text/css" href="/rotator.css"/>
-	<link rel="icon" type="image/x-icon" href="/favicon.ico"/>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Where has all the memory gone? - Highly Suspect Agency</title>
+<meta property="og:title" content="Where has all the memory gone?">
+<meta property="og:description" content="Let's browse a Forge 1.18 modpack heap dump.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://highlysuspect.agency">
+<meta property="og:image" content="https://highlysuspect.agency/favicon128.png">
+<meta property="theme-color" content="#950000">
+<link rel="stylesheet" type="text/css" href="/stylin.css">
+<link rel="stylesheet" type="text/css" href="/rotator.css">
+<link rel="alternate" type="application/rss+xml" href="/feed.xml">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
 <header>
-	<a href="/" class="logo" aria-hidden="true">
-		<div class="circle1"></div>
-		<div class="cover1"></div>
-		<div class="circle2"></div>
-		<div class="cover2"></div>
-		<div class="iris"></div>
-	</a>
-	<h1><a href="/">Highly Suspect Agency</a></h1>
-	<div style="flex-grow: 1"></div>
-	<nav><a href="/posts">Blog</a></nav>
+<a href="/" class="sign" aria-hidden="true">
+<div class="circle s1"></div><div class="cover s2"></div><div class="circle s3"></div><div class="cover s4"></div><div class="iris"></div>
+</a>
+<h1><a href="/">Highly Suspect Agency</a></h1>
+<div style="flex-grow: 1"></div>
+<nav><a href="/feed.xml">RSS</a> <a href="/posts">Blog</a></nav>
 </header>
 <div class="bigheader">
-<h1 class="bigheader">Where has all the memory gone?</h1>
-<div class="byline">quat, Oct 03, 2022 &mdash; 
-<a href="/tags/forge">forge</a>
-<a href="/tags/1.18">1.18</a>
-<a href="/tags/mc-modding">mc-modding</a>
-</div>
-<div class="draftmarker">DRAFT</div>
+<h1>Where has all the memory gone?</h1>
+<div class="byline">quat, Oct 03, 2022 &mdash; (draft post) &mdash; <a href="/tags/mc-modding">mc-modding</a> <a href="/tags/forge">forge</a> <a href="/tags/1.18">1.18</a> </div>
 </div>
 <article>
-<p>It’s no secret that modded Minecraft requires a ton of memory, and seems to require more and more over time. Questions about lag are often answered with “allocate more memory”. But have you ever wondered what that memory is actually <em>used</em> for?</p>
-<p>Luckily Java lets you take a “heap dump”, which is pretty much a file containing every object that Java is currently managing. Tools like <a href="https://visualvm.github.io/">VisualVM</a> allow easily capturing heap dumps with the press of a button and browsing every object inside.</p>
-<p>Let’s take a look, shall we?</p>
+<p>It's no secret that modded Minecraft requires a ton of memory, and seems to require more and more over time. Questions about lag are often answered with &quot;allocate more memory&quot;. But have you ever wondered what that memory is actually <em>used</em> for?</p>
+<p>Luckily Java lets you take a &quot;heap dump&quot;, which is pretty much a file containing every object that Java is currently managing. Tools like <a href="https://visualvm.github.io/">VisualVM</a> allow easily capturing heap dumps with the press of a button and browsing every object inside.</p>
+<p>Let's take a look, shall we?</p>
 <h2>Modpack</h2>
-<p>The modpack chosen was <a href="https://forum.feed-the-beast.com/threads/plexiglass-mountain-1-18-2.305588/">FTB Plexiglass Mountain</a> version 1.2.0 for Forge 1.18. I don’t know much about this modpack, but it seems like a fairly typical modpack assembled by people who know what they’re doing.</p>
+<p>The modpack chosen was <a href="https://forum.feed-the-beast.com/threads/plexiglass-mountain-1-18-2.305588/">FTB Plexiglass Mountain</a> version 1.2.0 for Forge 1.18. I don't know much about this modpack, but it seems like a fairly typical modpack assembled by people who know what they're doing.</p>
 <p>Its modlist is 238 mods strong and contains a good mix of little tweaks, big content mods, and a few optimization mods. Notable for our adventure is the inclusion of <a href="https://www.curseforge.com/minecraft/mc-mods/ferritecore">FerriteCore</a>, which is a mod that dramatically reduces the amount of memory the game consumes using <a href="https://github.com/malte0811/FerriteCore/blob/main/summary.md">a number of methods</a>.</p>
 <p>TODO: Compare memory usage without FerriteCore (visualvm has a comparison tool)</p>
 <h2>Scenario</h2>
-<p>I loaded the modpack, generated a new world with Creative mode enabled and a random seed (ended up being <code>-983888108176808920</code>), flew up into the sky and looked around to render all the chunks, waited for the framerate to stabilize, waited for a garbage collection cycle, then pressed VisualVM’s heap dump button. I know that this isn’t very scientific.</p>
-<p>The only arguments passed were <code>-Xms8192m -Xmx8192m</code> (allocating 8gb of RAM) and other miscellany that the PolyMC launcher adds. The JVM is Eclipse Temurin 17.0.4-101, installed via <code>scoop</code>. I’m on Windows 10.</p>
+<p>I loaded the modpack, generated a new world with Creative mode enabled and a random seed (ended up being <code>-983888108176808920</code>), flew up into the sky and looked around to render all the chunks, waited for the framerate to stabilize, waited for a garbage collection cycle, then pressed VisualVM's heap dump button. I know that this isn't very scientific.</p>
+<p>The only arguments passed were <code>-Xms8192m -Xmx8192m</code> (allocating 8gb of RAM) and other miscellany that the PolyMC launcher adds. The JVM is Eclipse Temurin 17.0.4-101, installed via <code>scoop</code>. I'm on Windows 10.</p>
 <h2>Overall memory usage</h2>
-<p>8gb of RAM was allocated to the pack. After waiting for the garbage collection cycle, the game reported that only about 25% of this memory was in use, and the Java heap captured in the file confirms this, being only 2.03gb large. I’m guessing that the garbage collector could clear more memory if it wanted to but decided that 25% is good enough. I did not notice any framerate dip at all during this event.</p>
+<p>8gb of RAM was allocated to the pack. After waiting for the garbage collection cycle, the game reported that only about 25% of this memory was in use, and the Java heap captured in the file confirms this, being only 2.03gb large. I'm guessing that the garbage collector could clear more memory if it wanted to but decided that 25% is good enough. I did not notice any framerate dip at all during this event.</p>
 <h2>Single largest objects</h2>
-<p>In this section I will look at the largest <em>single</em> objects. This tends to point out the largest arrays and collections in the game (because the size of an array depends on how much stuff is inside of it). In Java, arrays to primitive types contain their elements inline, and arrays of nonprimitive types always consist of pointers to the objects. Pointers are 32 bits wide even on a 64-bit computer - the <a href="https://www.baeldung.com/jvm-compressed-oops">“compressed oops” trick</a> - unless you are allocating more than 32gb to the game, which I am hoping nobody is doing.</p>
-<p>The percentage is the total size of the used heap (the 2.03gb figure). When the data structure belongs to a collection, I’ve taken the liberty of looking for the things that reference the collection - it’s less useful to say “there is a big hashmap” and more useful to talk about who references the big hashmap.</p>
+<p>In this section I will look at the largest <em>single</em> objects. This tends to point out the largest arrays and collections in the game (because the size of an array depends on how much stuff is inside of it). In Java, arrays to primitive types contain their elements inline, and arrays of nonprimitive types always consist of pointers to the objects. Pointers are 32 bits wide even on a 64-bit computer - the <a href="https://www.baeldung.com/jvm-compressed-oops">&quot;compressed oops&quot; trick</a> - unless you are allocating more than 32gb to the game, which I am hoping nobody is doing.</p>
+<p>The percentage is the total size of the used heap (the 2.03gb figure). When the data structure belongs to a collection, I've taken the liberty of looking for the things that reference the collection - it's less useful to say &quot;there is a big hashmap&quot; and more useful to talk about who references the big hashmap.</p>
 <h4>1. <code>f_182324_ in net.minecraft.util.MemoryReserve</code>, <code>byte[]</code>, 10,485,776 B (0.5%)</h4>
-<p>The single largest object in the game, consuming 0.5% of the entire heap, is ten mebibytes of empty space not used for anything. It is entirely filled with zeroes. The game will free this memory if it detects it’s dangerously low on memory.</p>
+<p>The single largest object in the game, consuming 0.5% of the entire heap, is ten mebibytes of empty space not used for anything. It is entirely filled with zeroes. The game will free this memory if it detects it's dangerously low on memory.</p>
 <p>I think this thing dates back to the applet days, too. Kinda funny.</p>
 <h4>2. <code>_buffer in lzma.sdk.lz.OutWindow</code>, <code>byte[]</code>, 8,388,624 B (0.4%)</h4>
-<p>This looks like decompression guts - visual inspection shows it contains a bunch of fragments of jar files. It is a “GC root” meaning it will never b e garbage collected.</p>
+<p>This looks like decompression guts - visual inspection shows it contains a bunch of fragments of jar files. It is a &quot;GC root&quot; meaning it will never b e garbage collected.</p>
 <p>It is ultimately referenced by the <code>coder</code> field in one of <a href="https://github.com/cstamas/streams/blob/master/src/main/java/org/cservenak/streams/CoderThread.java">these classes</a>.</p>
 <p>TODO: Who is loading this?</p>
 <h4>3. <code>f_110877 in net.minecraft.client.renderer.block.BlockModelShaper</code>, <code>Object[]</code>, 4,194,320 B (0.2%)</h4>
 <p>This array has space for pointers to 1,048,576 <code>BlockState</code> objects. However, (according to VisualVM) it only contains 314,917 of them. This means that 2.9mb of the 4.1mb array is wasted. Why is that?</p>
-<p>Java’s only growable data structure is the array, so all other Java collections that use heap memory must ultimately reference an array. And sure enough, this array is referenced from an <code>IdentityHashMap</code>. There is wasted space in the array because the performance of inserting items into a <code>HashMap</code> suffers when the map is more full - <code>HashMap</code>s like to resize after reaching a certain fill level.</p>
-<p>Resizing is typically done by doubling the size of the backing array - the idea is that resizing the array is a very expensive operation, so the amount of times the array is resized should grow with the <em>logarithm</em> of the amount of elements. With relatively small numbers of elements (say, in the four-digits), this is a great policy and strikes a good balance between “memory consumption” and “not getting any work done because the array is being resized all the time”</p>
-<p>The interesting thing, though, is that there is no reason to accomodate for the performance of adding new items to the map, because at this point in the game’s lifecycle we are all done adding things to the map. This only gets modified when loading resources, so there is no need for the extra space.</p>
+<p>Java's only growable data structure is the array, so all other Java collections that use heap memory must ultimately reference an array. And sure enough, this array is referenced from an <code>IdentityHashMap</code>. There is wasted space in the array because the performance of inserting items into a <code>HashMap</code> suffers when the map is more full - <code>HashMap</code>s like to resize after reaching a certain fill level.</p>
+<p>Resizing is typically done by doubling the size of the backing array - the idea is that resizing the array is a very expensive operation, so the amount of times the array is resized should grow with the <em>logarithm</em> of the amount of elements. With relatively small numbers of elements (say, in the four-digits), this is a great policy and strikes a good balance between &quot;memory consumption&quot; and &quot;not getting any work done because the array is being resized all the time&quot;</p>
+<p>The interesting thing, though, is that there is no reason to accomodate for the performance of adding new items to the map, because at this point in the game's lifecycle we are all done adding things to the map. This only gets modified when loading resources, so there is no need for the extra space.</p>
 <h4>4 and 5. <code>f_119960_ in net.minecraft.client.searchtree.SuffixArray</code>, 2,160,888 B (0.1%) each</h4>
 <p>The <code>SuffixArray</code> is a data structure used to accellerate searching for things in the vanilla recipe book.</p>
-<p>There are two of them! I don’t know why there are two <code>SuffixArray</code> instances.</p>
+<p>There are two of them! I don't know why there are two <code>SuffixArray</code> instances.</p>
 <p>TODO They both belong to <code>f_119944_ in net.minecraft.client.searchtree.SearchRegistry#1</code></p>
 <h4>6 and 7. ModelManager datastructures, 2,097,176 B (0.1%) each</h4>
 <p>One is the keys half, the other is the values half, of the same <code>ObjectToIntOpenHashMap</code>.</p>
-<p>This is another map that contains every blockstate in the game, and it’s another data structure that is oversized: there are 524,289 slots in the array but most of them are pointers to <code>null</code>. This is an <code>ObjectToIntOpenHashMap</code>, rather than a Java <code>HashMap</code>, so it has a different resizing policy - but you can see that 524,289 is one more than a power-of-two. So I imagine this is another map that doubles in size every time it grows.</p>
+<p>This is another map that contains every blockstate in the game, and it's another data structure that is oversized: there are 524,289 slots in the array but most of them are pointers to <code>null</code>. This is an <code>ObjectToIntOpenHashMap</code>, rather than a Java <code>HashMap</code>, so it has a different resizing policy - but you can see that 524,289 is one more than a power-of-two. So I imagine this is another map that doubles in size every time it grows.</p>
 <h1>oh look its another draft post</h1>
-<p>I didn’t finish the analysis, but it makes sense to post what I have instead of letting it rot on my hard drive</p>
+<p>I didn't finish the analysis, but it makes sense to post what I have instead of letting it rot on my hard drive</p>
 <p>Want to be better about publishing more unfinished documents.</p>
-
-<hr class="cool"/>
-<div style="text-align: left"><a href="/posts/one_point_eightteen_notes">&larr; Updating to Fabric 1.18 notes</a><br/>
-<div style="text-align: right"><a href="/posts/command_line">How the hell do you use the command line &rarr;</a>
+<hr class="cool">
+<div style="text-align: left"><a href="/posts/one_point_eightteen_notes">&larr; Updating to Fabric 1.18 notes</a></div>
+<div style="text-align: right"><a href="/posts/command_line">How the hell do you use the command line &rarr;</a></div>
 <div style="text-align: right; font-size:60%">Powered by <a href="https://github.com/quat1024/quatweb-static">Rust</a>™</div>
 </article>
 </body>

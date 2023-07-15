@@ -1,17 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Crimson+Pro&family=Source+Serif+Pro:ital,wght@1,900&family=JetBrains+Mono&display=swap');
 
 /* settings */
-* {
-	box-sizing: border-box;
-}
+
+* { box-sizing: border-box; }
 
 /* fonts */
 
 body {
-	font-family: "Crimson Pro", sans-serif;
-	font-weight: 400;
-	font-size: 22px;
-	line-height: 1.4;
+	font: 400 20px/1.45 "Crimson Pro", sans-serif;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -21,8 +17,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 code {
-	font-family: "JetBrains Mono", monospace;
-	font-size: 18px; /* optically comparable to 22px Crimson Pro */
+	font: 16px "JetBrains Mono", monospace; /* optically comparable to 20px Crimson Pro */
 }
 
 /* colors */
@@ -39,28 +34,22 @@ code {
 	--inlinecodebgcolor: rgba(50, 0, 0, 0.1);
 }
 
-.fade {
-	opacity: 0.5;
-}
+.fade { opacity: 0.5; }
 
-a {
-	color: var(--linkcolor);
-}
+a { color: var(--linkcolor); }
+a:active { color: red; }
 
-a:active {
-	color: red !important;
+article a[href^="http"]:where(:not([href*="://highlysuspect.agency/"]))::after{
+	content: "︎↗";
+	/* courtesy of https://www.paritybit.ca/blog/styling-external-links */
 }
+article a[href^="mailto"]::after{ content: "︎ 📧"; }
 
-blockquote, code[class^="language"] {
-	background-color: var(--blockbgcolor);
-}
-
-code:not([class^="language"]) {
-	background-color: var(--inlinecodebgcolor);
-}
+blockquote, code[class^="language"] { background-color: var(--blockbgcolor); }
+code:not([class^="language"]) { background-color: var(--inlinecodebgcolor); }
 
 ::selection {
-	background-color: #872222;
+	background-color: #521c1c;
 	color: var(--bgcolor);
 }
 
@@ -101,7 +90,7 @@ header {
 	--size: 120px;
 }
 
-header .logo {
+header .sign {
 	background-color: var(--fgcolor);
 	border-radius: 100%;
 	margin: 0 .5rem;
@@ -109,7 +98,7 @@ header .logo {
 }
 
 header h1 {
-	font-size: min(5vw, 100px); /* might have to poke at this when changing the font lol */
+	font-size: min(5vw, 100px);
 	font-family: "JetBrains Mono", monospace;
 	font-style: normal;
 	font-weight: 900;
@@ -140,24 +129,12 @@ header nav a {
 	font-size: 65px;
 	padding: 0.3em 1em;
 	line-height: 110%;
-	background-color: var(--fgcolor);
-	color: var(--bgcolor);
-}
-
-.draftmarker {
-	background: repeating-linear-gradient(135deg, black 0px, black 40px, #F5A601 40px, #F5A601 80px);
-	background-attachment: fixed; /* ;) */
-	color: white;
-	font-family: "JetBrains Mono", monospace;
-	height: 70px;
-	font-size: 70px;
-	line-height: 70px;
 }
 
 /* most page content */
 
 article {
-	width: 57rem;
+	width: 55rem;
 	max-width: 85%;
 	margin: 1em auto;
 }
@@ -167,7 +144,7 @@ article h1 {
 	border-bottom: 5px solid var(--linecolor);
 }
 
-article h2 {
+article h2, article h3 {
 	border-bottom: 2px solid var(--linecolor);
 }
 
@@ -267,17 +244,11 @@ hr.think:after {
 		max-width: 1px;
 	}
 	
-	header {
-		--size: 100px;
-	}
+	header { --size: 100px; }
 	
 	/* desktop layouts place list bullets in the gutter, but this falls off the page with a thin left margin */
-	article ul {
-		padding-left: 1em;
-	}
+	article ul { padding-left: 1em; }
 	
 	/* force a line break after dates in post listings */
-	li .date {
-		display: block;
-	}
+	li .date { display: block; }
 }

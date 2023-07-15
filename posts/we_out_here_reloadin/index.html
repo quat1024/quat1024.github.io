@@ -1,35 +1,34 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<title>Overview of Resource Reloading in 1.14.4/Fabric - Highly Suspect Agency</title>
-	<link rel="stylesheet" type="text/css" href="/stylin.css"/>
-	<link rel="stylesheet" type="text/css" href="/rotator.css"/>
-	<link rel="icon" type="image/x-icon" href="/favicon.ico"/>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Overview of Resource Reloading in 1.14.4/Fabric - Highly Suspect Agency</title>
+<meta property="og:title" content="Overview of Resource Reloading in 1.14.4/Fabric">
+<meta property="og:description" content="On the new resource reloading system introduced in 1.14.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://highlysuspect.agency">
+<meta property="og:image" content="https://highlysuspect.agency/favicon128.png">
+<meta property="theme-color" content="#950000">
+<link rel="stylesheet" type="text/css" href="/stylin.css">
+<link rel="stylesheet" type="text/css" href="/rotator.css">
+<link rel="alternate" type="application/rss+xml" href="/feed.xml">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
 <header>
-	<a href="/" class="logo" aria-hidden="true">
-		<div class="circle1"></div>
-		<div class="cover1"></div>
-		<div class="circle2"></div>
-		<div class="cover2"></div>
-		<div class="iris"></div>
-	</a>
-	<h1><a href="/">Highly Suspect Agency</a></h1>
-	<div style="flex-grow: 1"></div>
-	<nav><a href="/posts">Blog</a></nav>
+<a href="/" class="sign" aria-hidden="true">
+<div class="circle s1"></div><div class="cover s2"></div><div class="circle s3"></div><div class="cover s4"></div><div class="iris"></div>
+</a>
+<h1><a href="/">Highly Suspect Agency</a></h1>
+<div style="flex-grow: 1"></div>
+<nav><a href="/feed.xml">RSS</a> <a href="/posts">Blog</a></nav>
 </header>
 <div class="bigheader">
-<h1 class="bigheader">Overview of Resource Reloading in 1.14.4/Fabric</h1>
-<div class="byline">quat, Jan 19, 2020 &mdash; 
-<a href="/tags/fabric">fabric</a>
-<a href="/tags/1.14">1.14</a>
-<a href="/tags/mc-modding">mc-modding</a>
-</div>
+<h1>Overview of Resource Reloading in 1.14.4/Fabric</h1>
+<div class="byline">quat, Jan 19, 2020 &mdash; <a href="/tags/mc-modding">mc-modding</a> <a href="/tags/fabric">fabric</a> <a href="/tags/1.14">1.14</a> </div>
 </div>
 <article>
-<p>This article was formerly published on my Github account <a href="https://gist.github.com/quat1024/2645637708b9577a57671df0eab953e2/">here</a>, although I never finished it. I’ve reprinted it on my new website as it originally appeared.</p>
+<p>This article was formerly published on my Github account <a href="https://gist.github.com/quat1024/2645637708b9577a57671df0eab953e2/">here</a>, although I never finished it. I've reprinted it on my new website as it originally appeared.</p>
 <hr class="think"/>
 <h3>TL;DR</h3>
 <p>If you want to load some resources or data in Fabric 1.14 or 1.15, do this:</p>
@@ -59,7 +58,7 @@
   }
 });
 </code></pre>
-<p>If you just want to listen to the resource reloading process and do something when it’s done (postprocess a resource, print a message, whatnot), but you don’t need to load anything new in-game, instead do this:</p>
+<p>If you just want to listen to the resource reloading process and do something when it's done (postprocess a resource, print a message, whatnot), but you don't need to load anything new in-game, instead do this:</p>
 <pre><code class="language-java">ResourceManagerHelper.get(ResourceType.ASSETS).registerReloadListener(new SimpleSynchronousResourceReloadListener() {
   @Override
   public Identifier getFabricId() {
@@ -79,24 +78,24 @@
 <li>Blue Light Special, using an async reloader: <a href="https://github.com/kvverti/blue-light-special/blob/1f522285ef7e489ff96511a6069db0c12f4ca658/src/main/java/io/github/kvverti/bluelightspecial/BlueLightSpecialClient.java#L23">registering</a>, <a href="https://github.com/kvverti/blue-light-special/blob/1f522285ef7e489ff96511a6069db0c12f4ca658/src/main/java/io/github/kvverti/bluelightspecial/client/resource/CagedLanternColorSupplier.java">using</a></li>
 </ul>
 <h1>What???</h1>
-<p>Mojang did a number to the resource reloading system in 1.14. It’s a lot more complicated and if you aren’t familiar with asynchronous programming/<code>CompletableFuture</code>s like I am, it’s very hard to use.</p>
+<p>Mojang did a number to the resource reloading system in 1.14. It's a lot more complicated and if you aren't familiar with asynchronous programming/<code>CompletableFuture</code>s like I am, it's very hard to use.</p>
 <ul>
 <li>The same machinery is used on the client to reload resource packs and on the server to reload data packs, since they are basically the same thing as far as the system is concerned.</li>
-<li>It’s also used during the game startup process, all the way down to the initial loading splash screen and the resource-reload progress screen being literally the exact same screen.</li>
-<li>It’s now multithreaded! There’s a number of different resource <em>types</em> in Minecraft (client: fonts, textures, sounds, colormaps, …, server: functions, tags, recipes, …) and they all get loaded at the same time.</li>
+<li>It's also used during the game startup process, all the way down to the initial loading splash screen and the resource-reload progress screen being literally the exact same screen.</li>
+<li>It's now multithreaded! There's a number of different resource <em>types</em> in Minecraft (client: fonts, textures, sounds, colormaps, ..., server: functions, tags, recipes, ...) and they all get loaded at the same time.</li>
 </ul>
-<p>N.B. Throughout this article, “resource” will be used to interchangably refer to resource packs and data packs, since the resource reloader doesn’t care.</p>
-<p>Also, I won’t be going into too much detail on the <code>ResourceManager</code> itself. It’s the “overridey filesystem” that lets you just ask “gimme <code>/textures/minecraft/entity/pig.png</code>” without having to worry about which resource pack in the cascade that image is going to come from.</p>
+<p>N.B. Throughout this article, &quot;resource&quot; will be used to interchangably refer to resource packs and data packs, since the resource reloader doesn't care.</p>
+<p>Also, I won't be going into too much detail on the <code>ResourceManager</code> itself. It's the &quot;overridey filesystem&quot; that lets you just ask &quot;gimme <code>/textures/minecraft/entity/pig.png</code>&quot; without having to worry about which resource pack in the cascade that image is going to come from.</p>
 <h1>Why???</h1>
 <ul>
-<li>Why <em>not</em> multithread it? Honestly it’s really a lot faster.</li>
-<li>Some resources take a long time to cook even after they’re prepared: texture stitching, fonts, and so on. This has to get done eventually, but there’s no need for them to block like, file I/O in the meantime.</li>
+<li>Why <em>not</em> multithread it? Honestly it's really a lot faster.</li>
+<li>Some resources take a long time to cook even after they're prepared: texture stitching, fonts, and so on. This has to get done eventually, but there's no need for them to block like, file I/O in the meantime.</li>
 </ul>
 <h1>How</h1>
-<p>I’m going to start from the bottom (how Mojang implements resource reloading in Minecraft), show why it’s a pain to implement them the way Mojang does, and work up to how Fabric helps you implement resource reloaders in your mod.</p>
+<p>I'm going to start from the bottom (how Mojang implements resource reloading in Minecraft), show why it's a pain to implement them the way Mojang does, and work up to how Fabric helps you implement resource reloaders in your mod.</p>
 <h2><code>ResourceReloader</code></h2>
-<p>This is the management class for all resource reloading and where “the magic happens”. Unfortunately the code is a <em>complete</em> mess to read and understand… there is a lot going on, and this is kinda the intersection of a bunch of different tasks the resource reloading system wants to be able to do (reloading in the client and server environments, debuggable/profilable reloading, etc) so there are a lot of loose variables.</p>
-<p>Here’s the important takeaways:</p>
+<p>This is the management class for all resource reloading and where &quot;the magic happens&quot;. Unfortunately the code is a <em>complete</em> mess to read and understand... there is a lot going on, and this is kinda the intersection of a bunch of different tasks the resource reloading system wants to be able to do (reloading in the client and server environments, debuggable/profilable reloading, etc) so there are a lot of loose variables.</p>
+<p>Here's the important takeaways:</p>
 <ul>
 <li>The two <code>Executors</code> correspond to the two stages of resource reloading. The first <code>Executor</code> is for <em>loading</em> tasks and the second is for <em>application</em> tasks.</li>
 <li>The loading executor is typically used for things like reading a texture or resource from disk.</li>
@@ -106,15 +105,15 @@
 <li>The loading executor is the <em>server worker thread pool</em>, which you may recognize from its job of managing async tasks like chunkloading and generating the datafixer.</li>
 <li>This is a pool consisting of multiple threads; this is where the concurrency happens</li>
 <li>The application executor is <code>MinecraftClient</code>.</li>
-<li>If you’ve ever processed a server-to-client packet, using it as an <code>Executor</code> is familiar to you; this is exactly the same object you get when you call <code>packetContext.getTaskQueue().execute(something)</code>. It’s for the same reason: you were off-thread, but now you want to touch the game, so you need to get on-thread.</li>
+<li>If you've ever processed a server-to-client packet, using it as an <code>Executor</code> is familiar to you; this is exactly the same object you get when you call <code>packetContext.getTaskQueue().execute(something)</code>. It's for the same reason: you were off-thread, but now you want to touch the game, so you need to get on-thread.</li>
 </ul>
 </li>
 </ul>
 <h2><code>ResourceReloadListener</code></h2>
 <p>This is a functional interface from Minecraft representing some type of reloading task.</p>
-<p>The Yarn name <code>reload</code> is a bit misleading - it should probably be something like <code>createReloadTasks</code> - because no “action” happens in this method. It merely creates and returns a <code>CompletableFuture</code>, and it’s the <em><code>Future</code>’s job</em> to submit loading and application tasks to the appropriate executors. When those tasks get executed <em>that’s</em> when the “reloading” arguably occurs.</p>
-<p>You’ll also notice an inner interface here, <code>Synchronizer</code>. An instance of this interface is passed into <code>reload</code>, and its <code>whenPrepared</code> method is how you tell Minecraft “ok, I am done preparing my asset, it’s now time to move into the application stage and apply them to the running game”. You can supply any object you want (presumably, the result of loading the resources from disk) in your <code>CompletableFuture</code>; the <code>Synchronizer</code> simply passes it down unmodified so you can use it in your application task.</p>
-<p>So much talk, so little code. Here’s the general skeleton for implementing your own resource reload listeners from scratch:</p>
+<p>The Yarn name <code>reload</code> is a bit misleading - it should probably be something like <code>createReloadTasks</code> - because no &quot;action&quot; happens in this method. It merely creates and returns a <code>CompletableFuture</code>, and it's the <em><code>Future</code>'s job</em> to submit loading and application tasks to the appropriate executors. When those tasks get executed <em>that's</em> when the &quot;reloading&quot; arguably occurs.</p>
+<p>You'll also notice an inner interface here, <code>Synchronizer</code>. An instance of this interface is passed into <code>reload</code>, and its <code>whenPrepared</code> method is how you tell Minecraft &quot;ok, I am done preparing my asset, it's now time to move into the application stage and apply them to the running game&quot;. You can supply any object you want (presumably, the result of loading the resources from disk) in your <code>CompletableFuture</code>; the <code>Synchronizer</code> simply passes it down unmodified so you can use it in your application task.</p>
+<p>So much talk, so little code. Here's the general skeleton for implementing your own resource reload listeners from scratch:</p>
 <pre><code class="language-java">public CompletableFuture&lt;Void&gt; reload(Synchronizer helper, ResourceManager resourceManager, Profiler loadProfiler, Profiler applyProfiler, Executor loadExecutor, Executor applyExecutor) {
   return CompletableFuture
     .supplyAsync(() -&gt; {
@@ -127,21 +126,21 @@
     }, applyExecutor);
 }
 </code></pre>
-<p>This is where it might get a bit funny looking if you’re not familiar with asynchronous programming. Note that the body of <code>reload</code> doesn’t do anything except return a really big CompletableFuture. <em>Nothing has been executed yet</em>.</p>
-<p>Note the pattern: <code>supplyAsync</code> takes a function which supplies an asset (and it happens on the <code>loadeExecutor</code>), <code>thenCompose</code> takes <code>helper::whenPrepared</code> which tells MC you’re done with this stage, and finally <code>thenAcceptAsync</code> takes a function which accepts the supplied asset (this time on the <code>applyExecutor</code>).</p>
-<p>Again, this is just a pile of three functions; these get scheduled to the appropriate thread pools and later executed whenever an asset reload happens (F3+T client, <code>/reload</code> server), but nothing has happened immediately after calling <code>reload</code>. It’s a common and understandable learner’s mistake to try and do something in <code>reload</code> - nope, it’s too early.</p>
-<p>In fact, Mojang uses this pattern so much they have a helper class for it. It’s been named <code>SinglePreparationResourceReloadListener</code>. Oh, and of course, actually making <em>use</em> of the profilers is optional, but Mojang does, and you should too.</p>
-<p>So, now you know the inner guts. Spoiler though, you probably won’t be implementing this class yourself, since Fabric provides some machinery to make implementing this class much, much easier.</p>
-<h1>Fabric’s machinery</h1>
+<p>This is where it might get a bit funny looking if you're not familiar with asynchronous programming. Note that the body of <code>reload</code> doesn't do anything except return a really big CompletableFuture. <em>Nothing has been executed yet</em>.</p>
+<p>Note the pattern: <code>supplyAsync</code> takes a function which supplies an asset (and it happens on the <code>loadeExecutor</code>), <code>thenCompose</code> takes <code>helper::whenPrepared</code> which tells MC you're done with this stage, and finally <code>thenAcceptAsync</code> takes a function which accepts the supplied asset (this time on the <code>applyExecutor</code>).</p>
+<p>Again, this is just a pile of three functions; these get scheduled to the appropriate thread pools and later executed whenever an asset reload happens (F3+T client, <code>/reload</code> server), but nothing has happened immediately after calling <code>reload</code>. It's a common and understandable learner's mistake to try and do something in <code>reload</code> - nope, it's too early.</p>
+<p>In fact, Mojang uses this pattern so much they have a helper class for it. It's been named <code>SinglePreparationResourceReloadListener</code>. Oh, and of course, actually making <em>use</em> of the profilers is optional, but Mojang does, and you should too.</p>
+<p>So, now you know the inner guts. Spoiler though, you probably won't be implementing this class yourself, since Fabric provides some machinery to make implementing this class much, much easier.</p>
+<h1>Fabric's machinery</h1>
 <p>The <code>fabric-resource-loader</code> module of Fabric API, among other things, makes it easier to create new <code>ReloadListener</code> tasks for whatever you want to reload. Here is a list of your new favorite classes (all in <code>net.fabricmc.fabric.api.resource</code>):</p>
 <h2><code>ResourceManagerHelper</code></h2>
 <p>Your entrypoint into the hell world. Call <code>ResourceManagerHelper.get(ResourceType.ASSETS)</code> for the clientside resource reload listener, and <code>ResourceType.DATA</code> for the serverside one. Register reload listeners to the returned object with, well, <code>registerReloadListener</code></p>
 <p>Any listeners registered to this happen <em>after</em> vanilla loading processes, which is usually what you want anyways - if you want to <em>change</em> vanilla loading processes instead, lean on Mixin.</p>
-<p>The whole <code>Helper</code> wrapper (instead of just adding them to MC’s resource reload manager directly) helps preserve the invariant that custom ones always happen after vanilla ones and vanilla ones always happen in the same order as they do in vanilla.</p>
+<p>The whole <code>Helper</code> wrapper (instead of just adding them to MC's resource reload manager directly) helps preserve the invariant that custom ones always happen after vanilla ones and vanilla ones always happen in the same order as they do in vanilla.</p>
 <h2><code>IdentifiableResourceReloadListener</code></h2>
-<p>You probably won’t end up implementing this yourself either. This interface extends vanilla <code>ResourceReloadListener</code> with two additional methods: one (<code>getFabricId</code>) returns an <code>Identifier</code> uniquely identifying this listener (so like, <code>mymod:fancy_particle_loader</code> or something).</p>
+<p>You probably won't end up implementing this yourself either. This interface extends vanilla <code>ResourceReloadListener</code> with two additional methods: one (<code>getFabricId</code>) returns an <code>Identifier</code> uniquely identifying this listener (so like, <code>mymod:fancy_particle_loader</code> or something).</p>
 <p>The other method (<code>getFabricDependencies</code>) is optional, and pertains to a small Fabric extension to the reload listener system - it returns a collection of <code>Identifiers</code> of listeners that <em>must</em> have their application stage happen <em>before</em> this one. Useful if you need that sort of thing.</p>
-<p>(It’s not possible to order the preparation stages because it’s multithreaded; their order is at the whimsy of the thread pool running them.)</p>
+<p>(It's not possible to order the preparation stages because it's multithreaded; their order is at the whimsy of the thread pool running them.)</p>
 <p>Note that vanilla reload listeners have this interface mixed on (check <code>MixinKeyedResourceReloadListener</code>), so vanilla resource reload listeners also have a <code>FabricId</code>. Check <code>ResourceReloadListenerKeys</code> for a list. (You can use these vanilla IDs in <code>getFabricDependencies</code>, but modded ones all happen after vanilla ones anyways, so who cares.)</p>
 <h2><code>SimpleResourceReloadListener</code></h2>
 <p>This is the money shot.</p>
@@ -149,18 +148,17 @@
 <p>This is the interface illustrated in the code sample all the way at the top of this article.</p>
 <p>Submit these to the resource reload system by calling <code>ResourceManagerHelper.get(...).registerReloadListener</code>.</p>
 <h2><code>SimpleSynchronousResourceReloadListener</code></h2>
-<p>This interface has no methods of its own, but is a union of <code>IdentifiableResourceReloadListener</code> and vanilla Minecraft’s <code>SynchronousResourceReloadListener</code> (a simplified interface with an empty <code>load</code> stage).</p>
-<p>If you simply want to hook the Minecraft resource reloading process and do something after it happens, but you don’t need to load anything new from disk (say, you’re dumping a cache, printing a message, or doing some post-processing on a resource), then <strong>this is the interface you probably want to implement</strong>.</p>
+<p>This interface has no methods of its own, but is a union of <code>IdentifiableResourceReloadListener</code> and vanilla Minecraft's <code>SynchronousResourceReloadListener</code> (a simplified interface with an empty <code>load</code> stage).</p>
+<p>If you simply want to hook the Minecraft resource reloading process and do something after it happens, but you don't need to load anything new from disk (say, you're dumping a cache, printing a message, or doing some post-processing on a resource), then <strong>this is the interface you probably want to implement</strong>.</p>
 <p>Submit these to the resource reload system the same way as a more complex one: <code>ResourceManagerHelper.get(...).registerReloadListener</code>.</p>
 <h1>Common problems</h1>
-<h3>I rolled my own resource reloader but the game never seems to finish reloading, the progress bar just gets stuck at 95%. What’s going on?</h3>
-<p>When implementing <code>reload</code>, it’s tempting to try and blow off the complexity of Minecraft, do all the work in the main body of <code>reload</code>, and return some dummy <code>CompletableFuture</code> just to satisfy the method contract. Don’t: it’s wrong, it’s probably not thread-safe, and since <code>whenPrepared</code> is never called Minecraft just waits forever for your reload listener to finish the loading stage.</p>
-<p>If you just want a simple “hey, I’m reloading” hook, use <code>SimpleSynchronousResourceReloadListener</code>; if you want to load some data, use <code>SimpleResourceReloadListener</code>.</p>
+<h3>I rolled my own resource reloader but the game never seems to finish reloading, the progress bar just gets stuck at 95%. What's going on?</h3>
+<p>When implementing <code>reload</code>, it's tempting to try and blow off the complexity of Minecraft, do all the work in the main body of <code>reload</code>, and return some dummy <code>CompletableFuture</code> just to satisfy the method contract. Don't: it's wrong, it's probably not thread-safe, and since <code>whenPrepared</code> is never called Minecraft just waits forever for your reload listener to finish the loading stage.</p>
+<p>If you just want a simple &quot;hey, I'm reloading&quot; hook, use <code>SimpleSynchronousResourceReloadListener</code>; if you want to load some data, use <code>SimpleResourceReloadListener</code>.</p>
 <h1>Thanks</h1>
-<p>Thanks to williewillus for pointing some stuff out about resource reload listeners in Forge on Vazkii’s Discord.</p>
-
-<hr class="cool"/>
-<div style="text-align: right"><a href="/posts/intellij_fix_it">Fix stuff being broke in IntelliJ &rarr;</a>
+<p>Thanks to williewillus for pointing some stuff out about resource reload listeners in Forge on Vazkii's Discord.</p>
+<hr class="cool">
+<div style="text-align: right"><a href="/posts/intellij_fix_it">Fix stuff being broke in IntelliJ &rarr;</a></div>
 <div style="text-align: right; font-size:60%">Powered by <a href="https://github.com/quat1024/quatweb-static">Rust</a>™</div>
 </article>
 </body>

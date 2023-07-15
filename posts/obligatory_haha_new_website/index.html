@@ -1,83 +1,81 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<title>Obligatory Haha New Website Post - Highly Suspect Agency</title>
-	<link rel="stylesheet" type="text/css" href="/stylin.css"/>
-	<link rel="stylesheet" type="text/css" href="/rotator.css"/>
-	<link rel="icon" type="image/x-icon" href="/favicon.ico"/>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Obligatory Haha New Website Post - Highly Suspect Agency</title>
+<meta property="og:title" content="Obligatory Haha New Website Post">
+<meta property="og:description" content="What I learned making this new site!">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://highlysuspect.agency">
+<meta property="og:image" content="https://highlysuspect.agency/favicon128.png">
+<meta property="theme-color" content="#950000">
+<link rel="stylesheet" type="text/css" href="/stylin.css">
+<link rel="stylesheet" type="text/css" href="/rotator.css">
+<link rel="alternate" type="application/rss+xml" href="/feed.xml">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
 <header>
-	<a href="/" class="logo" aria-hidden="true">
-		<div class="circle1"></div>
-		<div class="cover1"></div>
-		<div class="circle2"></div>
-		<div class="cover2"></div>
-		<div class="iris"></div>
-	</a>
-	<h1><a href="/">Highly Suspect Agency</a></h1>
-	<div style="flex-grow: 1"></div>
-	<nav><a href="/posts">Blog</a></nav>
+<a href="/" class="sign" aria-hidden="true">
+<div class="circle s1"></div><div class="cover s2"></div><div class="circle s3"></div><div class="cover s4"></div><div class="iris"></div>
+</a>
+<h1><a href="/">Highly Suspect Agency</a></h1>
+<div style="flex-grow: 1"></div>
+<nav><a href="/feed.xml">RSS</a> <a href="/posts">Blog</a></nav>
 </header>
 <div class="bigheader">
-<h1 class="bigheader">Obligatory Haha New Website Post</h1>
-<div class="byline">quat, Mar 16, 2021 &mdash; 
-<a href="/tags/rust">rust</a>
-<a href="/tags/design">design</a>
-</div>
-<div class="draftmarker">DRAFT</div>
+<h1>Obligatory Haha New Website Post</h1>
+<div class="byline">quat, Mar 16, 2021 &mdash; (draft post) &mdash; <a href="/tags/rust">rust</a> <a href="/tags/design">design</a> </div>
 </div>
 <article>
 <p>So uh, hi, this is my new website! Fancy that, huh.</p>
-<p>It doesn’t look too much different than my old one, apart from the inverted color scheme (light mode, heyo), but behind the scenes it’s no longer a static site, and is using a backend hastily thrown together in Rust. This post intends to collect some of my thoughts on what the process of making it was like, lessons learned, etc.</p>
+<p>It doesn't look too much different than my old one, apart from the inverted color scheme (light mode, heyo), but behind the scenes it's no longer a static site, and is using a backend hastily thrown together in Rust. This post intends to collect some of my thoughts on what the process of making it was like, lessons learned, etc.</p>
 <h2>Design</h2>
-<p>“Readability” is a nebulous concept that’s tricky to nail down, small changes can drastically impact the readability. I find it hard to read lots and lots of text off a computer screen, which is why I went for a bigger font, and I found the white-on-black text of my old site easy to read in short bursts but reading an entire article like that was difficult. Luckily I had kept all (okay, most) of the CSS color information in variables, so switching to “light mode” was a painless process.</p>
-<p>The background color is an off-white that’s tinted slightly red, which is a bit easier on the eyes than full-blown white.</p>
-<p>I actually didn’t intend to create the “redacted document” look, with the black links looking a bit like crossed-out text from a distance, but it works and I guess it fits this ridiculous domain name.</p>
+<p>&quot;Readability&quot; is a nebulous concept that's tricky to nail down, small changes can drastically impact the readability. I find it hard to read lots and lots of text off a computer screen, which is why I went for a bigger font, and I found the white-on-black text of my old site easy to read in short bursts but reading an entire article like that was difficult. Luckily I had kept all (okay, most) of the CSS color information in variables, so switching to &quot;light mode&quot; was a painless process.</p>
+<p>The background color is an off-white that's tinted slightly red, which is a bit easier on the eyes than full-blown white.</p>
+<p>I actually didn't intend to create the &quot;redacted document&quot; look, with the black links looking a bit like crossed-out text from a distance, but it works and I guess it fits this ridiculous domain name.</p>
 <p>And I had a lot of fun designing <a href="/missing">the 404 page</a>. It uses a bunch of <code>text-shadow</code> and <code>clip-path</code> shenanigans.</p>
 <h2>Meta</h2>
 <p>Motivation was a struggle. I have trouble staying motivated on things long-term unless I get a burst of energy to work on them, and this project was no exception; a lot of the work happened in the first day or two then I burned out a little.</p>
-<p>Part of why staying motivated is hard is like, I haven’t blogged in over a year, so why bother making a new website to show off all my old Minecraft modding posts with now-outdated info, right? There was kind of a chicken-and-egg problem there - I’ve wanted to scrape together things like a modding tutorial, but I didn’t want to blog because I didn’t have a blog to put the posts on. We’ll see what happens.</p>
+<p>Part of why staying motivated is hard is like, I haven't blogged in over a year, so why bother making a new website to show off all my old Minecraft modding posts with now-outdated info, right? There was kind of a chicken-and-egg problem there - I've wanted to scrape together things like a modding tutorial, but I didn't want to blog because I didn't have a blog to put the posts on. We'll see what happens.</p>
 <h2>Tech</h2>
-<p>(why you’re probably here)</p>
+<p>(why you're probably here)</p>
 <h3>Stack</h3>
-<p>Well, first of all, here’s the <a href="https://github.com/quat1024/quatweb">source code</a> to my server.</p>
+<p>Well, first of all, here's the <a href="https://github.com/quat1024/quatweb">source code</a> to my server.</p>
 <p>The server itself is running on a tiny VPS loaned to me from a friend. Thanks, una!</p>
 <blockquote>
-<p>una your “very tiny container” with half as many vcpus as my computer’s actual cpus, can compile rust twice as fast as my computer</p>
+<p>una your &quot;very tiny container&quot; with half as many vcpus as my computer's actual cpus, can compile rust twice as fast as my computer</p>
 </blockquote>
 <p>On the software side,</p>
 <ul>
-<li>I use <code>warp</code> to serve the document. It’s not behind any reverse proxies like <code>nginx</code> or anything, but I might change that.</li>
+<li>I use <code>warp</code> to serve the document. It's not behind any reverse proxies like <code>nginx</code> or anything, but I might change that.</li>
 <li>HTML templating is currently done with <code>ramhorns</code> and Markdown parsing is done with <code>pulldown-cmark</code>.</li>
 <li>Logging uses <code>pretty-env-logger</code>.</li>
 <li>Configuration is provided through environment variables using <code>envy</code>.</li>
 <li>Uhh, some other stuff too.</li>
 </ul>
-<p>I’m actually quite surprised at how many transitive dependencies this thing has - over 200.</p>
-<p>It’s kind of a “static site”, but also kind of not. A lot of things are cached, like the rendered-markdown of posts, and it basically just puzzles templates together for every pageload. There’s a way to force it to reload those caches through stdin. I could make this into a static site but I’m stubborn (and I have some ideas for later.)</p>
+<p>I'm actually quite surprised at how many transitive dependencies this thing has - over 200.</p>
+<p>It's kind of a &quot;static site&quot;, but also kind of not. A lot of things are cached, like the rendered-markdown of posts, and it basically just puzzles templates together for every pageload. There's a way to force it to reload those caches through stdin. I could make this into a static site but I'm stubborn (and I have some ideas for later.)</p>
 <h3>Soooo what was it like to develop the thing</h3>
-<p>I dunno, I have some thoughts on this, lol. I also want to stress that this section is <strong>from a newcomer’s perspective</strong> and there are probably solutions to many of these problems.</p>
-<p>So my primary experience with Rust is that, when the fancy things work, they work beautifully, but when they don’t, it’s ugly.</p>
+<p>I dunno, I have some thoughts on this, lol. I also want to stress that this section is <strong>from a newcomer's perspective</strong> and there are probably solutions to many of these problems.</p>
+<p>So my primary experience with Rust is that, when the fancy things work, they work beautifully, but when they don't, it's ugly.</p>
 <ul>
-<li>Parsing my <code>Settings</code> struct out of an environment variable with <code>serde</code> and <code>envy</code> was very fun and easy, so next I moved to switching the frontmatter parser for my blogposts from a handrolled <code>=</code>-splitter to something like HJSON or TOML using those libraries. I don’t remember the exact problems I had but they simply did not work.</li>
-<li>Telling the server to dump its caches through <code>stdin</code> is great but it’d be even better if it happened automatically when I changed a file (like a blogpost or mustache template) that required dumping the cache. So I tried <code>notify</code>, version 5. It did… nothing.</li>
-<li>I tried <code>color-eyre</code> because I heard it had nice error reports. I had a lot of fun decorating my errors with the appropriate context information - finally, I can tell myself which post failed to parse, instead of an opaque “missing created_date” message… Then I tried <code>println!</code>ing the error and hardly any information showed up. Maybe I misused it, or maybe the fancy error messages with context only appear when printed through the panic handler? Who’s to say.</li>
+<li>Parsing my <code>Settings</code> struct out of an environment variable with <code>serde</code> and <code>envy</code> was very fun and easy, so next I moved to switching the frontmatter parser for my blogposts from a handrolled <code>=</code>-splitter to something like HJSON or TOML using those libraries. I don't remember the exact problems I had but they simply did not work.</li>
+<li>Telling the server to dump its caches through <code>stdin</code> is great but it'd be even better if it happened automatically when I changed a file (like a blogpost or mustache template) that required dumping the cache. So I tried <code>notify</code>, version 5. It did... nothing.</li>
+<li>I tried <code>color-eyre</code> because I heard it had nice error reports. I had a lot of fun decorating my errors with the appropriate context information - finally, I can tell myself which post failed to parse, instead of an opaque &quot;missing created_date&quot; message... Then I tried <code>println!</code>ing the error and hardly any information showed up. Maybe I misused it, or maybe the fancy error messages with context only appear when printed through the panic handler? Who's to say.</li>
 </ul>
 <h4>async</h4>
-<p>The <code>async</code> situation is Rust is very rough around the edges. The standard library provides very little and most of the Fun work is pushed off to libraries like <code>tokio</code>, which (for example) offers you nice fancy async Channels! …that are not compatible with ones from the standard library, or any projects that use the ones from the standard library. “Colored functions” (weird name, don’t like it, it’s what stuck) strike again. That’s why I couldn’t try <code>notify</code> version 4; it uses a standard library <code>mpsc::channel</code> and I really wanted to <code>await</code> on its output but I could not figure out how the hell to do that.</p>
-<p>Like I guess spinning up another OS thread isn’t the end of the world but it feels like I shouldn’t have to do that.</p>
-<p>My other complaint with <code>Future</code>s is the only “easy” thing to do with them is <code>.await</code>ing their output. Futures are ostensibly an abstraction over “a value that might not be present”, so it’s surprising there are no <code>isDone() -&gt; bool</code> or <code>get() -&gt; Option&lt;T&gt;</code> functions, right? The method you <em>do</em> get is <code>poll</code>, but calling that is a job for the async runtime, not you. People have written <a href="https://crates.io/crates/spin_on">toy executors that spinlock while waiting for the task to complete</a> and it’s like a page of code, which isn’t that much in the grand scheme of things but it’s a surprising amount of code for “thing that makes the code run”, right? Compare to something like Java where <code>Runnable::run</code> is a valid implementation of <code>Executor</code>.</p>
+<p>The <code>async</code> situation is Rust is very rough around the edges. The standard library provides very little and most of the Fun work is pushed off to libraries like <code>tokio</code>, which (for example) offers you nice fancy async Channels! ...that are not compatible with ones from the standard library, or any projects that use the ones from the standard library. &quot;Colored functions&quot; (weird name, don't like it, it's what stuck) strike again. That's why I couldn't try <code>notify</code> version 4; it uses a standard library <code>mpsc::channel</code> and I really wanted to <code>await</code> on its output but I could not figure out how the hell to do that.</p>
+<p>Like I guess spinning up another OS thread isn't the end of the world but it feels like I shouldn't have to do that.</p>
+<p>My other complaint with <code>Future</code>s is the only &quot;easy&quot; thing to do with them is <code>.await</code>ing their output. Futures are ostensibly an abstraction over &quot;a value that might not be present&quot;, so it's surprising there are no <code>isDone() -&gt; bool</code> or <code>get() -&gt; Option&lt;T&gt;</code> functions, right? The method you <em>do</em> get is <code>poll</code>, but calling that is a job for the async runtime, not you. People have written <a href="https://crates.io/crates/spin_on">toy executors that spinlock while waiting for the task to complete</a> and it's like a page of code, which isn't that much in the grand scheme of things but it's a surprising amount of code for &quot;thing that makes the code run&quot;, right? Compare to something like Java where <code>Runnable::run</code> is a valid implementation of <code>Executor</code>.</p>
 <p>I digress. Maybe having a more complex <code>async</code> interface that favors scaling up to real-world executors like <code>tokio</code>, instead of scaling down to easy-to-write but hilariously inefficient toy executors like <code>spin-on</code>, is a good thing actually.</p>
-<p>Also, while the idea of having “multiple executor backends to choose from while everything stabilizes” sounds good in theory I suppose, in practice you are tied to one because a dependency is. I tried switching to <code>smol</code> and, well it’s kind of pointless because I already use <code>warp</code> which depends on <code>tokio</code>, so unless I want two executors in my binary for whatever reason…?</p>
+<p>Also, while the idea of having &quot;multiple executor backends to choose from while everything stabilizes&quot; sounds good in theory I suppose, in practice you are tied to one because a dependency is. I tried switching to <code>smol</code> and, well it's kind of pointless because I already use <code>warp</code> which depends on <code>tokio</code>, so unless I want two executors in my binary for whatever reason...?</p>
 <h2>Conclusion</h2>
-<p>Idk uhh. Rust is cool and this post would be more positive except I don’t remember the parts that go very smoothly and I only remember the sticky bits. You know how it is.</p>
+<p>Idk uhh. Rust is cool and this post would be more positive except I don't remember the parts that go very smoothly and I only remember the sticky bits. You know how it is.</p>
 <p>This is like a half-formed thought turned blogpost, sorry about that lmao</p>
-
-<hr class="cool"/>
-<div style="text-align: left"><a href="/posts/how_2_angry_lex">&larr; how 2 angry lex.md</a><br/>
-<div style="text-align: right"><a href="/posts/good_title_for_my_puzzle_game">Good title for my puzzle game &rarr;</a>
+<hr class="cool">
+<div style="text-align: left"><a href="/posts/how_2_angry_lex">&larr; how 2 angry lex.md</a></div>
+<div style="text-align: right"><a href="/posts/good_title_for_my_puzzle_game">Good title for my puzzle game &rarr;</a></div>
 <div style="text-align: right; font-size:60%">Powered by <a href="https://github.com/quat1024/quatweb-static">Rust</a>™</div>
 </article>
 </body>

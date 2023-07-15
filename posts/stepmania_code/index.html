@@ -1,43 +1,44 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<title>Let's look at Stepmania's code - Highly Suspect Agency</title>
-	<link rel="stylesheet" type="text/css" href="/stylin.css"/>
-	<link rel="stylesheet" type="text/css" href="/rotator.css"/>
-	<link rel="icon" type="image/x-icon" href="/favicon.ico"/>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Let's look at Stepmania's code - Highly Suspect Agency</title>
+<meta property="og:title" content="Let's look at Stepmania's code">
+<meta property="og:description" content="A look at the oldest dance game codebase.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://highlysuspect.agency">
+<meta property="og:image" content="https://highlysuspect.agency/favicon128.png">
+<meta property="theme-color" content="#950000">
+<link rel="stylesheet" type="text/css" href="/stylin.css">
+<link rel="stylesheet" type="text/css" href="/rotator.css">
+<link rel="alternate" type="application/rss+xml" href="/feed.xml">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
 <header>
-	<a href="/" class="logo" aria-hidden="true">
-		<div class="circle1"></div>
-		<div class="cover1"></div>
-		<div class="circle2"></div>
-		<div class="cover2"></div>
-		<div class="iris"></div>
-	</a>
-	<h1><a href="/">Highly Suspect Agency</a></h1>
-	<div style="flex-grow: 1"></div>
-	<nav><a href="/posts">Blog</a></nav>
+<a href="/" class="sign" aria-hidden="true">
+<div class="circle s1"></div><div class="cover s2"></div><div class="circle s3"></div><div class="cover s4"></div><div class="iris"></div>
+</a>
+<h1><a href="/">Highly Suspect Agency</a></h1>
+<div style="flex-grow: 1"></div>
+<nav><a href="/feed.xml">RSS</a> <a href="/posts">Blog</a></nav>
 </header>
 <div class="bigheader">
-<h1 class="bigheader">Let's look at Stepmania's code</h1>
-<div class="byline">quat, Apr 02, 2023 &mdash; 
-<a href="/tags/stepmania">stepmania</a>
-</div>
+<h1>Let's look at Stepmania's code</h1>
+<div class="byline">quat, Apr 02, 2023 &mdash; <a href="/tags/games">games</a> <a href="/tags/stepmania">stepmania</a> </div>
 </div>
 <article>
-<p>StepMania is a nearly-old-enough-to-drink piece of software by the dance game community. It’s impossible to succinctly describe, it is everything and nothing at the same time - it was originally designed as a PC-based clone of Dance Dance Revolution but the code has found its way to game consoles too, and even circled its way right back into the arcade, it’s open-source but also closed-source, it has been worked on by countless groups and communities and collectives and people and basically the only constant is that it’s a labor of love.</p>
+<p>StepMania is a nearly-old-enough-to-drink piece of software by the dance game community. It's impossible to succinctly describe, it is everything and nothing at the same time - it was originally designed as a PC-based clone of Dance Dance Revolution but the code has found its way to game consoles too, and even circled its way right back into the arcade, it's open-source but also closed-source, it has been worked on by countless groups and communities and collectives and people and basically the only constant is that it's a labor of love.</p>
 <h1>Stepmania history</h1>
 <p>Some places to look:</p>
 <ul>
-<li><a href="https://josevarela.net/SMArchive/Builds/">Jose Varela’s StepMania build archive</a></li>
-<li>I recommend downloading 3.9 from the archive; <code>stepmania/NEWS</code> contains a changelog stretching from 3.02 all the way back to Stepmania 0.5. The changelog file itself doesn’t include dates but you can crossreference with dates on Jose_Varela’s archive.</li>
+<li><a href="https://josevarela.net/SMArchive/Builds/">Jose Varela's StepMania build archive</a></li>
+<li>I recommend downloading 3.9 from the archive; <code>stepmania/NEWS</code> contains a changelog stretching from 3.02 all the way back to Stepmania 0.5. The changelog file itself doesn't include dates but you can crossreference with dates on Jose_Varela's archive.</li>
 <li>the <a href="https://ssc.ajworld.net/">Spinal Shark Collective website</a>, still up haha</li>
 <li><a href="https://github.com/stepmania/stepmania">stepmania/stepmania</a>:
 <ul>
-<li>Mostly includes the SSC’s work. The “Initial commit” is from 2010-01-26 and is a lie; it’s just the import date into the SSC’s repo.</li>
-<li><a href="https://github.com/stepmania/stepmania/tree/5_1-new/Docs">Stepmania 5_1-new’s <code>docs</code> folder</a> is very nice and contains many changelogs
+<li>Mostly includes the SSC's work. The &quot;Initial commit&quot; is from 2010-01-26 and is a lie; it's just the import date into the SSC's repo.</li>
+<li><a href="https://github.com/stepmania/stepmania/tree/5_1-new/Docs">Stepmania 5_1-new's <code>docs</code> folder</a> is very nice and contains many changelogs
 <ul>
 <li><code>Changelog_sm-ssc.txt</code> is sm-ssc development from 2009-04-18 to 2011-04-30. <code>old_changelog.txt</code> is just a subset running to 2009-12-08</li>
 <li><code>Changelog_sm5.txt</code> is Stepmania 5.1 development from 2011-04-30 to 2018-08-02</li>
@@ -47,42 +48,42 @@
 <li>Wiki page about <a href="https://github.com/stepmania/stepmania/wiki/Versions">version history</a> is nice</li>
 </ul>
 </li>
-<li>if you’re a CVS wizard, the <a href="http://stepmania.cvs.sourceforge.net/stepmania/stepmania/">old Stepmania CVS repository on SourceForge may be of interest</a></li>
+<li>if you're a CVS wizard, the <a href="http://stepmania.cvs.sourceforge.net/stepmania/stepmania/">old Stepmania CVS repository on SourceForge may be of interest</a></li>
 <li>if not, <a href="https://github.com/openitg/stepmania">openitg/stepmania</a> is a GitHub mirror of some pre-2010 Stepmania development history (up to 3.90)</li>
-<li>I’m sure there’s some forum threads lying around that’d be useful history</li>
+<li>I'm sure there's some forum threads lying around that'd be useful history</li>
 </ul>
-<p>The general dates in question (sourced mainly from Varela’s archive):</p>
+<p>The general dates in question (sourced mainly from Varela's archive):</p>
 <ul>
-<li>“DDR PC Edition”/StepMania 0 - August to December 2001</li>
+<li>&quot;DDR PC Edition&quot;/StepMania 0 - August to December 2001</li>
 <li>Stepmania 1.x: early 2002</li>
 <li>Stepmania 3.0: mid/late 2002</li>
 <li>Stepmania 3.9: mid 2003 - late 2005
 <ul>
-<li>The archive includes many forks like Xbox/PSP/Wii ports, Mungyodance, “Stepmania AMX”, and other silliness</li>
+<li>The archive includes many forks like Xbox/PSP/Wii ports, Mungyodance, &quot;Stepmania AMX&quot;, and other silliness</li>
 <li>commercial ITG 1: 2004</li>
 <li>(<a href="https://en.wikipedia.org/wiki/Konami_Corp._v._Roxor_Games_Inc."><em>Konami Corp. v. Roxor Games Inc.</em></a>: 2005 - 2006)</li>
 </ul>
 </li>
-<li>Stepmania “3.95”: mid 2005. This <a href="https://github.com/stepmania/stepmania/wiki/versions#unofficial">was a CVS snapshot</a> and never received a formal release.
+<li>Stepmania &quot;3.95&quot;: mid 2005. This <a href="https://github.com/stepmania/stepmania/wiki/versions#unofficial">was a CVS snapshot</a> and never received a formal release.
 <ul>
 <li>OpenITG: 2008 to 2009
 <ul>
-<li>“In The Groove 3”: 2010ish</li>
+<li>&quot;In The Groove 3&quot;: 2010ish</li>
 <li>NotITG: late 2016 - <strong>present</strong></li>
 </ul>
 </li>
 </ul>
 </li>
-<li>Stepmania “4”: 2005 - 2011. Also an unreleased CVS snapshot.
+<li>Stepmania &quot;4&quot;: 2005 - 2011. Also an unreleased CVS snapshot.
 <ul>
-<li><a href="https://github.com/stepmania/stepmania/wiki/versions#unofficial">Apparently had troubled development</a>; the later “sm4 snapshot” versions made far more conservative changes.</li>
+<li><a href="https://github.com/stepmania/stepmania/wiki/versions#unofficial">Apparently had troubled development</a>; the later &quot;sm4 snapshot&quot; versions made far more conservative changes.</li>
 <li><code>sm-ssc</code> (forked off the more outlandish incarnation of Stepmania 4): 2009 - 2011</li>
 </ul>
 </li>
-<li><code>sm-ssc</code> assumes the “official” Stepmania 5 branding in 2011; betas, alphas, and test releases occur 2011 - 2015</li>
+<li><code>sm-ssc</code> assumes the &quot;official&quot; Stepmania 5 branding in 2011; betas, alphas, and test releases occur 2011 - 2015</li>
 <li>Stepmania 5.0: 2015 - 2016
 <ul>
-<li>Club Fantastic <a href="https://wiki.clubfantastic.dance/en/Changelog#h-11122020-release-3">(“CFSM”)</a>: 2020 - <strong>present</strong></li>
+<li>Club Fantastic <a href="https://wiki.clubfantastic.dance/en/Changelog#h-11122020-release-3">(&quot;CFSM&quot;)</a>: 2020 - <strong>present</strong></li>
 <li>Etterna: 2016 - <strong>present</strong></li>
 </ul>
 </li>
@@ -96,9 +97,9 @@
 </ul>
 <p>And a short description of some of these spinoff projects:</p>
 <ul>
-<li>OpenITG: “3.95” fork that attempts to be a clone of the commercial ITG software, intended to be installed both at home and on ITG arcade hardware</li>
+<li>OpenITG: &quot;3.95&quot; fork that attempts to be a clone of the commercial ITG software, intended to be installed both at home and on ITG arcade hardware</li>
 <li>NotITG: OpenITG fork that adds many more attacks, Lua functions, and visual capabilities; grew out of the course-file community</li>
-<li><code>sm-ssc</code>: “4” fork with the main goal of Adding A Bunch Of Stuff™, primarily to allow for easier and more flexible theming but also to expand gameplay capabilities, by-and-for the theming community</li>
+<li><code>sm-ssc</code>: &quot;4&quot; fork with the main goal of Adding A Bunch Of Stuff™, primarily to allow for easier and more flexible theming but also to expand gameplay capabilities, by-and-for the theming community</li>
 <li>Club Fantastic: Small stepmania 5.0 fork but the main attraction is the content package, aimed at beginners and experts to the post-ITG community</li>
 <li>Etterna: Stepmania 5.0 fork aimed at the keyboard rhythm game community</li>
 <li>Outfox: Stepmania 5.1-new fork aimed at the general rhythm game community
@@ -113,21 +114,21 @@
 </li>
 </ul>
 <p>All of the holdout 5.1-new/5.2 developers seem to be busy on Outfox or ITGmania. Stepmania is dead, long live Stepmania.</p>
-<p>Ok, that’s enough context. What’s in this thing.</p>
+<p>Ok, that's enough context. What's in this thing.</p>
 <h1>Directory tour</h1>
-<p>The <code>src</code> folder contains most of the game’s source code in a single, flat directory structure. I’ll go over the handful of subdirectories first.</p>
+<p>The <code>src</code> folder contains most of the game's source code in a single, flat directory structure. I'll go over the handful of subdirectories first.</p>
 <h2><code>arch</code> and <code>archutils</code></h2>
-<p>Simple platform abstractions. When Stepmania wants to display a <code>LoadingWindow</code>, for example, there are implementations using the Windows API, GTK, Mac, some older versions have Cocoa and SDL implementatons… <code>arch_default.h</code> contains the necessary preprocessor magic to include the right files on the right platforms. <code>arch/ArchHooks</code> has a bunch of one-off methods that require different implementations on each platform, like “opening a URL in the browser”.</p>
+<p>Simple platform abstractions. When Stepmania wants to display a <code>LoadingWindow</code>, for example, there are implementations using the Windows API, GTK, Mac, some older versions have Cocoa and SDL implementatons... <code>arch_default.h</code> contains the necessary preprocessor magic to include the right files on the right platforms. <code>arch/ArchHooks</code> has a bunch of one-off methods that require different implementations on each platform, like &quot;opening a URL in the browser&quot;.</p>
 <h2><code>smpackage</code></h2>
 <p>This goes wayyyy back, at least earlier than 1.64. The original StepMania author envisioned a Stepmania-specific content package format. Quoting <code>README-first.html</code> in the 3.0 download:</p>
 <blockquote>
-<p>The StepMania package format was created to make the distribution of songs and other add-ons very easy.  StepMania package files have the extension ‘.smzip’ and can be installed by double-clicking the .smzip file.</p>
-<p>A StepMania package is ‘installed’ by extracting all files in the package to the StepMania program directory. This allows songs, courses, themes, and visualizations to all be installed by the Package Manager.</p>
-<p>The file format of an .smzip file is actually the PK-Zip standard.  This means you can rename any .smzip file to have the extension ‘.zip’, and then open the file in any compression application (e.g. WinZip, WinRAR).</p>
-<p>The StepMania Package Exporter (smpackage.exe) can create packages of your song, announcers, themes, or other add-ons. Simply launch the Package Exporter (Start Menu-&gt;Programs-&gt;StepMania-&gt;Package Exporter), click the items you would like to make into a package, then click the one of the Export buttons. “Export as One” will take all of the selected items and make one package that contains them all. “Export Individual” will create one separate package for each selected item in the list.</p>
+<p>The StepMania package format was created to make the distribution of songs and other add-ons very easy.  StepMania package files have the extension '.smzip' and can be installed by double-clicking the .smzip file.</p>
+<p>A StepMania package is 'installed' by extracting all files in the package to the StepMania program directory. This allows songs, courses, themes, and visualizations to all be installed by the Package Manager.</p>
+<p>The file format of an .smzip file is actually the PK-Zip standard.  This means you can rename any .smzip file to have the extension '.zip', and then open the file in any compression application (e.g. WinZip, WinRAR).</p>
+<p>The StepMania Package Exporter (smpackage.exe) can create packages of your song, announcers, themes, or other add-ons. Simply launch the Package Exporter (Start Menu-&gt;Programs-&gt;StepMania-&gt;Package Exporter), click the items you would like to make into a package, then click the one of the Export buttons. &quot;Export as One&quot; will take all of the selected items and make one package that contains them all. &quot;Export Individual&quot; will create one separate package for each selected item in the list.</p>
 </blockquote>
-<p>This didn’t catch on much with the community - off-the-shelf zip programs turned out to be good enough - and <code>smpackage</code> is no longer a separate program, but you might find a lingering <code>.smzip</code> file association on your Windows computer.</p>
-<p>Cutely, a revised version of this scheme is still listed as a <a href="https://github.com/stepmania/stepmania/wiki/SMPackage">“future project”</a> on the Stepmania 5 wiki.</p>
+<p>This didn't catch on much with the community - off-the-shelf zip programs turned out to be good enough - and <code>smpackage</code> is no longer a separate program, but you might find a lingering <code>.smzip</code> file association on your Windows computer.</p>
+<p>Cutely, a revised version of this scheme is still listed as a <a href="https://github.com/stepmania/stepmania/wiki/SMPackage">&quot;future project&quot;</a> on the Stepmania 5 wiki.</p>
 <h2>Horribly outdated stuff</h2>
 <ul>
 <li>the <code>irc</code> directory in 5.1-new contains an IRC bot that I think belonged to the 3.95 team? Their CI would invoke this whenever it builded a new release.</li>
@@ -136,38 +137,38 @@
 <li>Stepmania adopted CMake in 2015. Before that, headers to assorted third-party libraries (and sometimes the <code>.lib</code> itself!) were included in the <code>src</code> tree. There are still a few third-party libraries in there as of 5.1-new; specifically <code>libtomcrypt</code> and <code>libtommath</code></li>
 </ul>
 <h1>Top-level source concepts</h1>
-<h2>“Rage”</h2>
-<p>This is a light “game engine”, no relation to the one from Rockstar, dating to at least earlier than Stepmania 1.64.</p>
+<h2>&quot;Rage&quot;</h2>
+<p>This is a light &quot;game engine&quot;, no relation to the one from Rockstar, dating to at least earlier than Stepmania 1.64.</p>
 <p>Input devices and joysticks, math (including matrix math), filesystem, sound playback, image loading, etc, will often be implemented in classes starting with the word <code>Rage</code>.</p>
 <h2>Lua bindings</h2>
-<p>Generally when something is exposed to Lua, the glue code listing the exposed fields and methods will be written at the bottom of the <code>.cpp</code> file. The glue is implemented in <code>LuaBinding.h</code>/<code>.cpp</code>. SM3.9 doesn’t expose Lua bindings.</p>
+<p>Generally when something is exposed to Lua, the glue code listing the exposed fields and methods will be written at the bottom of the <code>.cpp</code> file. The glue is implemented in <code>LuaBinding.h</code>/<code>.cpp</code>. SM3.9 doesn't expose Lua bindings.</p>
 <h1>Ok how does this engine work</h1>
-<p>In this section when I refer to “the theme”, I’m also referring to “any scripting gunk that might be contained in a modded simfile”; mod files work by placing actors and scripts on the screen just like with theming.</p>
+<p>In this section when I refer to &quot;the theme&quot;, I'm also referring to &quot;any scripting gunk that might be contained in a modded simfile&quot;; mod files work by placing actors and scripts on the screen just like with theming.</p>
 <p>I will be comparing:</p>
 <ul>
 <li><a href="https://github.com/openitg/stepmania/tree/tags/v390release">openitg/stepmania</a>, tag <code>v390release</code></li>
 <li><a href="https://github.com/openitg/openitg">openitg/openitg</a>, branch <code>master</code></li>
-<li><a href="https://github.com/stepmania/stepmania/tree/5_1-new/src">stepmania/stepmania</a>, branch <code>5_1-new</code>, which I might call “SSC” for short</li>
+<li><a href="https://github.com/stepmania/stepmania/tree/5_1-new/src">stepmania/stepmania</a>, branch <code>5_1-new</code>, which I might call &quot;SSC&quot; for short</li>
 </ul>
-<p>⚠ There’s gonna be some stuff where I’m like “oh this was added in OpenITG”, but it was actually added in to Stepmania “3.95”, in the interim between <code>v390release</code> and OpenITG’s fork point. I don’t know exactly which CVS version of Stepmania OpenITG forked off of and I’m just clicking around looking for convenient tags to browse on Github anyway.</p>
+<p>⚠ There's gonna be some stuff where I'm like &quot;oh this was added in OpenITG&quot;, but it was actually added in to Stepmania &quot;3.95&quot;, in the interim between <code>v390release</code> and OpenITG's fork point. I don't know exactly which CVS version of Stepmania OpenITG forked off of and I'm just clicking around looking for convenient tags to browse on Github anyway.</p>
 <h2>Actors</h2>
 <p>(TODO: cover updating/drawing cycle, at least for comparison with Screen)</p>
 <p>What is an actor? A miserable pile of secrets. quietly-turning <a href="https://quietly-turning.github.io/Lua-For-SM5/LuaAPI#Actors">describes them so</a>:</p>
 <blockquote>
 <p>Actors are the basic building blocks used to script content for StepMania. When the player sees and interacts with something on-screen, like a menu system or a 3D model of a dancing character, that <em>something</em> is an actor.</p>
 </blockquote>
-<p>There’s an actor for displaying rectangles (<code>Quad</code>), text (<code>BitmapText</code>), images and video (<code>Sprite</code>), the groove radar used in some themes (<code>GrooveRadar</code>), the arrow playfield (<code>Player</code>), a copy of another actor (<code>ActorProxy</code>), and if you generalize the notion of “something you can see” you’ll find actors that contain other actors (<code>ActorFrame</code>), actors that play sounds (<code>ActorSound</code>), and so on and so on and so on. Actors all the way down.</p>
+<p>There's an actor for displaying rectangles (<code>Quad</code>), text (<code>BitmapText</code>), images and video (<code>Sprite</code>), the groove radar used in some themes (<code>GrooveRadar</code>), the arrow playfield (<code>Player</code>), a copy of another actor (<code>ActorProxy</code>), and if you generalize the notion of &quot;something you can see&quot; you'll find actors that contain other actors (<code>ActorFrame</code>), actors that play sounds (<code>ActorSound</code>), and so on and so on and so on. Actors all the way down.</p>
 <p>Some actors are very general-purpose (like <code>Sprite</code>) and are mainly configured through the theme. Other actors (like <code>Player</code>) mainly end up configured through the C++ engine code. A given Screen might create a few actors, or it may expect the theme to have placed down actors with specific names and types in order to function (you can imagine <code>ScreenGameplay</code> is not very interesting without any <code>Player</code> actors, right). I will talk about Screens later.</p>
-<p>Each actor has a “tween state”, which includes an x/y/z position, pitch/yaw/roll rotation, x/y/z scale (“zoom”), X and Y skew, four crop amounts (one for each edge), four fade amounts and diffuse colors (one for each corner), and a glow color. The tween system allows the theme to set any of these properties, animate them over time, and query their current value - because they can be queried, SSC also adds an “aux” variable to the mix, allowing the tween system to be used to drive an arbitrary float. (Each actor can also have “effects” applied to it, which are rudimentary animations that accomplish a similar thing to the tween system.)</p>
+<p>Each actor has a &quot;tween state&quot;, which includes an x/y/z position, pitch/yaw/roll rotation, x/y/z scale (&quot;zoom&quot;), X and Y skew, four crop amounts (one for each edge), four fade amounts and diffuse colors (one for each corner), and a glow color. The tween system allows the theme to set any of these properties, animate them over time, and query their current value - because they can be queried, SSC also adds an &quot;aux&quot; variable to the mix, allowing the tween system to be used to drive an arbitrary float. (Each actor can also have &quot;effects&quot; applied to it, which are rudimentary animations that accomplish a similar thing to the tween system.)</p>
 <p>Additionally, each actor has:</p>
 <ul>
 <li>a name (string), and in 3.9, also an ID string</li>
 <li>in SM5, an optional parent actor</li>
 <li>base rotation and scale</li>
-<li>a “first update” flag</li>
+<li>a &quot;first update&quot; flag</li>
 <li>horizontal and vertical alignment settings</li>
-<li>a draw order (imagine CSS’s <code>z-index</code>)</li>
-<li>a “hidden” flag</li>
+<li>a draw order (imagine CSS's <code>z-index</code>)</li>
+<li>a &quot;hidden&quot; flag</li>
 <li>a blending mode</li>
 <li>a texture wrapping flag</li>
 <li>a culling mode</li>
@@ -180,64 +181,64 @@
 </ul>
 </li>
 </ul>
-<p>Basically there is “a lot” of stuff stored for each actor - enough to position and animate it anywhere you like, and a couple of mildly advanced rendering abilities.</p>
+<p>Basically there is &quot;a lot&quot; of stuff stored for each actor - enough to position and animate it anywhere you like, and a couple of mildly advanced rendering abilities.</p>
 <h3>Commands</h3>
-<p>In general, a “command” is a short <em>program</em> that goes into a <em>named slot</em>. When you call a command on an actor, it will run the program, and bubble the command downwards into each of its child actors.</p>
+<p>In general, a &quot;command&quot; is a short <em>program</em> that goes into a <em>named slot</em>. When you call a command on an actor, it will run the program, and bubble the command downwards into each of its child actors.</p>
 <p>Some examples of what the command system is used for:</p>
 <ul>
 <li><code>Init</code>, invoked on an actor immediately after loading it</li>
-<li><code>On</code>, invoked when the screen the actor’s on becomes the active screen</li>
+<li><code>On</code>, invoked when the screen the actor's on becomes the active screen</li>
 <li><code>Off</code>, invoked when that screen is no longer the active screen</li>
 </ul>
 <p>The implementation is pretty different in SM3.9 and in OpenITG/SM5.</p>
 <h4>SM3.9</h4>
-<p>A command is a semicolon-delimited list of tween instructions. Commands are always stored in <code>metrics.ini</code>. <a href="https://github.com/openitg/stepmania/blob/tags/v390release/stepmania/Themes/default/metrics.ini#L132">Here’s one from the Stepmania 3.9 default theme</a>:</p>
+<p>A command is a semicolon-delimited list of tween instructions. Commands are always stored in <code>metrics.ini</code>. <a href="https://github.com/openitg/stepmania/blob/tags/v390release/stepmania/Themes/default/metrics.ini#L132">Here's one from the Stepmania 3.9 default theme</a>:</p>
 <pre><code class="language-ini">[ScreenSelectStyle]
 # ...
 PremiumOnCommand=addx,400;bounceend,0.5;addx,-400;glowshift;effectcolor1,1,1,1,0;effectcolor2,1,1,1,0.3
 </code></pre>
 <p>When calling a command on an actor, <a href="https://github.com/openitg/stepmania/blob/tags/v390release/stepmania/src/ActorUtil.cpp#L305">the engine will</a>:</p>
 <ul>
-<li>build a string by concatenating the actor’s ID + the name of the command to call + the word “Command”</li>
-<li>look it up in the section of <code>metrics.ini</code> corresponding to the current screen’s name</li>
+<li>build a string by concatenating the actor's ID + the name of the command to call + the word &quot;Command&quot;</li>
+<li>look it up in the section of <code>metrics.ini</code> corresponding to the current screen's name</li>
 <li>parse the result as a list of instructions.</li>
 </ul>
 <p>(This command would be found when executing the <code>On</code> command, on the actor with ID <code>Premium</code>, while on the screen named <code>ScreenSelectStyle</code>.)</p>
-<p>SM3.9 has <a href="https://github.com/openitg/stepmania/blob/tags/v390release/stepmania/src/Actor.cpp#L636">decently big list of instructions</a> that can be applied to actors. <code>ActorCommands.cpp</code> <code>ParseCommands</code> parses this string into a <code>vector&lt;ParsedCommand&gt;</code>; there are six <code>ParsedCommand</code>s in this example string, separated by semicolons. When the actor executes this command, it will move 400px to the right, set the tween mode used for further commands to <code>bounceend</code> over half a second, move 400 pixels back to the left, play the <code>glowshift</code> effect, and configure that effect’s colors.</p>
-<p>Note that the list of instructions may change per-actor type; it’s a virtual function, actor implementations can override it to respond to more commands.</p>
-<p>It is limited because while there’s a lot of options, all you can do is punt around the variables on the actor.</p>
+<p>SM3.9 has <a href="https://github.com/openitg/stepmania/blob/tags/v390release/stepmania/src/Actor.cpp#L636">decently big list of instructions</a> that can be applied to actors. <code>ActorCommands.cpp</code> <code>ParseCommands</code> parses this string into a <code>vector&lt;ParsedCommand&gt;</code>; there are six <code>ParsedCommand</code>s in this example string, separated by semicolons. When the actor executes this command, it will move 400px to the right, set the tween mode used for further commands to <code>bounceend</code> over half a second, move 400 pixels back to the left, play the <code>glowshift</code> effect, and configure that effect's colors.</p>
+<p>Note that the list of instructions may change per-actor type; it's a virtual function, actor implementations can override it to respond to more commands.</p>
+<p>It is limited because while there's a lot of options, all you can do is punt around the variables on the actor.</p>
 <h4>OpenITG</h4>
 <p>OpenITG (probably actually 3.95) added two things:</p>
 <ul>
-<li>the ability to load screens (and therefore, actors) out of an XML file, instead of hardcoding the entire actor layout in each screen’s C++ code;</li>
-<li>a Lua API to configure the actor’s properties.</li>
+<li>the ability to load screens (and therefore, actors) out of an XML file, instead of hardcoding the entire actor layout in each screen's C++ code;</li>
+<li>a Lua API to configure the actor's properties.</li>
 </ul>
-<p>Commands are now stored <em>on the actor itself</em>, in a map indexed by the command name. When loading an XML actor, if there’s an XML attribute with a <code>Command</code> suffix, the prefix of the string is used as the name, and the text is parsed as a command.</p>
+<p>Commands are now stored <em>on the actor itself</em>, in a map indexed by the command name. When loading an XML actor, if there's an XML attribute with a <code>Command</code> suffix, the prefix of the string is used as the name, and the text is parsed as a command.</p>
 <p>Commands are always Lua functions. OpenITG added a Lua API to configure the same things the old command system could configure.</p>
 <p>The <a href="https://github.com/openitg/openitg/blob/master/src/ActorCommands.cpp">command parser</a> became much stranger. If the command string starts with <code>%</code>, it is replaced with <code>return </code>, and the resultant string is returned. This lets you write Lua functions as a command, like this one from the <a href="https://github.com/openitg/openitg/blob/f2c129fe65c65e4a9b3a691ff35e7717b4e8de51/assets/d4/Themes/default/metrics.ini">OpenITG theme metrics.ini</a>:</p>
 <pre><code class="language-ini">ScrollerOnCommand=%function(self) self:z(-200); self:SetDrawByZPosition(true) end
 </code></pre>
-<p>If it doesn’t start with a percent sign, the string is assumed to be a command in the SM3.9 format, and the engine will <em>update it</em> into a Lua function:</p>
+<p>If it doesn't start with a percent sign, the string is assumed to be a command in the SM3.9 format, and the engine will <em>update it</em> into a Lua function:</p>
 <ul>
-<li>First it’s parsed using <a href="https://github.com/openitg/openitg/blob/f2c129fe65c65e4a9b3a691ff35e7717b4e8de51/src/Command.cpp#L69">Command::parseCommands</a>, which splits the string on semicolons and stores all commas as “arguments”</li>
+<li>First it's parsed using <a href="https://github.com/openitg/openitg/blob/f2c129fe65c65e4a9b3a691ff35e7717b4e8de51/src/Command.cpp#L69">Command::parseCommands</a>, which splits the string on semicolons and stores all commas as &quot;arguments&quot;</li>
 <li>but it then <a href="https://github.com/openitg/openitg/blob/master/src/ActorCommands.cpp#L7">uses some string-munging</a> to replace commands like <code>addx,400</code> with strings like <code>self:addx(400); </code>!</li>
 <li>It does this for all commands, adds <code>return function(self,parent)</code> at the beginning and <code>end</code> at the ending, and returns. The command string has been successfully converted into a Lua function.</li>
 </ul>
-<p>It’s still possible to define commands with the metrics system - if the actor does not define a command with the given name, <a href="https://github.com/openitg/openitg/blob/f2c129fe65c65e4a9b3a691ff35e7717b4e8de51/src/ActorUtil.cpp#L377-L379"><code>metrics.ini</code> will be checked for the command</a>. Commands can be defined using either format (list-of-tweens or a Lua function) in either location (on the actor or in <code>metrics.ini</code>)</p>
+<p>It's still possible to define commands with the metrics system - if the actor does not define a command with the given name, <a href="https://github.com/openitg/openitg/blob/f2c129fe65c65e4a9b3a691ff35e7717b4e8de51/src/ActorUtil.cpp#L377-L379"><code>metrics.ini</code> will be checked for the command</a>. Commands can be defined using either format (list-of-tweens or a Lua function) in either location (on the actor or in <code>metrics.ini</code>)</p>
 <h4>SM5</h4>
 <p>Similar to OpenITG. The string munger is moved to <a href="https://github.com/stepmania/stepmania/blob/984dc8668f1fedacf553f279a828acdebffc5625/src/LuaManager.cpp#L901">LuaHelpers::parseCommandList</a>, which also handles the <code>%</code> syntax.</p>
 <p>SM5 also added the ability to create actors from a Lua file. When converting a Lua table to an actor, properties ending with <code>Command</code> may be directly set to Lua functions (no string-roundtrips or % signs required).</p>
 <h3>Messages (not in SM3.9)</h3>
 <p>Commands are per-actor; you dispatch a command <em>on</em> an actor, and it trickles the command dispatch down through the actor tree.</p>
 <p>Messages, on the other hand, are global. The message manager is a global object, anything can subscribe to be notified of a message, and anything can broadcast a message.</p>
-<p>It’s possible to define “message commands” on an actor (remember that actors are only one type of message listener). There isn’t a single concept of “message command“s in the game code, they are simply an interaction of the command system and the message system:</p>
+<p>It's possible to define &quot;message commands&quot; on an actor (remember that actors are only one type of message listener). There isn't a single concept of &quot;message command&quot;s in the game code, they are simply an interaction of the command system and the message system:</p>
 <ul>
 <li>you add <code>BlahMessageCommand=&quot;%hi()&quot;</code> to your actor xml
 <ul>
 <li>the command system sees the XML attribute ending in the word <code>Command</code>, removes the suffix (leaving <code>BlahMessage</code>), and parses the command</li>
-<li>it considers adding the command under the name <code>BlahMessage</code> –
+<li>it considers adding the command under the name <code>BlahMessage</code> --
 <ul>
-<li>ah, but it notices the name ends in the word <code>Message</code>, so it removes that suffix too (leaving <code>Blah</code>), and tells the message manager it’s interested in hearing the message <code>Blah</code></li>
+<li>ah, but it notices the name ends in the word <code>Message</code>, so it removes that suffix too (leaving <code>Blah</code>), and tells the message manager it's interested in hearing the message <code>Blah</code></li>
 </ul>
 </li>
 <li>the command is actually added under the double-stripped name <code>Blah</code></li>
@@ -247,7 +248,7 @@ PremiumOnCommand=addx,400;bounceend,0.5;addx,-400;glowshift;effectcolor1,1,1,1,0
 <p>Then, when something broadcasts <code>Blah</code>:</p>
 <ul>
 <li>the message manager will look up the list of message-subscribers interested in hearing about <code>Blah</code></li>
-<li>if it’s not empty, it will notify each one in turn
+<li>if it's not empty, it will notify each one in turn
 <ul>
 <li>the actor hears the message</li>
 <li>the actor looks up the command under <code>Blah</code></li>
@@ -255,53 +256,53 @@ PremiumOnCommand=addx,400;bounceend,0.5;addx,-400;glowshift;effectcolor1,1,1,1,0
 </ul>
 </li>
 </ul>
-<p>Messages can’t have arguments. If there’s some data to be posted along with a message, the convention is to stick it in a global variable somewhere before posting the message.</p>
+<p>Messages can't have arguments. If there's some data to be posted along with a message, the convention is to stick it in a global variable somewhere before posting the message.</p>
 <p>The message system is how <a href="https://github.com/DivinElegy/DivinEntity/blob/9eb41fb769bb14e26def6d5134a03ec0770326c9/NoteSkins/dance/DivinEntity/Left%20Tap%20Note%204th.xml#L160-L185">DivinEntity</a> was able to communicate data about which arrows were being pressed to any simfile who would listen. (NotITG now broadcasts the messages from the engine.)</p>
 <p>Worth noting that <code>QueueCommand</code> is a tween instruction that invokes a command on itself when being evaluated. Similarly, <code>QueueMessage</code> is a tween that broadcasts a message over the message manager when being evaluated.</p>
 <h2>quick diversion into input types</h2>
 <ul>
-<li><code>DeviceInput</code> - This is a “lower level” input event defined in <code>RageInputDevice.h</code>. It is a keyboard press, joystick wiggle, or whatnot.</li>
-<li><code>GameInput</code> - “An input event specific to a Game definied by an instrument and a button space.”. For example, <code>DANCE_BUTTON_LEFT</code>.</li>
-<li><code>MenuInput</code> - Menu navigation inputs, such as MenuLeft and MenuRight, start and select, and the “button” that’s pressed whenever a coin is inserted into the arcade machine.</li>
+<li><code>DeviceInput</code> - This is a &quot;lower level&quot; input event defined in <code>RageInputDevice.h</code>. It is a keyboard press, joystick wiggle, or whatnot.</li>
+<li><code>GameInput</code> - &quot;An input event specific to a Game definied by an instrument and a button space.&quot;. For example, <code>DANCE_BUTTON_LEFT</code>.</li>
+<li><code>MenuInput</code> - Menu navigation inputs, such as MenuLeft and MenuRight, start and select, and the &quot;button&quot; that's pressed whenever a coin is inserted into the arcade machine.</li>
 <li><code>StyleInput</code> - Column-specific game input - this is just a tuple of (player number, column).</li>
 </ul>
 <p>Annoyingly there is overlap between them - there is <code>DANCE_BUTTON_COIN</code> in <code>GameInput</code> as well as <code>MENU_BUTTON_COIN</code> in <code>MenuInput</code>. Even things like <code>DANCE_BUTTON_MENULEFT</code>. I dunno.</p>
 <h2>Screens</h2>
 <p>A <code>Screen</code> is a type of <code>ActorFrame</code>, which tells you a bit about what they are - a screen contains zero or more actors.</p>
-<p>Screens update every frame, and receive a method call whenever an input event happens. There is also a notion of a “transparent” screen (where screens below it need to be drawn first - more on that with the screen manager), and a screen message system (unrelated to the OpenITG message manager). Screen messages can be posted now or take place in the future. They are generally things like “the menu timer expired”, “go to the next screen”, “go to the previous screen”, “stop playing music” etc.</p>
+<p>Screens update every frame, and receive a method call whenever an input event happens. There is also a notion of a &quot;transparent&quot; screen (where screens below it need to be drawn first - more on that with the screen manager), and a screen message system (unrelated to the OpenITG message manager). Screen messages can be posted now or take place in the future. They are generally things like &quot;the menu timer expired&quot;, &quot;go to the next screen&quot;, &quot;go to the previous screen&quot;, &quot;stop playing music&quot; etc.</p>
 <h2>The screen manager</h2>
-<p>The screen manager maintains a <em>stack</em> of screens. Screens can be pushed onto the stack or popped off. The “top screen” is considered to be the one with focus. When pushing a screen onto the stack (or when replacing the screen with a new one), the <code>SM_LoseFocus</code> screen message is posted to the old screen, and <code>SM_GainFocus</code> is posted to the new screen.</p>
-<p>The stack system is not used much. It’s not that “song select opens the gameplay screen on top of it”, it’s used more for things like the Ok/Cancel dialog that shows up to confirm your autosync result. That’s a screen.</p>
+<p>The screen manager maintains a <em>stack</em> of screens. Screens can be pushed onto the stack or popped off. The &quot;top screen&quot; is considered to be the one with focus. When pushing a screen onto the stack (or when replacing the screen with a new one), the <code>SM_LoseFocus</code> screen message is posted to the old screen, and <code>SM_GainFocus</code> is posted to the new screen.</p>
+<p>The stack system is not used much. It's not that &quot;song select opens the gameplay screen on top of it&quot;, it's used more for things like the Ok/Cancel dialog that shows up to confirm your autosync result. That's a screen.</p>
 <p>The screen manager can also <em>prep</em> a screen, which constructs and initializes it (getting all its actors in place, calling the <code>Init</code> command on all of them, etc) without actually making it the top screen yet. The purpose of this is to prepare screens that will be used very shortly, like how <code>ScreenGameplay</code> will almost always be used after <code>ScreenSelectMusic</code>, so might as well prep it now.</p>
-<p>There’s yet another thing called a “message” - “system messages” are fortunately not too much fancy, they’re for debugging toasts. As usual, in SM3.9 the actor responsible for showing the toast onscreen was hardcoded in C++, and OpenITG punts it to the theme; it sets a global variable then broadcasts <code>SystemMessage</code>.</p>
+<p>There's yet another thing called a &quot;message&quot; - &quot;system messages&quot; are fortunately not too much fancy, they're for debugging toasts. As usual, in SM3.9 the actor responsible for showing the toast onscreen was hardcoded in C++, and OpenITG punts it to the theme; it sets a global variable then broadcasts <code>SystemMessage</code>.</p>
 <h2>XML actors and screens</h2>
-<p>SM3.9 had a pretty simple notion of screens. The C++ constuctor would initialize all the screen’s actors, put them in the ActorFrame, and that was that.</p>
-<p>OpenITG’s system of loading screens from XML added much more complexity. In OpenITG, I thiiiiink the entrypoint is <code>ActorUtil::MakeActor</code>, which is sometimes called from <code>ScreenManager</code>?</p>
+<p>SM3.9 had a pretty simple notion of screens. The C++ constuctor would initialize all the screen's actors, put them in the ActorFrame, and that was that.</p>
+<p>OpenITG's system of loading screens from XML added much more complexity. In OpenITG, I thiiiiink the entrypoint is <code>ActorUtil::MakeActor</code>, which is sometimes called from <code>ScreenManager</code>?</p>
 <ul>
 <li>Give it an <code>.xml</code> file, it will call <code>LoadFromActorFile</code>, which I will get back to.</li>
-<li>There’s something for <code>.actor</code> files, I can’t tell exactly what it does (both ini and xml??) but it will call <code>LoadFromActorFile</code> with some xml in the file apparently.</li>
+<li>There's something for <code>.actor</code> files, I can't tell exactly what it does (both ini and xml??) but it will call <code>LoadFromActorFile</code> with some xml in the file apparently.</li>
 <li>Give it a directory, it will call <code>LoadFromActorFile</code> on the <code>default.xml</code> file inside the directory.
 <ul>
-<li>If that file doesn’t exist, it’ll give you a <code>BGAnimation</code> actor from the <code>BGAnimation.ini</code> file inside the directory.</li>
+<li>If that file doesn't exist, it'll give you a <code>BGAnimation</code> actor from the <code>BGAnimation.ini</code> file inside the directory.</li>
 </ul>
 </li>
-<li>Give it a bitmap (png, jpg, gif, bmp), movie (avi, mkv, mp4, mpeg, mpg), or sprite (sprite), it’ll give you a <code>Sprite</code> actor set to the graphic.</li>
-<li>Give it a 3d model (txt, model), it’ll give you a <code>Model</code> actor set to the model.
+<li>Give it a bitmap (png, jpg, gif, bmp), movie (avi, mkv, mp4, mpeg, mpg), or sprite (sprite), it'll give you a <code>Sprite</code> actor set to the graphic.</li>
+<li>Give it a 3d model (txt, model), it'll give you a <code>Model</code> actor set to the model.
 <ul>
 <li>Yeah, <code>.txt</code>. Apparently it has a Milkshape 3d model loader.</li>
 </ul>
 </li>
 </ul>
-<p><code>LoadFromActorFile</code> is the meat and potatoes, the rest is convenience for setting up a (not configurable…) actor - nothing you couldn’t do by manually making a <code>Sprite</code> actor from XML. So let’s look at that instead.</p>
+<p><code>LoadFromActorFile</code> is the meat and potatoes, the rest is convenience for setting up a (not configurable...) actor - nothing you couldn't do by manually making a <code>Sprite</code> actor from XML. So let's look at that instead.</p>
 <ul>
-<li>First, if the root node has an attribute <code>Condition</code> and, evaluated as a Lua function, it didn’t return <code>true</code>, immediately cancel loading the actor.
+<li>First, if the root node has an attribute <code>Condition</code> and, evaluated as a Lua function, it didn't return <code>true</code>, immediately cancel loading the actor.
 <ul>
 <li>This is a very rudimentary way of making actors disappear under certain conditions.</li>
 </ul>
 </li>
-<li>Look for the attribute <code>Class</code> to pick the archetype of the node. (<code>Type</code> is allowed “for backwards compatibility”.)</li>
-<li>Look for the attribute <code>File</code> and assert it’s non-empty.</li>
-<li>“backward compatibility hacks”:
+<li>Look for the attribute <code>Class</code> to pick the archetype of the node. (<code>Type</code> is allowed &quot;for backwards compatibility&quot;.)</li>
+<li>Look for the attribute <code>File</code> and assert it's non-empty.</li>
+<li>&quot;backward compatibility hacks&quot;:
 <ul>
 <li>if a <code>Text</code> attribute exists instead of <code>Class</code>, set the archetype to <code>BitmapText</code></li>
 <li>if the <code>File</code> is set to <code>songbackground</code>, <code>songbanner</code>, or <code>coursebanner</code>, set the archetype accordingly (these do not correspond to real actors)</li>
@@ -323,11 +324,10 @@ PremiumOnCommand=addx,400;bounceend,0.5;addx,-400;glowshift;effectcolor1,1,1,1,0
 <li>due to haha funny macro stuff (<code>REGISTER_ACTOR_CLASS(_WITH_NAME)?</code> in <code>ActorUtil.h</code>), this leads to constructing the actor (with the <code>new</code> keyword), calling <code>LoadFromNode</code> on it with the xml, and returning it</li>
 </ul>
 <p>For <code>ActorFrame</code>s, well first when you make it with XML you actually get a slightly different <code>ActorFrameAutoDeleteChildren</code> instance, but its <code>LoadFromNode</code> method will recurse into the XML structure and call <code>ActorUtil::LoadFromActorFile</code> again.</p>
-<p>TODO: What I’m struggling to find is what connects Screens and Actors. The only method that looks in the screen registry is <code>ScreenManager::MakeNewScreenInternal</code>, which constructs the screen with the given archetype and (in the <code>REGISTER_SCREEN_CLASS</code> macro) calls <code>init</code>. I think this is the wrong place to look and the lua stuff is actually in <code>BGAnimations</code> with the underlay/overlay system?</p>
-
-<hr class="cool"/>
-<div style="text-align: left"><a href="/posts/command_line">&larr; How the hell do you use the command line</a><br/>
-<div style="text-align: right"><a href="/posts/the_treadmill">The Treadmill &rarr;</a>
+<p>TODO: What I'm struggling to find is what connects Screens and Actors. The only method that looks in the screen registry is <code>ScreenManager::MakeNewScreenInternal</code>, which constructs the screen with the given archetype and (in the <code>REGISTER_SCREEN_CLASS</code> macro) calls <code>init</code>. I think this is the wrong place to look and the lua stuff is actually in <code>BGAnimations</code> with the underlay/overlay system?</p>
+<hr class="cool">
+<div style="text-align: left"><a href="/posts/command_line">&larr; How the hell do you use the command line</a></div>
+<div style="text-align: right"><a href="/posts/the_treadmill">The Treadmill &rarr;</a></div>
 <div style="text-align: right; font-size:60%">Powered by <a href="https://github.com/quat1024/quatweb-static">Rust</a>™</div>
 </article>
 </body>

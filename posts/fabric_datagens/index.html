@@ -1,51 +1,49 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<title>Fabric 1.16 Datagens - Highly Suspect Agency</title>
-	<link rel="stylesheet" type="text/css" href="/stylin.css"/>
-	<link rel="stylesheet" type="text/css" href="/rotator.css"/>
-	<link rel="icon" type="image/x-icon" href="/favicon.ico"/>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fabric 1.16 Datagens - Highly Suspect Agency</title>
+<meta property="og:title" content="Fabric 1.16 Datagens">
+<meta property="og:description" content="Quick notes on setting up datagens in a Fabric 1.16 mod">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://highlysuspect.agency">
+<meta property="og:image" content="https://highlysuspect.agency/favicon128.png">
+<meta property="theme-color" content="#950000">
+<link rel="stylesheet" type="text/css" href="/stylin.css">
+<link rel="stylesheet" type="text/css" href="/rotator.css">
+<link rel="alternate" type="application/rss+xml" href="/feed.xml">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
 <header>
-	<a href="/" class="logo" aria-hidden="true">
-		<div class="circle1"></div>
-		<div class="cover1"></div>
-		<div class="circle2"></div>
-		<div class="cover2"></div>
-		<div class="iris"></div>
-	</a>
-	<h1><a href="/">Highly Suspect Agency</a></h1>
-	<div style="flex-grow: 1"></div>
-	<nav><a href="/posts">Blog</a></nav>
+<a href="/" class="sign" aria-hidden="true">
+<div class="circle s1"></div><div class="cover s2"></div><div class="circle s3"></div><div class="cover s4"></div><div class="iris"></div>
+</a>
+<h1><a href="/">Highly Suspect Agency</a></h1>
+<div style="flex-grow: 1"></div>
+<nav><a href="/feed.xml">RSS</a> <a href="/posts">Blog</a></nav>
 </header>
 <div class="bigheader">
-<h1 class="bigheader">Fabric 1.16 Datagens</h1>
-<div class="byline">quat, May 16, 2021 &mdash; 
-<a href="/tags/fabric">fabric</a>
-<a href="/tags/1.16">1.16</a>
-<a href="/tags/mc-modding">mc-modding</a>
-</div>
-<div class="draftmarker">DRAFT</div>
+<h1>Fabric 1.16 Datagens</h1>
+<div class="byline">quat, May 16, 2021 &mdash; (draft post) &mdash; <a href="/tags/mc-modding">mc-modding</a> <a href="/tags/fabric">fabric</a> <a href="/tags/1.16">1.16</a> </div>
 </div>
 <article>
-<p>It’s really late right now but I want to type these up before I forget.</p>
-<p>I’ve just started using vanilla data generators in my Fabric 1.16 mod <a href="https://github.com/quat1024/dazzle-2/">Dazzle 2</a>. It’s not easy to set them up, certainly not as easy as I heard it is in Forge, and you don’t have any modloader support. So I’m going to walk through my process.</p>
+<p>It's really late right now but I want to type these up before I forget.</p>
+<p>I've just started using vanilla data generators in my Fabric 1.16 mod <a href="https://github.com/quat1024/dazzle-2/">Dazzle 2</a>. It's not easy to set them up, certainly not as easy as I heard it is in Forge, and you don't have any modloader support. So I'm going to walk through my process.</p>
 <p>This was influenced heavily by the <a href="https://github.com/AppliedEnergistics/Applied-Energistics-2/tree/fabric/master">Applied Energistics fabric branch</a>, which does some datagenning. comp500 also helped me a lot and answered some of my questions.</p>
 <h2>Gradle</h2>
-<p>Let’s talk about how datagens play into the releasing process, since they muddy it up a bit.</p>
+<p>Let's talk about how datagens play into the releasing process, since they muddy it up a bit.</p>
 <ul>
-<li>Right now, you have a <code>main</code> source set. This contains all the Java code and all the handwritten assets for your mod, and all of this gets put into your mod’s jar.</li>
-<li>You’ll want to write a data generator, but there’s no point shipping the datagen code with your mod, because it will never get executed and just adds to the filesize.</li>
-<li>Finally, you’ll want somewhere for the generated assets to live, preferably away from your handwritten ones.</li>
+<li>Right now, you have a <code>main</code> source set. This contains all the Java code and all the handwritten assets for your mod, and all of this gets put into your mod's jar.</li>
+<li>You'll want to write a data generator, but there's no point shipping the datagen code with your mod, because it will never get executed and just adds to the filesize.</li>
+<li>Finally, you'll want somewhere for the generated assets to live, preferably away from your handwritten ones.</li>
 </ul>
 <p>I solved this problem with three source sets: <code>main</code>, <code>gen</code>, and <code>gen_out</code>.</p>
-<p>Let’s think about how the source sets interact with each other:</p>
+<p>Let's think about how the source sets interact with each other:</p>
 <ol>
 <li><code>main</code> has to pull resources from <code>src/main/resources</code>, but also from <code>src/gen_out/resources</code></li>
 <li>Code in <code>gen</code> has to be able to reference symbols in the main body of the mod, and also symbols from Minecraft and its dependencies.</li>
-<li><code>gen_out</code> doesn’t have any code.</li>
+<li><code>gen_out</code> doesn't have any code.</li>
 </ol>
 <p>Here is how I told that to Gradle:</p>
 <pre><code class="language-groovy">sourceSets {
@@ -72,9 +70,9 @@
 	}
 }
 </code></pre>
-<p>(There’s no <code>sourceSets</code> block in the example buildscript, so just add one wherever you like.)</p>
+<p>(There's no <code>sourceSets</code> block in the example buildscript, so just add one wherever you like.)</p>
 <p>[ Note for the finished article: AE2 only uses two source sets. Mention the difference here ]</p>
-<p>I don’t fully understand this part, but while we’re here, let’s also tell Gradle where to pull assets from when releasing the mod, and which to skip (I think?)</p>
+<p>I don't fully understand this part, but while we're here, let's also tell Gradle where to pull assets from when releasing the mod, and which to skip (I think?)</p>
 <pre><code class="language-groovy">jar {
 	//Mojang datagenerator .cache file
 	exclude &quot;.cache&quot;
@@ -86,8 +84,8 @@
 	from sourceSets.main.output.resourcesDir
 }
 </code></pre>
-<p>The part I’m not sure on is whether <code>finalizedBy</code> is important to ensure the jar gets remapped, and whether the <code>from</code> lines are important to ensure datagen code doesn’t leak into the built jar. I’ll need to do more testing.</p>
-<p>Finally, we need a Gradle task to easily run the data generator whenever we like. I used the following… magical incantation, lifted wholesale from ae2-fabric again and I don’t really know how it works.</p>
+<p>The part I'm not sure on is whether <code>finalizedBy</code> is important to ensure the jar gets remapped, and whether the <code>from</code> lines are important to ensure datagen code doesn't leak into the built jar. I'll need to do more testing.</p>
+<p>Finally, we need a Gradle task to easily run the data generator whenever we like. I used the following... magical incantation, lifted wholesale from ae2-fabric again and I don't really know how it works.</p>
 <pre><code class="language-groovy">task runGenerator(type: net.fabricmc.loom.task.RunClientTask, dependsOn: downloadAssets) {
 	classpath = configurations.runtimeClasspath
 	classpath sourceSets.main.output
@@ -103,20 +101,20 @@
 </code></pre>
 <p>This task erases the generated resources directory. Of course, be careful with any task that deletes files.</p>
 <h2>Code</h2>
-<p>Create folders <code>./src/gen</code> and <code>./src/gen_out</code>, and smack the gradle reimport button in IntelliJ. You’ll now have three source sets.</p>
+<p>Create folders <code>./src/gen</code> and <code>./src/gen_out</code>, and smack the gradle reimport button in IntelliJ. You'll now have three source sets.</p>
 <p>In <code>./src/gen</code>, place a Fabric mod. Add a <code>fabric.mod.json</code> in <code>./src/gen/resources/fabric.mod.json</code>, start putting code in <code>./src/gen/java/your/package/SomeClass.java</code>, the whole nine yards. ae2-fabric used a mod with a <code>PreLaunchEntrypoint</code> instead of a <code>ModInitializer</code>, but this did not appear to work for me - I got weird NPEs when loading classes. A normal entrypoint works fine.</p>
-<p>This mod will be loaded when you run your <code>runGenerator</code> task, but not with regular <code>runClient</code>. You might be able to spin up an IntelliJ run configuration from it, but I didn’t need to, I just ran my <code>runGenerator</code> task.</p>
-<p>So, what does structuring a datagen mod look like? I think it’s best to explain by example, so here’s <a href="https://github.com/AppliedEnergistics/Applied-Energistics-2/blob/fabric/master/src/datagen/java/appeng/data/Entrypoint.java">AE2’s</a> and <a href="https://github.com/quat1024/dazzle-2/tree/shinies/src/gen/java/agency/highlysuspect/dazzle2">mine</a>. Note that AE2 uses MCP names even though it’s a fabric mod, they have some magic sauce.</p>
+<p>This mod will be loaded when you run your <code>runGenerator</code> task, but not with regular <code>runClient</code>. You might be able to spin up an IntelliJ run configuration from it, but I didn't need to, I just ran my <code>runGenerator</code> task.</p>
+<p>So, what does structuring a datagen mod look like? I think it's best to explain by example, so here's <a href="https://github.com/AppliedEnergistics/Applied-Energistics-2/blob/fabric/master/src/datagen/java/appeng/data/Entrypoint.java">AE2's</a> and <a href="https://github.com/quat1024/dazzle-2/tree/shinies/src/gen/java/agency/highlysuspect/dazzle2">mine</a>. Note that AE2 uses MCP names even though it's a fabric mod, they have some magic sauce.</p>
 <ul>
 <li>Locate the base path to dump assets into. This is <code>src/gen_out/resources</code>.
 <ul>
-<li>[ Mention passing this with an argument or environment variable, since it’s easier to do from Gradle ]</li>
+<li>[ Mention passing this with an argument or environment variable, since it's easier to do from Gradle ]</li>
 </ul>
 </li>
 <li>Create a <code>net.minecraft.data.DataGenerator</code>.</li>
 <li>Into it, <code>install</code> things that implement <code>DataProvider</code>.</li>
 <li>Call <code>DataGenerator#run</code>. This will write all of the files.</li>
-<li>Finally, call <code>System.exit</code> so the game doesn’t load all the way to the main menu.</li>
+<li>Finally, call <code>System.exit</code> so the game doesn't load all the way to the main menu.</li>
 </ul>
 <p>Of course, how much you buy into the vanilla datagen ecosystem is up to you.</p>
 <ul>
@@ -126,8 +124,8 @@
 </ul>
 <p>[ Note that your datagen mod should load <em>after</em> the main mod, but ahhh fabric doesnt have a way to control load order, entrypoint maybe? ]</p>
 <h2>Assets</h2>
-<p>Now that the scaffolding’s out of the way, how do we actually generate assets?</p>
-<p><code>DataProvider</code> is an interface for tasks that can be executed by a <code>DataGenerator</code>. You’ll get a <code>DataCache</code> in its <code>run</code> method. Using the <code>DataCache</code> to write files looks like this:</p>
+<p>Now that the scaffolding's out of the way, how do we actually generate assets?</p>
+<p><code>DataProvider</code> is an interface for tasks that can be executed by a <code>DataGenerator</code>. You'll get a <code>DataCache</code> in its <code>run</code> method. Using the <code>DataCache</code> to write files looks like this:</p>
 <pre><code class="language-java">DataProvider.writeToPath(gson, cache, object, path);
 </code></pre>
 <p>where</p>
@@ -141,36 +139,36 @@
 </ul>
 </li>
 </ul>
-<p>This serializes the json object with the provided <code>Gson</code>, and if its contents differ from the cache, writes it out to disk, making directories if they don’t exist. This method <code>throws IOException</code>, so it’s easiest to call from places that also throw <code>IOException</code>, such as <code>DataProvider#run</code>.</p>
-<p>This is… a bit messy (it’s odd that the method to write files is a static method on <code>DataProvider</code>, and not on <code>DataCache</code> or something), throwing <code>IOException</code> is odd when there’s no reasonable way to handle it other than aborting, and Mojang breaks this rule themselves (there are lots of calls to this method but other times in Mojang datagens where they just… have the source to this method plonked in somewhere else). Whatever.</p>
+<p>This serializes the json object with the provided <code>Gson</code>, and if its contents differ from the cache, writes it out to disk, making directories if they don't exist. This method <code>throws IOException</code>, so it's easiest to call from places that also throw <code>IOException</code>, such as <code>DataProvider#run</code>.</p>
+<p>This is... a bit messy (it's odd that the method to write files is a static method on <code>DataProvider</code>, and not on <code>DataCache</code> or something), throwing <code>IOException</code> is odd when there's no reasonable way to handle it other than aborting, and Mojang breaks this rule themselves (there are lots of calls to this method but other times in Mojang datagens where they just... have the source to this method plonked in somewhere else). Whatever.</p>
 <h3>Things to keep in mind</h3>
-<p>Mojang’s stuff is a bit overengineered. Especially when it comes to block and item models: they collect everything into these giant maps, then write the jsons out all at once. The decompiler naming everything generic names like <code>consumer</code> and <code>map1</code> makes this really hard to untangle. I find it a lot easier to write jsons as-you-go, but a little of the tooling expects <code>Consumer</code>s that call into these map adders; using them without kinda feels like using an “out parameter” in C. There’s some song and dance.</p>
-<p>Also, in Fabric, a <em>lot</em> is private. Fabric’s tooling doesn’t access-widen anything by default. You might be able to experiment with an access-widener, but dev-only AWs sound like a recipe for disaster? Maybe? Typically classes and constructors aren’t private (except for the constructors that are), so if you need a utility you can copy-and-paste it out of Mojang’s code.</p>
-<p>Knock-on effect of “things being too private” is <code>extend</code>ing the datagen classes is kinda pointless because you don’t have access to any of the members anyways. None of my datagen classes ended up extending anything.</p>
+<p>Mojang's stuff is a bit overengineered. Especially when it comes to block and item models: they collect everything into these giant maps, then write the jsons out all at once. The decompiler naming everything generic names like <code>consumer</code> and <code>map1</code> makes this really hard to untangle. I find it a lot easier to write jsons as-you-go, but a little of the tooling expects <code>Consumer</code>s that call into these map adders; using them without kinda feels like using an &quot;out parameter&quot; in C. There's some song and dance.</p>
+<p>Also, in Fabric, a <em>lot</em> is private. Fabric's tooling doesn't access-widen anything by default. You might be able to experiment with an access-widener, but dev-only AWs sound like a recipe for disaster? Maybe? Typically classes and constructors aren't private (except for the constructors that are), so if you need a utility you can copy-and-paste it out of Mojang's code.</p>
+<p>Knock-on effect of &quot;things being too private&quot; is <code>extend</code>ing the datagen classes is kinda pointless because you don't have access to any of the members anyways. None of my datagen classes ended up extending anything.</p>
 <h2>Blockstates</h2>
 <p>Blockstate JSONs are easily the most fun application of data gens. Your best friends here are <code>VariantBlockStateSupplier</code>, <code>BlockStateVariant</code>, and <code>BlockStateVariantMap</code>.</p>
 <p><code>BlockStateVariant</code> corresponds to each leaf of a blockstate file: <code>model</code>, <code>x</code>, <code>y</code>, <code>uvlock</code>, etc.</p>
-<p>Create a <code>VariantBlockStateSupplier</code> for a particular block, and assign zero or more <code>BlockStateVariant</code>s as defaults. If your block has no additional states, you’re done and can write the json.</p>
-<p>To cover different blockstates, use <code>BlockStateVariantMap</code>. Construct it with any blockstate property, then assign <code>BlockStateVariant</code>s to each of the values that property can take on using <code>register</code>. Finally, assign it to a <code>VariantBlockStateSupplier.</code> Notably <code>VariantMap</code>s aren’t bound to a particular block - you create them for one blockstate <em>property</em>, then can apply them as many times as you like to any blocks bearing that property!</p>
-<p>You can create a <code>VariantBlockStateSupplier</code> for the <code>facing</code> property, for example, that doesn’t rotate when facing north, rotates 180 degrees when facing south, 90 degrees when facing east, and so on. There are a million examples in the class <code>net.minecraft.data.client.model.BlockStateModelGenerator</code>. In fact, that example already exists as <code>createNorthDefaultHorizontalRotationStates</code>.</p>
+<p>Create a <code>VariantBlockStateSupplier</code> for a particular block, and assign zero or more <code>BlockStateVariant</code>s as defaults. If your block has no additional states, you're done and can write the json.</p>
+<p>To cover different blockstates, use <code>BlockStateVariantMap</code>. Construct it with any blockstate property, then assign <code>BlockStateVariant</code>s to each of the values that property can take on using <code>register</code>. Finally, assign it to a <code>VariantBlockStateSupplier.</code> Notably <code>VariantMap</code>s aren't bound to a particular block - you create them for one blockstate <em>property</em>, then can apply them as many times as you like to any blocks bearing that property!</p>
+<p>You can create a <code>VariantBlockStateSupplier</code> for the <code>facing</code> property, for example, that doesn't rotate when facing north, rotates 180 degrees when facing south, 90 degrees when facing east, and so on. There are a million examples in the class <code>net.minecraft.data.client.model.BlockStateModelGenerator</code>. In fact, that example already exists as <code>createNorthDefaultHorizontalRotationStates</code>.</p>
 <p>There are also methods for vanilla <code>mulitpart</code> models, but I have not examined those yet.</p>
 <h2>Recipes</h2>
-<p>I’ve always been a big advocate for propertly implementing recipe-unlock advancements, and with recipe generators, there’s little excuse not to. Recipe generators generate both at the same time, so you get all the fun of generating recipes through code and recipe advancements fall out practically for free.</p>
-<p><code>ShapedRecipeJsonFactory</code> and <code>ShapelessRecipeJsonFactory</code> are your friends for most recipes. There are also factories for smelting and a few other types. It doesn’t look too hard to write your own (they all simply implement an interface and spit out JSON). Your source for example usages is <code>net.minecraft.data.server.RecipesProvider</code>.</p>
-<p>While you’re here, delete your <code>data/mymod/advancements/recipes/root.json</code> and generate it, too:</p>
+<p>I've always been a big advocate for propertly implementing recipe-unlock advancements, and with recipe generators, there's little excuse not to. Recipe generators generate both at the same time, so you get all the fun of generating recipes through code and recipe advancements fall out practically for free.</p>
+<p><code>ShapedRecipeJsonFactory</code> and <code>ShapelessRecipeJsonFactory</code> are your friends for most recipes. There are also factories for smelting and a few other types. It doesn't look too hard to write your own (they all simply implement an interface and spit out JSON). Your source for example usages is <code>net.minecraft.data.server.RecipesProvider</code>.</p>
+<p>While you're here, delete your <code>data/mymod/advancements/recipes/root.json</code> and generate it, too:</p>
 <pre><code class="language-java">JsonObject root = Advancement.Task.create().criterion(&quot;impossible&quot;, new ImpossibleCriterion.Conditions()).toJson();
 DataProvider.writeToPath(GSON, cache, root, outPath.resolve(&quot;data/mymod/advancements/recipes/root.json&quot;));
 </code></pre>
-<p>One gotcha is that building a recipe <em>crashes</em> if there is not at least one recipe unlock criterion, so you <em>must</em> add an advancement as well. The vast majority of recipe unlock criterion are “player has each item in the recipe”, so you’ll probably want to write a wrapper method around <code>recipe.input</code> that adds both. I’m honestly quite surprised Mojang doesn’t have one.</p>
+<p>One gotcha is that building a recipe <em>crashes</em> if there is not at least one recipe unlock criterion, so you <em>must</em> add an advancement as well. The vast majority of recipe unlock criterion are &quot;player has each item in the recipe&quot;, so you'll probably want to write a wrapper method around <code>recipe.input</code> that adds both. I'm honestly quite surprised Mojang doesn't have one.</p>
 <p>There are also some gotchas when writing out the recipes and advancements:</p>
 <ul>
-<li>These are some of the funny “out parameter” things; cook up a <code>Consumer&lt;RecipeJsonProvider&gt;</code> that saves the recipe and advancement JSON, and call <code>offerTo</code> on each recipe to send it to that.</li>
-<li>The recipe advancement’s parent is always set to <code>minecraft:recipes/root</code> and there is no setter. This is not correct for a modded recipe. Before serializing, overwrite the <code>parent</code> property on the <code>JsonObject</code>.</li>
-<li>The recipe advancement’s file-path is taken from the <em>creative tab ID</em> of the item in the recipe output. This works great in vanilla, which splits its items up by category, but in a modded context where your creative tab is usually named something like <code>mymod.group</code>, this ends up putting your advancement at <code>data/yourmod/advancements/recipes/mymod.group/whatever.json</code> which doesn’t make sense. I solved this with a simple find-and-replace on the path, <code>&quot;dazzle.group/&quot;</code> -&gt; <code>&quot;&quot;</code>.</li>
+<li>These are some of the funny &quot;out parameter&quot; things; cook up a <code>Consumer&lt;RecipeJsonProvider&gt;</code> that saves the recipe and advancement JSON, and call <code>offerTo</code> on each recipe to send it to that.</li>
+<li>The recipe advancement's parent is always set to <code>minecraft:recipes/root</code> and there is no setter. This is not correct for a modded recipe. Before serializing, overwrite the <code>parent</code> property on the <code>JsonObject</code>.</li>
+<li>The recipe advancement's file-path is taken from the <em>creative tab ID</em> of the item in the recipe output. This works great in vanilla, which splits its items up by category, but in a modded context where your creative tab is usually named something like <code>mymod.group</code>, this ends up putting your advancement at <code>data/yourmod/advancements/recipes/mymod.group/whatever.json</code> which doesn't make sense. I solved this with a simple find-and-replace on the path, <code>&quot;dazzle.group/&quot;</code> -&gt; <code>&quot;&quot;</code>.</li>
 <li>Call <code>ShapedRecipeJsonFactory#pattern</code> multiple times, with one line of the recipe pattern per-call.</li>
 </ul>
 <h2>Tags</h2>
-<p>Honestly Mojang’s stuff here is an overengineered mess (like most things relating to tags), and there are some private classes involved, so I’m just going to plonk my entire tag-builder wrapper right into this post. Steal it.</p>
+<p>Honestly Mojang's stuff here is an overengineered mess (like most things relating to tags), and there are some private classes involved, so I'm just going to plonk my entire tag-builder wrapper right into this post. Steal it.</p>
 <pre><code class="language-java">public class TagBuilderWrapper&lt;T&gt; {
 	public TagBuilderWrapper(Registry&lt;T&gt; registry, Path outRoot, String classifier, Identifier tagId) {
 		this.tagBuilder = new Tag.Builder();
@@ -215,10 +213,10 @@ DataProvider.writeToPath(GSON, cache, root, outPath.resolve(&quot;data/mymod/adv
 	}
 }
 </code></pre>
-<p>I also have a <code>BlockAndItemTagBuilderWrapper</code>, which wraps a <code>TagBuilderWrapper&lt;Block&gt;</code> and <code>TagBuilderWrapper&lt;Item&gt;</code>, delegating to both, for the extremely common case of having a “blocks” and “items” tag with the same contents only one’s a block and one’s an item.</p>
-<p>(Little edge case that might come up: adding an item multiple times to a tag builder is totally fine, it’ll only get written out once.)</p>
+<p>I also have a <code>BlockAndItemTagBuilderWrapper</code>, which wraps a <code>TagBuilderWrapper&lt;Block&gt;</code> and <code>TagBuilderWrapper&lt;Item&gt;</code>, delegating to both, for the extremely common case of having a &quot;blocks&quot; and &quot;items&quot; tag with the same contents only one's a block and one's an item.</p>
+<p>(Little edge case that might come up: adding an item multiple times to a tag builder is totally fine, it'll only get written out once.)</p>
 <h2>Models</h2>
-<p>[ Doable, but a bit messy. Item models are somewhat easy? Haven’t unwound some of the other cases yet. Private <code>TextureKey</code> constructor is annoying but easily reflected. Gotcha: <code>Model</code>s define what textures they’re going to use and not the other way around, so you can’t add <code>TextureKey</code>s onto whatever you want and expect them to appear in the gneerated model JSON. ]</p>
+<p>[ Doable, but a bit messy. Item models are somewhat easy? Haven't unwound some of the other cases yet. Private <code>TextureKey</code> constructor is annoying but easily reflected. Gotcha: <code>Model</code>s define what textures they're going to use and not the other way around, so you can't add <code>TextureKey</code>s onto whatever you want and expect them to appear in the gneerated model JSON. ]</p>
 <h2>Block Loot Tables</h2>
 <p>A popular use of data generators because like 99% of blocks simply drop themselves.</p>
 <p>Here, have this snippet:</p>
@@ -231,7 +229,7 @@ DataProvider.writeToPath(GSON, cache, root, outPath.resolve(&quot;data/mymod/adv
 		.build();
 }
 </code></pre>
-<p>Call that with whatever item you want. Then call <code>LootManager.toJson</code> on the resulting loot table. You’ll get this (possibly very familiar-looking) JSON snippet:</p>
+<p>Call that with whatever item you want. Then call <code>LootManager.toJson</code> on the resulting loot table. You'll get this (possibly very familiar-looking) JSON snippet:</p>
 <pre><code class="language-json">{
 	&quot;type&quot;: &quot;minecraft:block&quot;,
 	&quot;pools&quot;: [
@@ -255,10 +253,9 @@ DataProvider.writeToPath(GSON, cache, root, outPath.resolve(&quot;data/mymod/adv
 <h2>Language Entries</h2>
 <p>[ possible to generate these, but merging them into en_us.json requires some work or manual copy-pasting ]</p>
 <p>[ is it possible to use a Gradle task to merge the language entries? right now d2 reaches over into the main source set and merges them in itself, which is a bit hacky ]</p>
-
-<hr class="cool"/>
-<div style="text-align: left"><a href="/posts/playing_portal_2">&larr; How to play Portal 2 without losing your mind</a><br/>
-<div style="text-align: right"><a href="/posts/unable_to_get_windows_mutable_environment_variable_map">"Unable to get Windows mutable environment variable map" &rarr;</a>
+<hr class="cool">
+<div style="text-align: left"><a href="/posts/playing_portal_2">&larr; How to play Portal 2 without losing your mind</a></div>
+<div style="text-align: right"><a href="/posts/unable_to_get_windows_mutable_environment_variable_map">"Unable to get Windows mutable environment variable map" &rarr;</a></div>
 <div style="text-align: right; font-size:60%">Powered by <a href="https://github.com/quat1024/quatweb-static">Rust</a>™</div>
 </article>
 </body>

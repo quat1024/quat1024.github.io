@@ -1,0 +1,1831 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+<channel><title>Highly Suspect Agency</title><link>https://highlysuspect.agency</link><description>🤫</description>
+<atom:link href="https://highlysuspect.agency/feed.xml" rel="self" type="application/rss+xml" />
+<item>
+<title>The Treadmill</title>
+<link>https://highlysuspect.agency/posts/the_treadmill</link>
+<guid>https://highlysuspect.agency/posts/the_treadmill</guid>
+<pubDate>Thu, 11 May 2023 00:00:00 -0400</pubDate>
+<description>When that thing you like slowly turns into a live-service game</description>
+<content:encoded><![CDATA[
+<p>For a while I've wanted to write a few thoughts on how the <a href="https://help.minecraft.net/hc/en-us/articles/9971900758413">post-&quot;expect more changes in minor versions from now on&quot; world</a> is coming along, the gradual &quot;live service-ification&quot; of Java Edition, and how the modders are doing. This ended up being a loosely-categorized brain dump.</p>
+<h2>Adversarial relationship?</h2>
+<p>I think Minecraft is overall a pretty good game. Modding is a form of <a href="https://youtu.be/fX3w4hubVnQ?t=185">fanfiction</a> that I enjoy authoring. Mojang is a great development team with great people on it who work hard. This shouldn't be controversial. Yes, even the &quot;mojang works hard&quot; part, because they do.</p>
+<p>I like Minecraft updates too. But every time I see a changelog, I read it just waiting to have a <code>We added a registry for Damage Types! (And therefore broke every mod that 'deals damage')</code>-shaped anvil fall on my head. I'm always looking at changelogs like &quot;fuck, what did they break this time&quot;.</p>
+<p>I especially don't like the &quot;playing chicken with Mojang&quot; game. Every time there's a new <code>1.X.Y</code>, there's murmurs in the modding spaces about &quot;well, is this the final one?&quot; &quot;Is Mojang going to start work on <code>1.X + 1</code> now?&quot; &quot;Is this <code>1.X</code> version worth updating to?&quot; If you updated your mod to 1.18.1, for example, congrats - you wasted your time, everyone plays on 1.18.2 now.</p>
+<p>You have to understand that for players it's easy to choose 1.16 over 1.17 (or 1.19.2 over 1.19.4) because &quot;the other version has no mods&quot;, but <em>we do not have that luxury when the new version comes out.</em> Modders can't predict the future, and don't have any more insights into Mojang's development timeline than you do.</p>
+<h2>A snapshot by any other name.</h2>
+<p>What's the difference between a snapshot and a numbered release? Roll back the clock to when 1.16 was the new hotness:</p>
+<ul>
+<li>Mojang posts 1.16.0 and shortly after .1. The new Nether gets people very excited, so demand for mods materializes for this version.</li>
+<li>That version sticks around for a bit.</li>
+<li>While modders are porting away and a fledgling 1.16 scene is forming, Mojang decides now is the time to redo basically <em>all</em> the code relating to world generation.</li>
+<li>Mojang contains that code in a version labeled 1.16.2.</li>
+<li>All mods that did <em>anything</em> relating to worldgen are broken. All modloader APIs remotely related to worldgen are broken too because they were written against vanilla code that <em>does not exist anymore</em>. A big ecosystem-wide porting effort to create new APIs and fix mods commences, all while players are loudly wondering where the 1.16 mods went.</li>
+<li>The dust finally settles on 1.16.5, but many people who updated their worldgen mod to 1.16.0 or .1 feel like they wasted their time.</li>
+<li>Generally, much trust has been broken with Mojang.</li>
+</ul>
+<p>Numbering a version is what <em>creates</em> the expectation of stability and support. The biome stuff is welcome, but dropping it in the middle of the 1.16 cycle is what created this mid-version hump everyone had to get over.</p>
+<p>But it's purely a labelling problem - if the exact same 1.16.1 version was published as a snapshot for 1.17.0, fewer hearts would be tugged at.</p>
+<h2>The old way versus the new way.</h2>
+<p>Here's roughly how I <em>think</em> development used to happen:</p>
+<ul>
+<li>Mojang publishes 1.9. Celebrating, champagne bottles, etc.</li>
+<li>The version having a &quot;full release&quot; labelling draws a large crowd, much larger than the snapshot-chasing community, so bugs are inevitably found.</li>
+<li>Mojang publishes 1.9.1, 1.9.2, etc to fix bugs.</li>
+<li>A fledgling modding community starts up.</li>
+<li>Eventually the dust settles on a &quot;final&quot; version of 1.9. A modding community begins to appear around it.</li>
+<li>Snapshots begin for Minecraft 1.10. Maybe the first couple snapshots add larger features, as long-running feature branches get merged.</li>
+</ul>
+<p>Here's how I feel like things go now:</p>
+<ul>
+<li>Mojang publishes 1.19. Celebrating, champagne bottles, etc.</li>
+<li>Bugs start pouring in from the large crowd. Mojang throws a few feature-gated 1.20 things in while they're at it.</li>
+<li>Mojang publishes 1.19.1.</li>
+<li>Hey, I have this cool idea for &quot;display entities&quot;, let's merge them in to the main branch.</li>
+<li>Mojang publishes 1.19.2 containing bugfixes, but also more feature-gated 1.20 prerelease stuff.</li>
+<li>Modders have no idea what is going on anymore. 1.19.2 lingers around for a while, mayyyybe it's the final 1.19 version?</li>
+<li>Meanwhile at Mojang, someone's like &quot;oh right, we're working on datapack-addable blocks. This is going to require moving the Block registry. Let's do that now.&quot;</li>
+<li>Hey I think it'd be a good idea to use JOML instead of our in-house math library. No better time than today!</li>
+<li>Surprise!!! Mojang publishes a snapshot for 1.19.3 :) Turns out 1.19.2 wasn't the latest version after all and we didn't tell you!!! Pranked!!!</li>
+<li>Mojang publishes 1.19.3 containing bugfixes, but also ridiculous amounts of breaking changes</li>
+<li>Also let's rotate display entities 180 degrees because we got it wrong the first time, whoops</li>
+</ul>
+<p>This model is a problem for mods because feature development is more &quot;breaking&quot; than bugfixes. Adding a feature will usually require more significant code changes (-&gt; break mods more often) than fixing a bug will. Even if it's creative-only, or gated with their new bizarre datapack feature-gate system, it will require more significant code changes. Mojang's previous development model at least held-off on merging in these features until the dust settled on the current stable version.</p>
+<p>In the previous development model, modstuff would start updating to the <code>1.x.0</code> release, but that version would ultimately be pretty similar to the final <code>1.x.4</code>, so early-updating work was generally pretty useful. Mojang would typically keep code changes to a number of small bugfixes. Do you remember that time when Forge 1.12.2 straight-up decided to <a href="https://github.com/MinecraftForge/MinecraftForge/blob/d3f01843f7e7a4f613b5e8113d381fd8747b4343/src/main/java/net/minecraftforge/fml/common/FMLModContainer.java#L261-L265">ignore &quot;1.12.0 only&quot; or &quot;1.12.1 only&quot; version-ranges on mods</a> because 1.12.0 and 1.12.1 were similar enough to 1.12.2?</p>
+<p>With the current development model, it feels like Mojang allows juuuust enough time between releases to allow a small modding community to form around them, and only <em>then</em> decides to dump a truckload of breaking changes onto people, containing <em>way</em> more than simple bugfixes. It's frustrating.</p>
+<h2>The mod updating process just sucks.</h2>
+<p>Maybe it's true that <em>on paper</em>, following along with Mojang's treadmill version-by-version is easier than doing it in large chunks. But in practice - I need the &quot;couple hours of free time&quot; and &quot;spare motivation&quot; stars to be aligned, it takes forever for Gradle tooling to spin up to a new Minecraft version (<em>especially</em> on Forge), it takes time to get into the development groove, it takes time to test that the mod actually works, it takes time to write a changelog, it takes time to post the jars to CurseForge and Modrinth.</p>
+<p>I've updated several small mods now where the process of just <em>waiting</em> on Gradle to load, and <em>waiting</em> for IntelliJ to index the new version of Minecraft, and hitting <code>runClient</code> and <em>waiting</em> for Minecraft to load, and clicking twice on the main menu and <em>waiting</em> to generate a world, has absolutely <em>dwarfed</em> - at least 10 to 1 - the time it takes to actually update and test the mod. It is demotivating. It's not fun!</p>
+<p>(Then, of course, all that time becomes retroactively wasted when 1.18 comes out and not a single soul will download the 1.17 version of the mod ever again.)</p>
+<h2>Version smear, and the efficacy of code.</h2>
+<p>I started writing mods around when 1.12 was the newest version. At that time, I think the most popular versions were one version that is &quot;new&quot; (1.12) and one version that is &quot;old but people like the stuff available for it&quot; (1.7.10).</p>
+<p>These days the most popular versions are... I have no idea anymore. 1.16 still has a playerbase. 1.17 doesn't, but 1.18.2 is almost equally as popular as 16? A big modding community started around 1.19.2 before Mojang dedicded to kick it in the shins with .3, but the 1.19 playerbase ended up further divided into 1.19.2 players (which has more mods) and 1.19.4 players (which is the <em>actual</em> latest version). The old favorites 1.12 and 1.7 are also still hanging around; if anything they're picking <em>up</em> steam.</p>
+<p>I don't know exactly what causes this - my hypothesis is that new players typically get into modded MC with the latest-and-greatest version, and stick with that version when time marches on - but whatever it is, the playerbase has been effectively <em>smeared</em> out over time, and has become more fragmented than it ever was before.</p>
+<p>This is all independent of &quot;mod loaders&quot;.</p>
+<p>In 2019 it was easy to find motivation to mod: I could bang out some code against Minecraft 1.12.2 and throw it on CurseForge, where it'd reach around ~90% of players who wanted to play it. These days I feel like picking a version to use is just picking my poision. I don't have hard numbers but, including the effect of modloader wars, some days it feels like that &quot;around 90%&quot; figure has shrunk to 15%. There is no correct answer anymore. Whatever version you pick, you are going to get <em>tons</em> of hate mail complaining you picked the wrong one.</p>
+<h3>I'm not even gonna bring up my modloader opinions.</h3>
+<p>I will say that it <em>really sucks</em> to be unable to take modloader services at face value anymore. I can't just &quot;use something from the modloader&quot;; I have to wrap the modloader's service in a little abstraction of my own creation, implement my abstraction twice for both modloaders, and use <em>that</em>. For everything. Inventories, custom models, <em>registering a block</em>, a config file, requires wrapping the modloader provided API. It is a ton of boring, mechanical glue code.</p>
+<p>To a lesser extent this also applies to vanilla Minecraft services. Because I know Mojang habitually moves and breaks code, and I know that in six months there's a new version coming (with an X% chance of breaking something I used) and players are going to yell at me literally the <em>moment</em> it comes out, there is strong incentive to avoid utilizing Mojang's code as much as possible.</p>
+<p>It sucks. It just fucking sucks. One of my tiny tweak mods <a href="https://github.com/quat1024/AutoThirdPerson/tree/forge-1.12/src/main/java/quaternary/thirdpersonboat">Auto Third Person</a> was a fun weekend project entirely contained within one class but because I wanted to support more versions, the next version has metastasized to <a href="https://github.com/search?q=repo%3Aquat1024%2FAutoThirdPerson++language%3AJava&amp;type=code"><em>fifty five</em> classes</a>. There's a &quot;core&quot; that does all the logic, then &quot;xplat&quot; which adheres it to vanilla minecraft, then finally a modloader-specific project that finally attaches it to modloader services, and basically the complexity of this project has shot through the roof because there's <em>two</em> layers of glue code between me and the modloader now.</p>
+<p>Also I feel like this is partially what's driving the sort of... insularity, of mods these days?</p>
+<ul>
+<li>Config GUIs were easy when Forge 1.12 was king, but now they're a pain in the ass - both because Forge no longer ships one <em>specifically because updating it to newer versions was a massive maintenance burden</em>, and because interacting with the Forge config API at all now requires modloader shim-glue if you don't want to get 'fabric pls' comments immediately after posting the mod - so mods just... generally don't include config GUIs anymore.</li>
+<li>Using modloader services is now much harder (because you need to write modloader glue). It's often easier to completely reimplement things in-house... which means they're probably not interchangable with the stuff from the modloader.</li>
+<li>Same for vanilla services. Why bother with the vanilla <code>Registry</code> class if Mojang is just going to break it again? Might as well use a <code>Map&lt;String, T&gt;</code>.</li>
+<li>The &quot;nice-to-haves&quot; are the first to go. It's no longer easy to make a quick custom-item model to add a bit of pizzazz - way more hassle than it was. But plain json models work fine. It'd be nice to add a deep, meaningful mod integration but I am so busy running this treadmill that I don't have time.</li>
+</ul>
+<h2>I can't really fault players?</h2>
+<p>So a lot of the above text has been predicated on &quot;making the annoying people who leave driveby '1.16.5 fabric pls' comments folks happy&quot;. I was asked - why do I care about these people? It's very easy for me to say &quot;no, I'm not porting to Whatzitloader for version 40w81a, leave me alone&quot; or &quot;no, 1.16.5 is unmaintained, I will not fix it&quot;. Many well-respected modders do just that.</p>
+<p>The thing is that I <em>understand</em> where these annoying people are coming from. It is very natural to be frustrated by finding a mod that looks fun, then finding a largely arbitrary version-number barrier or modloader barrier has been put between you and your ability to drop it into your modpack. I think it's frustrating too and I don't <em>like</em> saying no to port requests. I'm working on a new mod that's currently just for Fabric, and I haven't done that because I think annoying Forge players is funny, I've done that because I have to start modding <em>some</em>where.</p>
+<p>But also, people don't just &quot;want a port of the mod for 1.19.2&quot;, they want a polished, complete, <em>working</em> port of the mod for 1.19.2, and they want support when it breaks, and they maybe want a trickle of updates and bugfixes over the coming months, and they want some integrations with other mods available for the platform. The &quot;copypaste the codebase into a new branch, fix it until it compiles against the new version&quot;-method of porting a mod just creates more problems for me down the line when it's 2 weeks later and someone wants a bugfix for the previous version.</p>
+<h2>Breaking changes.</h2>
+<p>The term &quot;breaking change&quot; in the software-development, technical sense of the word doesn't carry any implication of whether the change is good or bad - it just means that the change is not isolated, and will require unrelated bits of code to change too.</p>
+<p>Minecraft (in?)famously doesn't have an official modding API besides datapacks. Minecraft is simply a game written in Java; mods are written directly against the Java code, sometimes modloader tricks are employed to directly edit bits of vanilla code to accomplish their goals. As far as mods are concerned, Minecraft has no safely-encapsulated &quot;implementation details&quot; whatsoever - there is no &quot;public API&quot; for mods to use and a &quot;private API&quot; that Mojang can change without breaking any mods.</p>
+<p>So in effect, practically <em>anything Mojang changes at all</em> becomes a &quot;breaking change&quot;.</p>
+<ul>
+<li>Mojang moves a <code>public static</code> field from class A to class B? Breaking change, even though the function of the code and the purpose of the field is the same.</li>
+<li>Mojang changed the constructor for <code>BlockEntity</code> to take a <code>BlockPos</code> and <code>BlockState</code> instead of using a setter to set them after construction? Breaking change, even though only vanilla engine code ever needs to construct BlockEntities.</li>
+<li>Mojang made ticking block entities receive their ticker from the <code>Block</code> instead of from an interface on <code>BlockEntity</code>? Clearly a breaking change, even though it helps improve performance and cool off unnecessarily-ticking BEs.</li>
+<li>Mojang made <a href="https://highlysuspect.agency/posts/we_out_here_reloadin/">resource loading multithreaded</a>? Definitely a breaking change because &quot;adding multithreading&quot; requires a complete rearchitecture; turns out &quot;threads&quot; are not magic sauce you sprinkle on things to make them fast.</li>
+<li>(vintage 1.5 example) Mojang added their first redstone power source that could output redstone signals other than exactly 0 or exactly 15? Breaking change - they flipped a <code>boolean</code>-returning method to an <code>int</code>-returning one.</li>
+</ul>
+<p>I can do this all day. The player-visible effects are often unnoticeable, but each of these changes required mods to update to the new system. Even in cases where the update is easy, like a <code>public static</code> field being moved, it still means mods written for 1.19.2 crash unless modified to refer to the field using 1.19.3's location, and there's no way to write one codebase that compiles on both versions. Maintaining two versions in parallel is always going to require some version-specific copy of the codebase or at least version-specific glue.</p>
+<h3>Adding the new requires removing the old.</h3>
+<p>You have to realize that modded players are like, (small number)% of the target market, by the way. I don't want &quot;modders will complain if we make this change that uncontroversially improves the game engine!!!! It will break their mods!!!&quot; to hamstring the development of my favorite game for everyone <em>else</em> who plays it. Mojang can't and shouldn't carry irrelevant dead-weight code forever just to keep modders happy.</p>
+<p>I got into this game from vanilla and there's a whole new generation of players getting into the game through vanilla - if vanilla needs to be made better, vanilla <em>should</em> be made better. I want to stress that the term &quot;breaking change&quot; still doesn't imply anything good or bad.</p>
+<h2>An &quot;official API&quot;.</h2>
+<p>You don't want an official modding API.</p>
+<p>Minecraft mods can add wholly new varieties of content, explore very fancy graphics and custom GUIs, overhaul the entire game in new and unexplored directions, and do Anything you can imagine. This is the stuff people <em>like</em> about Minecraft mods, this is what draws people to Minecraft mods instead of Factorio mods, and it's all stuff you simply <em>can't do</em> if you are limited to an official API because <strong>an official API can only do officially-supported things.</strong> With an official API you can only expand the game in ways Mojang <em>says</em> you can expand it. There is no way in hell you'd be able to make a mod like Create.</p>
+<p>What about the language? If the modding API is written in, say, Lua, you run into the same problem, where you can only interact with the code of the game through the specific parts the game officially makes available to external code. In order to do the things users expect modding to do, the modding API must be written in Java and load Java mods. And now, recall that piles of arbitrary Java code can, well, display rickrolls, download files and save them onto disk, mine bitcoin, upload your Minecraft session token, install viruses and backdoors and keyloggers, and generally &quot;do things that every computer program can do&quot;, because Java programs are... computer programs.</p>
+<p>I do not think Mojang would be willing to front all of that risk by <em>officially</em> signing off on a modloader written in Java. For better or for worse, mods will always remain some degree of unsupported and underground. (It's for better.)</p>
+<h2>Datapacks are a fiction.</h2>
+<p>Over the past 150 million years, Mojang has been making the game more &quot;data driven&quot;. Examples of this include removing numeric block IDs, changing recipes from being hardcoded in Java to being loaded from json, changing models from being hardcoded in Java to being loaded from json too, moving biomes and structure stuff to json, changing some hardcoded behaviors to tags when possible (like <code>minecraft:enderman_holdable</code>). Json json json.</p>
+<p>That's great, but games are written in code, not JSON. The only thing a json file can do is select between existing bits of code already in the game. You can add &quot;new content&quot; with json files, and that's great, but you can't add new <em>kinds</em> of content.</p>
+<p>I bring this up because I feel like there's a &quot;mojang is making it easier for them to add new content to the game engine&quot; sentiment. This is true, but unless Minecraft 1.25 is an update that simply adds new shipments of blocks, they will also need to add new <em>kinds</em> of content too. So code changes will always be necessary.</p>
+<h2>&quot;Version numbers&quot; as &quot;advertisements&quot;.</h2>
+<p>There's a concept in software development called <a href="https://semver.org/">&quot;semantic versioning&quot;</a>, where you have a three-pronged version number (like &quot;2.5.3&quot;) and name the components &quot;major&quot;, &quot;minor&quot;, and &quot;patch&quot; versions. You bump the patch version whenever you fix a bug, you bump the minor version whenever you add something new, and you bump the major version when you make <em>any</em> breaking change at all. It's &quot;semantic&quot; because the way the verison number is changed carries meaning.</p>
+<p>This is very different from how version numbers get used <em>in popular culture</em>. With Minecraft, its version always starts with 1, the second number is mostly a marketing tool, and the third number carries no information whatsoever about the amount of breaking changes in the version (see: 1.16.2, 1.19.3). If Minecraft followed semantic versioning to the letter we'd be on like Minecraft 91846.0.1 by now.</p>
+<h2>Live-servicification, accelerating development pace.</h2>
+<p>I want to blame the &quot;live-service&quot; model for getting people used to the idea that a game is dead and worthless if it hasn't been updated with Content in like, a month. Can Minecraft ever be <em>feature-complete</em>?</p>
+<p>Minecraft is a game about using your imagination, building things never thought possible, going on Minecraftforum and shooting the shit on people's adventure maps. This is a game about <em>our</em> creativity, why is it <em>Mojang's</em> job to spoonfeed us new content? I like <a href="https://twitter.com/JasperBoerstra/status/1655723240516362241">this little corner of twitter</a> where JAPPA engaged with a few of the &quot;minecraft needs more weapons and bosses!!!&quot; kids and tried to figure out what they really want. If you treat Minecraft like a little box where new Content to Consume is added every couple weeks and there's always a surprise around every corner, of course you're going to be disappointed, and adding a boss and 2 swords is not going to help. (A couple people in that thread already seemingly forgot the Warden was added.)</p>
+<p>It's no secret that Minecraft is trying to shed its reputation of being slow-to-develop. I think this is partially what's driving the recent &quot;we need to release 1.19.3 and 1.19.4 versions containing a bunch of half-finished stuff and previews for 1.20!&quot; push. People want to see the version number go up, and airdropping random half-tested features in numbered versions means you can bump the version number more often, because the version number is marketing.</p>
+<p>I just... really dislike modders being tasked with picking up the pieces here. I wish there was a way to make the people whining about Minecraft not being updated for 5 nanoseconds shut up, using a way other than &quot;breaking mods every single version&quot;.</p>
+<h2>Just plain entitlement.</h2>
+<p>come on guys, I don't remember <em>this</em> many people in the comments section literally <em>the day-of</em> a new release wondering where the download is.</p>
+<p>I feel like mod questions on /r/feedthebeast have slowly gotten more and more demanding, going from &quot;what are some cool magic mods for 1.12 to try?&quot; to &quot;is there a mod adding EnderIO travel staff for 1.16&quot; to &quot;give me a mod that adds themed items and blocks obtainable exclusively through dungeon chests and I'm ONLY interested in 1.17.2 Fabric&quot;. I've also seen people ask for competely ridiculous version support, like &quot;outdated versions of 1.16 (while the latest mc version is 1.19)&quot; and &quot;April Fools snapshots&quot;. Always thinking about the dude who showed up in my discord, asked a question, then left in a huff when I didn't answer within 5 minutes - I was taking a walk outside.</p>
+<p>This has to be a new thing, right.</p>
+<h2>While I'm on my soapbox:</h2>
+<p>Fucking sick of people insinuating modders &quot;fix&quot; Mojang's game. I'm talking about the players who praise modders with one side of their mouth and deride Mojang for producing lazy updates modders need to &quot;fix&quot; with the other. Modders are not your wedge! If you hate Mojang's updates so much, why does everyone want mods to be updated to them lmao?</p>
+<p>And honestly even if &quot;people wanting mods on 1.19.4&quot; and &quot;people loudly whinging about 1.19 being a shitty update&quot; are wholly disparate groups of people (which I'm not convinced they are), modders still get the exciting job of &quot;being stuck in the middle of them&quot;.</p>
+<h1>FAQ.</h1>
+<blockquote>
+<p>Why doesn't everyone just play Minecraft 1.-</p>
+</blockquote>
+<p>So I made a tweet joking about how I bet there's gonna be 1.20.0, and a 1.20.1 that breaks mods, and a 1.20.2 that breaks mods again, and a 1.20.3 that somehow removes <code>ItemStack</code> and <em>turbo</em> breaks mods. I've since deleted the post (too whiny!) but those jokers over at Modrinth retweeted it first, so I very quickly got three responses of the form &quot;I agree! Updating to newer versions is annoying. It'd be so much better if everyone played on version 1.xyz.&quot;.</p>
+<p>All three people suggested different versions.</p>
+<blockquote>
+<p>Modloader wars are annoying, why doesn't everyone just use F-</p>
+</blockquote>
+<p>Turns out there's good reasons to use both modloaders, they both cover areas the other one doesn't, they are developed with different goals, you can't &quot;just run Forge mods on Fabric&quot; because the code of Forge mods expects a massive amount of patches to have been made to the game, and you can't &quot;just run Fabric mods on Forge&quot; because the event systems don't line up and Forge's patches decided to change the signatures and semantics of a lot of the methods that Fabric mods target.</p>
+<p>This idea is hardly new or original - Modders are <em>very much aware</em> of the modloader split. If it was possible, someone would have done it by now. There is no Easter Bunny, there is no Tooth Fairy, and there is no program to open Fabric mods on Forge. Sorry.</p>
+<blockquote>
+<p>Can someone write a program that allows loading <code>1.a</code> mods on <code>1.b</code>?</p>
+</blockquote>
+<p>For simple cases (&quot;mojang moved a thing, but it works the same&quot;), possibly - you all remember <a href="https://legacy.curseforge.com/minecraft/mc-mods/compatlayer">CompatLayer</a> from the 1.11 days, right? For anything more complex: No. And Mojang's updates have only been getting more and more complex as time goes on.</p>
+<p>If the <code>1.b</code> in question is &quot;the latest version&quot;, by the time this hypothetical program was finished, Mojang will have posted <code>1.j</code>. While back I remember brainstorming a tool to load 1.7 mods on the then-current version; thinking about how i could jokingly call it a &quot;version doubler&quot; because it'd load 1.7 mods on... 1.14. Yeah.</p>
+<blockquote>
+<p>If we can't have an official API, why doesn't someone make a modloader that doesn't directly expose any Minecraft code, as a compromise?</p>
+</blockquote>
+<p>This is called Bukkit. Its functionality is limited, updating it is very hard, it is collapsing under the weight of its own legacy code, and it's basically impossible to write &quot;bukkit that also covers the clientside&quot; in any remotely flexible way. Turns out that modloaders aren't magic!</p>
+<p>A shim that doesn't allow access to the real game is inherently less powerful.</p>
+<blockquote>
+<p>Could Mojang make an official modding API in Java if they sandboxed it?</p>
+</blockquote>
+<p>Sandboxing Java is like mopping up rain. For an overview of the state of sandboxing Java code, please consider the article <a href="https://www.exploit-db.com/papers/45517">Twenty Years of Escaping the Java Sandbox</a>; actually just reading the title is fine. That's about escaping the SecurityManager, which is now slated for removal because it frankly didn't work. Official sandboxing advice is now <a href="https://inside.java/2021/04/23/security-and-sandboxing-post-securitymanager/">&quot;iunno, use a virtual machine?&quot;</a>.</p>
+]]></content:encoded>
+</item>
+<item>
+<title>Let's look at Stepmania's code</title>
+<link>https://highlysuspect.agency/posts/stepmania_code</link>
+<guid>https://highlysuspect.agency/posts/stepmania_code</guid>
+<pubDate>Sun, 02 Apr 2023 00:00:00 -0400</pubDate>
+<description>A look at the oldest dance game codebase.</description>
+<content:encoded><![CDATA[
+<p>StepMania is a nearly-old-enough-to-drink piece of software by the dance game community. It's impossible to succinctly describe, it is everything and nothing at the same time - it was originally designed as a PC-based clone of Dance Dance Revolution but the code has found its way to game consoles too, and even circled its way right back into the arcade, it's open-source but also closed-source, it has been worked on by countless groups and communities and collectives and people and basically the only constant is that it's a labor of love.</p>
+<h1>Stepmania history</h1>
+<p>Some places to look:</p>
+<ul>
+<li><a href="https://josevarela.net/SMArchive/Builds/">Jose Varela's StepMania build archive</a></li>
+<li>I recommend downloading 3.9 from the archive; <code>stepmania/NEWS</code> contains a changelog stretching from 3.02 all the way back to Stepmania 0.5. The changelog file itself doesn't include dates but you can crossreference with dates on Jose_Varela's archive.</li>
+<li>the <a href="https://ssc.ajworld.net/">Spinal Shark Collective website</a>, still up haha</li>
+<li><a href="https://github.com/stepmania/stepmania">stepmania/stepmania</a>:
+<ul>
+<li>Mostly includes the SSC's work. The &quot;Initial commit&quot; is from 2010-01-26 and is a lie; it's just the import date into the SSC's repo.</li>
+<li><a href="https://github.com/stepmania/stepmania/tree/5_1-new/Docs">Stepmania 5_1-new's <code>docs</code> folder</a> is very nice and contains many changelogs
+<ul>
+<li><code>Changelog_sm-ssc.txt</code> is sm-ssc development from 2009-04-18 to 2011-04-30. <code>old_changelog.txt</code> is just a subset running to 2009-12-08</li>
+<li><code>Changelog_sm5.txt</code> is Stepmania 5.1 development from 2011-04-30 to 2018-08-02</li>
+</ul>
+</li>
+<li>The <a href="https://github.com/stepmania/stepmania/commits/5_1-new">git history</a> contains development from the import date to 2022-11-14 of course.</li>
+<li>Wiki page about <a href="https://github.com/stepmania/stepmania/wiki/Versions">version history</a> is nice</li>
+</ul>
+</li>
+<li>if you're a CVS wizard, the <a href="http://stepmania.cvs.sourceforge.net/stepmania/stepmania/">old Stepmania CVS repository on SourceForge may be of interest</a></li>
+<li>if not, <a href="https://github.com/openitg/stepmania">openitg/stepmania</a> is a GitHub mirror of some pre-2010 Stepmania development history (up to 3.90)</li>
+<li>I'm sure there's some forum threads lying around that'd be useful history</li>
+</ul>
+<p>The general dates in question (sourced mainly from Varela's archive):</p>
+<ul>
+<li>&quot;DDR PC Edition&quot;/StepMania 0 - August to December 2001</li>
+<li>Stepmania 1.x: early 2002</li>
+<li>Stepmania 3.0: mid/late 2002</li>
+<li>Stepmania 3.9: mid 2003 - late 2005
+<ul>
+<li>The archive includes many forks like Xbox/PSP/Wii ports, Mungyodance, &quot;Stepmania AMX&quot;, and other silliness</li>
+<li>commercial ITG 1: 2004</li>
+<li>(<a href="https://en.wikipedia.org/wiki/Konami_Corp._v._Roxor_Games_Inc."><em>Konami Corp. v. Roxor Games Inc.</em></a>: 2005 - 2006)</li>
+</ul>
+</li>
+<li>Stepmania &quot;3.95&quot;: mid 2005. This <a href="https://github.com/stepmania/stepmania/wiki/versions#unofficial">was a CVS snapshot</a> and never received a formal release.
+<ul>
+<li>OpenITG: 2008 to 2009
+<ul>
+<li>&quot;In The Groove 3&quot;: 2010ish</li>
+<li>NotITG: late 2016 - <strong>present</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Stepmania &quot;4&quot;: 2005 - 2011. Also an unreleased CVS snapshot.
+<ul>
+<li><a href="https://github.com/stepmania/stepmania/wiki/versions#unofficial">Apparently had troubled development</a>; the later &quot;sm4 snapshot&quot; versions made far more conservative changes.</li>
+<li><code>sm-ssc</code> (forked off the more outlandish incarnation of Stepmania 4): 2009 - 2011</li>
+</ul>
+</li>
+<li><code>sm-ssc</code> assumes the &quot;official&quot; Stepmania 5 branding in 2011; betas, alphas, and test releases occur 2011 - 2015</li>
+<li>Stepmania 5.0: 2015 - 2016
+<ul>
+<li>Club Fantastic <a href="https://wiki.clubfantastic.dance/en/Changelog#h-11122020-release-3">(&quot;CFSM&quot;)</a>: 2020 - <strong>present</strong></li>
+<li>Etterna: 2016 - <strong>present</strong></li>
+</ul>
+</li>
+<li>Stepmania 5.1 (on branch <code>5.1-new</code>): releases made 2016 - 2018, work continued through late 2022
+<ul>
+<li>Outfox: 2019 - <strong>present</strong></li>
+<li>ITGmania: 2022 - <strong>present</strong></li>
+</ul>
+</li>
+<li>Stepmania 5.2? 👻</li>
+</ul>
+<p>And a short description of some of these spinoff projects:</p>
+<ul>
+<li>OpenITG: &quot;3.95&quot; fork that attempts to be a clone of the commercial ITG software, intended to be installed both at home and on ITG arcade hardware</li>
+<li>NotITG: OpenITG fork that adds many more attacks, Lua functions, and visual capabilities; grew out of the course-file community</li>
+<li><code>sm-ssc</code>: &quot;4&quot; fork with the main goal of Adding A Bunch Of Stuff™, primarily to allow for easier and more flexible theming but also to expand gameplay capabilities, by-and-for the theming community</li>
+<li>Club Fantastic: Small stepmania 5.0 fork but the main attraction is the content package, aimed at beginners and experts to the post-ITG community</li>
+<li>Etterna: Stepmania 5.0 fork aimed at the keyboard rhythm game community</li>
+<li>Outfox: Stepmania 5.1-new fork aimed at the general rhythm game community
+<ul>
+<li>goals include adding and fixing up support for more types of rhythm game (guitar hero, paraparaparadise, taiko, donkey konga??) and bringing the game to new platforms</li>
+</ul>
+</li>
+<li>ITGmania: Stepmania 5.1-new fork aimed at the post-ITG community
+<ul>
+<li>goals include making engine changes that were formerly hackily implemented in programs like the GrooveStats Launcher or in popular in-community themes like Simply Love, like held-miss tracking and integrated GrooveStats score submission</li>
+</ul>
+</li>
+</ul>
+<p>All of the holdout 5.1-new/5.2 developers seem to be busy on Outfox or ITGmania. Stepmania is dead, long live Stepmania.</p>
+<p>Ok, that's enough context. What's in this thing.</p>
+<h1>Directory tour</h1>
+<p>The <code>src</code> folder contains most of the game's source code in a single, flat directory structure. I'll go over the handful of subdirectories first.</p>
+<h2><code>arch</code> and <code>archutils</code></h2>
+<p>Simple platform abstractions. When Stepmania wants to display a <code>LoadingWindow</code>, for example, there are implementations using the Windows API, GTK, Mac, some older versions have Cocoa and SDL implementatons... <code>arch_default.h</code> contains the necessary preprocessor magic to include the right files on the right platforms. <code>arch/ArchHooks</code> has a bunch of one-off methods that require different implementations on each platform, like &quot;opening a URL in the browser&quot;.</p>
+<h2><code>smpackage</code></h2>
+<p>This goes wayyyy back, at least earlier than 1.64. The original StepMania author envisioned a Stepmania-specific content package format. Quoting <code>README-first.html</code> in the 3.0 download:</p>
+<blockquote>
+<p>The StepMania package format was created to make the distribution of songs and other add-ons very easy.  StepMania package files have the extension '.smzip' and can be installed by double-clicking the .smzip file.</p>
+<p>A StepMania package is 'installed' by extracting all files in the package to the StepMania program directory. This allows songs, courses, themes, and visualizations to all be installed by the Package Manager.</p>
+<p>The file format of an .smzip file is actually the PK-Zip standard.  This means you can rename any .smzip file to have the extension '.zip', and then open the file in any compression application (e.g. WinZip, WinRAR).</p>
+<p>The StepMania Package Exporter (smpackage.exe) can create packages of your song, announcers, themes, or other add-ons. Simply launch the Package Exporter (Start Menu-&gt;Programs-&gt;StepMania-&gt;Package Exporter), click the items you would like to make into a package, then click the one of the Export buttons. &quot;Export as One&quot; will take all of the selected items and make one package that contains them all. &quot;Export Individual&quot; will create one separate package for each selected item in the list.</p>
+</blockquote>
+<p>This didn't catch on much with the community - off-the-shelf zip programs turned out to be good enough - and <code>smpackage</code> is no longer a separate program, but you might find a lingering <code>.smzip</code> file association on your Windows computer.</p>
+<p>Cutely, a revised version of this scheme is still listed as a <a href="https://github.com/stepmania/stepmania/wiki/SMPackage">&quot;future project&quot;</a> on the Stepmania 5 wiki.</p>
+<h2>Horribly outdated stuff</h2>
+<ul>
+<li>the <code>irc</code> directory in 5.1-new contains an IRC bot that I think belonged to the 3.95 team? Their CI would invoke this whenever it builded a new release.</li>
+<li><code>update_check</code> contains a PHP script?!</li>
+<li><code>verify_signature</code> contains various 2004-era programs by Chris Danford to check file cryptographic signatures, in C++, C#, and Java, probably to test the new cryptographic library being switched to at the time.</li>
+<li>Stepmania adopted CMake in 2015. Before that, headers to assorted third-party libraries (and sometimes the <code>.lib</code> itself!) were included in the <code>src</code> tree. There are still a few third-party libraries in there as of 5.1-new; specifically <code>libtomcrypt</code> and <code>libtommath</code></li>
+</ul>
+<h1>Top-level source concepts</h1>
+<h2>&quot;Rage&quot;</h2>
+<p>This is a light &quot;game engine&quot;, no relation to the one from Rockstar, dating to at least earlier than Stepmania 1.64.</p>
+<p>Input devices and joysticks, math (including matrix math), filesystem, sound playback, image loading, etc, will often be implemented in classes starting with the word <code>Rage</code>.</p>
+<h2>Lua bindings</h2>
+<p>Generally when something is exposed to Lua, the glue code listing the exposed fields and methods will be written at the bottom of the <code>.cpp</code> file. The glue is implemented in <code>LuaBinding.h</code>/<code>.cpp</code>. SM3.9 doesn't expose Lua bindings.</p>
+<h1>Ok how does this engine work</h1>
+<p>In this section when I refer to &quot;the theme&quot;, I'm also referring to &quot;any scripting gunk that might be contained in a modded simfile&quot;; mod files work by placing actors and scripts on the screen just like with theming.</p>
+<p>I will be comparing:</p>
+<ul>
+<li><a href="https://github.com/openitg/stepmania/tree/tags/v390release">openitg/stepmania</a>, tag <code>v390release</code></li>
+<li><a href="https://github.com/openitg/openitg">openitg/openitg</a>, branch <code>master</code></li>
+<li><a href="https://github.com/stepmania/stepmania/tree/5_1-new/src">stepmania/stepmania</a>, branch <code>5_1-new</code>, which I might call &quot;SSC&quot; for short</li>
+</ul>
+<p>⚠ There's gonna be some stuff where I'm like &quot;oh this was added in OpenITG&quot;, but it was actually added in to Stepmania &quot;3.95&quot;, in the interim between <code>v390release</code> and OpenITG's fork point. I don't know exactly which CVS version of Stepmania OpenITG forked off of and I'm just clicking around looking for convenient tags to browse on Github anyway.</p>
+<h2>Actors</h2>
+<p>(TODO: cover updating/drawing cycle, at least for comparison with Screen)</p>
+<p>What is an actor? A miserable pile of secrets. quietly-turning <a href="https://quietly-turning.github.io/Lua-For-SM5/LuaAPI#Actors">describes them so</a>:</p>
+<blockquote>
+<p>Actors are the basic building blocks used to script content for StepMania. When the player sees and interacts with something on-screen, like a menu system or a 3D model of a dancing character, that <em>something</em> is an actor.</p>
+</blockquote>
+<p>There's an actor for displaying rectangles (<code>Quad</code>), text (<code>BitmapText</code>), images and video (<code>Sprite</code>), the groove radar used in some themes (<code>GrooveRadar</code>), the arrow playfield (<code>Player</code>), a copy of another actor (<code>ActorProxy</code>), and if you generalize the notion of &quot;something you can see&quot; you'll find actors that contain other actors (<code>ActorFrame</code>), actors that play sounds (<code>ActorSound</code>), and so on and so on and so on. Actors all the way down.</p>
+<p>Some actors are very general-purpose (like <code>Sprite</code>) and are mainly configured through the theme. Other actors (like <code>Player</code>) mainly end up configured through the C++ engine code. A given Screen might create a few actors, or it may expect the theme to have placed down actors with specific names and types in order to function (you can imagine <code>ScreenGameplay</code> is not very interesting without any <code>Player</code> actors, right). I will talk about Screens later.</p>
+<p>Each actor has a &quot;tween state&quot;, which includes an x/y/z position, pitch/yaw/roll rotation, x/y/z scale (&quot;zoom&quot;), X and Y skew, four crop amounts (one for each edge), four fade amounts and diffuse colors (one for each corner), and a glow color. The tween system allows the theme to set any of these properties, animate them over time, and query their current value - because they can be queried, SSC also adds an &quot;aux&quot; variable to the mix, allowing the tween system to be used to drive an arbitrary float. (Each actor can also have &quot;effects&quot; applied to it, which are rudimentary animations that accomplish a similar thing to the tween system.)</p>
+<p>Additionally, each actor has:</p>
+<ul>
+<li>a name (string), and in 3.9, also an ID string</li>
+<li>in SM5, an optional parent actor</li>
+<li>base rotation and scale</li>
+<li>a &quot;first update&quot; flag</li>
+<li>horizontal and vertical alignment settings</li>
+<li>a draw order (imagine CSS's <code>z-index</code>)</li>
+<li>a &quot;hidden&quot; flag</li>
+<li>a blending mode</li>
+<li>a texture wrapping flag</li>
+<li>a culling mode</li>
+<li>and some things to do with the zbuffer:
+<ul>
+<li>a flag to erase the whole zbuffer when drawing this actor</li>
+<li>a flag to ignore the zbuffer when drawing this actor</li>
+<li>a flag to avoid writing to the zbuffer when drawing this actor</li>
+<li>(sm5) a zbuffer bias</li>
+</ul>
+</li>
+</ul>
+<p>Basically there is &quot;a lot&quot; of stuff stored for each actor - enough to position and animate it anywhere you like, and a couple of mildly advanced rendering abilities.</p>
+<h3>Commands</h3>
+<p>In general, a &quot;command&quot; is a short <em>program</em> that goes into a <em>named slot</em>. When you call a command on an actor, it will run the program, and bubble the command downwards into each of its child actors.</p>
+<p>Some examples of what the command system is used for:</p>
+<ul>
+<li><code>Init</code>, invoked on an actor immediately after loading it</li>
+<li><code>On</code>, invoked when the screen the actor's on becomes the active screen</li>
+<li><code>Off</code>, invoked when that screen is no longer the active screen</li>
+</ul>
+<p>The implementation is pretty different in SM3.9 and in OpenITG/SM5.</p>
+<h4>SM3.9</h4>
+<p>A command is a semicolon-delimited list of tween instructions. Commands are always stored in <code>metrics.ini</code>. <a href="https://github.com/openitg/stepmania/blob/tags/v390release/stepmania/Themes/default/metrics.ini#L132">Here's one from the Stepmania 3.9 default theme</a>:</p>
+<pre><code class="language-ini">[ScreenSelectStyle]
+# ...
+PremiumOnCommand=addx,400;bounceend,0.5;addx,-400;glowshift;effectcolor1,1,1,1,0;effectcolor2,1,1,1,0.3
+</code></pre>
+<p>When calling a command on an actor, <a href="https://github.com/openitg/stepmania/blob/tags/v390release/stepmania/src/ActorUtil.cpp#L305">the engine will</a>:</p>
+<ul>
+<li>build a string by concatenating the actor's ID + the name of the command to call + the word &quot;Command&quot;</li>
+<li>look it up in the section of <code>metrics.ini</code> corresponding to the current screen's name</li>
+<li>parse the result as a list of instructions.</li>
+</ul>
+<p>(This command would be found when executing the <code>On</code> command, on the actor with ID <code>Premium</code>, while on the screen named <code>ScreenSelectStyle</code>.)</p>
+<p>SM3.9 has <a href="https://github.com/openitg/stepmania/blob/tags/v390release/stepmania/src/Actor.cpp#L636">decently big list of instructions</a> that can be applied to actors. <code>ActorCommands.cpp</code> <code>ParseCommands</code> parses this string into a <code>vector&lt;ParsedCommand&gt;</code>; there are six <code>ParsedCommand</code>s in this example string, separated by semicolons. When the actor executes this command, it will move 400px to the right, set the tween mode used for further commands to <code>bounceend</code> over half a second, move 400 pixels back to the left, play the <code>glowshift</code> effect, and configure that effect's colors.</p>
+<p>Note that the list of instructions may change per-actor type; it's a virtual function, actor implementations can override it to respond to more commands.</p>
+<p>It is limited because while there's a lot of options, all you can do is punt around the variables on the actor.</p>
+<h4>OpenITG</h4>
+<p>OpenITG (probably actually 3.95) added two things:</p>
+<ul>
+<li>the ability to load screens (and therefore, actors) out of an XML file, instead of hardcoding the entire actor layout in each screen's C++ code;</li>
+<li>a Lua API to configure the actor's properties.</li>
+</ul>
+<p>Commands are now stored <em>on the actor itself</em>, in a map indexed by the command name. When loading an XML actor, if there's an XML attribute with a <code>Command</code> suffix, the prefix of the string is used as the name, and the text is parsed as a command.</p>
+<p>Commands are always Lua functions. OpenITG added a Lua API to configure the same things the old command system could configure.</p>
+<p>The <a href="https://github.com/openitg/openitg/blob/master/src/ActorCommands.cpp">command parser</a> became much stranger. If the command string starts with <code>%</code>, it is replaced with <code>return </code>, and the resultant string is returned. This lets you write Lua functions as a command, like this one from the <a href="https://github.com/openitg/openitg/blob/f2c129fe65c65e4a9b3a691ff35e7717b4e8de51/assets/d4/Themes/default/metrics.ini">OpenITG theme metrics.ini</a>:</p>
+<pre><code class="language-ini">ScrollerOnCommand=%function(self) self:z(-200); self:SetDrawByZPosition(true) end
+</code></pre>
+<p>If it doesn't start with a percent sign, the string is assumed to be a command in the SM3.9 format, and the engine will <em>update it</em> into a Lua function:</p>
+<ul>
+<li>First it's parsed using <a href="https://github.com/openitg/openitg/blob/f2c129fe65c65e4a9b3a691ff35e7717b4e8de51/src/Command.cpp#L69">Command::parseCommands</a>, which splits the string on semicolons and stores all commas as &quot;arguments&quot;</li>
+<li>but it then <a href="https://github.com/openitg/openitg/blob/master/src/ActorCommands.cpp#L7">uses some string-munging</a> to replace commands like <code>addx,400</code> with strings like <code>self:addx(400); </code>!</li>
+<li>It does this for all commands, adds <code>return function(self,parent)</code> at the beginning and <code>end</code> at the ending, and returns. The command string has been successfully converted into a Lua function.</li>
+</ul>
+<p>It's still possible to define commands with the metrics system - if the actor does not define a command with the given name, <a href="https://github.com/openitg/openitg/blob/f2c129fe65c65e4a9b3a691ff35e7717b4e8de51/src/ActorUtil.cpp#L377-L379"><code>metrics.ini</code> will be checked for the command</a>. Commands can be defined using either format (list-of-tweens or a Lua function) in either location (on the actor or in <code>metrics.ini</code>)</p>
+<h4>SM5</h4>
+<p>Similar to OpenITG. The string munger is moved to <a href="https://github.com/stepmania/stepmania/blob/984dc8668f1fedacf553f279a828acdebffc5625/src/LuaManager.cpp#L901">LuaHelpers::parseCommandList</a>, which also handles the <code>%</code> syntax.</p>
+<p>SM5 also added the ability to create actors from a Lua file. When converting a Lua table to an actor, properties ending with <code>Command</code> may be directly set to Lua functions (no string-roundtrips or % signs required).</p>
+<h3>Messages (not in SM3.9)</h3>
+<p>Commands are per-actor; you dispatch a command <em>on</em> an actor, and it trickles the command dispatch down through the actor tree.</p>
+<p>Messages, on the other hand, are global. The message manager is a global object, anything can subscribe to be notified of a message, and anything can broadcast a message.</p>
+<p>It's possible to define &quot;message commands&quot; on an actor (remember that actors are only one type of message listener). There isn't a single concept of &quot;message command&quot;s in the game code, they are simply an interaction of the command system and the message system:</p>
+<ul>
+<li>you add <code>BlahMessageCommand=&quot;%hi()&quot;</code> to your actor xml
+<ul>
+<li>the command system sees the XML attribute ending in the word <code>Command</code>, removes the suffix (leaving <code>BlahMessage</code>), and parses the command</li>
+<li>it considers adding the command under the name <code>BlahMessage</code> --
+<ul>
+<li>ah, but it notices the name ends in the word <code>Message</code>, so it removes that suffix too (leaving <code>Blah</code>), and tells the message manager it's interested in hearing the message <code>Blah</code></li>
+</ul>
+</li>
+<li>the command is actually added under the double-stripped name <code>Blah</code></li>
+</ul>
+</li>
+</ul>
+<p>Then, when something broadcasts <code>Blah</code>:</p>
+<ul>
+<li>the message manager will look up the list of message-subscribers interested in hearing about <code>Blah</code></li>
+<li>if it's not empty, it will notify each one in turn
+<ul>
+<li>the actor hears the message</li>
+<li>the actor looks up the command under <code>Blah</code></li>
+<li>if one exists, the actor will execute the command</li>
+</ul>
+</li>
+</ul>
+<p>Messages can't have arguments. If there's some data to be posted along with a message, the convention is to stick it in a global variable somewhere before posting the message.</p>
+<p>The message system is how <a href="https://github.com/DivinElegy/DivinEntity/blob/9eb41fb769bb14e26def6d5134a03ec0770326c9/NoteSkins/dance/DivinEntity/Left%20Tap%20Note%204th.xml#L160-L185">DivinEntity</a> was able to communicate data about which arrows were being pressed to any simfile who would listen. (NotITG now broadcasts the messages from the engine.)</p>
+<p>Worth noting that <code>QueueCommand</code> is a tween instruction that invokes a command on itself when being evaluated. Similarly, <code>QueueMessage</code> is a tween that broadcasts a message over the message manager when being evaluated.</p>
+<h2>quick diversion into input types</h2>
+<ul>
+<li><code>DeviceInput</code> - This is a &quot;lower level&quot; input event defined in <code>RageInputDevice.h</code>. It is a keyboard press, joystick wiggle, or whatnot.</li>
+<li><code>GameInput</code> - &quot;An input event specific to a Game definied by an instrument and a button space.&quot;. For example, <code>DANCE_BUTTON_LEFT</code>.</li>
+<li><code>MenuInput</code> - Menu navigation inputs, such as MenuLeft and MenuRight, start and select, and the &quot;button&quot; that's pressed whenever a coin is inserted into the arcade machine.</li>
+<li><code>StyleInput</code> - Column-specific game input - this is just a tuple of (player number, column).</li>
+</ul>
+<p>Annoyingly there is overlap between them - there is <code>DANCE_BUTTON_COIN</code> in <code>GameInput</code> as well as <code>MENU_BUTTON_COIN</code> in <code>MenuInput</code>. Even things like <code>DANCE_BUTTON_MENULEFT</code>. I dunno.</p>
+<h2>Screens</h2>
+<p>A <code>Screen</code> is a type of <code>ActorFrame</code>, which tells you a bit about what they are - a screen contains zero or more actors.</p>
+<p>Screens update every frame, and receive a method call whenever an input event happens. There is also a notion of a &quot;transparent&quot; screen (where screens below it need to be drawn first - more on that with the screen manager), and a screen message system (unrelated to the OpenITG message manager). Screen messages can be posted now or take place in the future. They are generally things like &quot;the menu timer expired&quot;, &quot;go to the next screen&quot;, &quot;go to the previous screen&quot;, &quot;stop playing music&quot; etc.</p>
+<h2>The screen manager</h2>
+<p>The screen manager maintains a <em>stack</em> of screens. Screens can be pushed onto the stack or popped off. The &quot;top screen&quot; is considered to be the one with focus. When pushing a screen onto the stack (or when replacing the screen with a new one), the <code>SM_LoseFocus</code> screen message is posted to the old screen, and <code>SM_GainFocus</code> is posted to the new screen.</p>
+<p>The stack system is not used much. It's not that &quot;song select opens the gameplay screen on top of it&quot;, it's used more for things like the Ok/Cancel dialog that shows up to confirm your autosync result. That's a screen.</p>
+<p>The screen manager can also <em>prep</em> a screen, which constructs and initializes it (getting all its actors in place, calling the <code>Init</code> command on all of them, etc) without actually making it the top screen yet. The purpose of this is to prepare screens that will be used very shortly, like how <code>ScreenGameplay</code> will almost always be used after <code>ScreenSelectMusic</code>, so might as well prep it now.</p>
+<p>There's yet another thing called a &quot;message&quot; - &quot;system messages&quot; are fortunately not too much fancy, they're for debugging toasts. As usual, in SM3.9 the actor responsible for showing the toast onscreen was hardcoded in C++, and OpenITG punts it to the theme; it sets a global variable then broadcasts <code>SystemMessage</code>.</p>
+<h2>XML actors and screens</h2>
+<p>SM3.9 had a pretty simple notion of screens. The C++ constuctor would initialize all the screen's actors, put them in the ActorFrame, and that was that.</p>
+<p>OpenITG's system of loading screens from XML added much more complexity. In OpenITG, I thiiiiink the entrypoint is <code>ActorUtil::MakeActor</code>, which is sometimes called from <code>ScreenManager</code>?</p>
+<ul>
+<li>Give it an <code>.xml</code> file, it will call <code>LoadFromActorFile</code>, which I will get back to.</li>
+<li>There's something for <code>.actor</code> files, I can't tell exactly what it does (both ini and xml??) but it will call <code>LoadFromActorFile</code> with some xml in the file apparently.</li>
+<li>Give it a directory, it will call <code>LoadFromActorFile</code> on the <code>default.xml</code> file inside the directory.
+<ul>
+<li>If that file doesn't exist, it'll give you a <code>BGAnimation</code> actor from the <code>BGAnimation.ini</code> file inside the directory.</li>
+</ul>
+</li>
+<li>Give it a bitmap (png, jpg, gif, bmp), movie (avi, mkv, mp4, mpeg, mpg), or sprite (sprite), it'll give you a <code>Sprite</code> actor set to the graphic.</li>
+<li>Give it a 3d model (txt, model), it'll give you a <code>Model</code> actor set to the model.
+<ul>
+<li>Yeah, <code>.txt</code>. Apparently it has a Milkshape 3d model loader.</li>
+</ul>
+</li>
+</ul>
+<p><code>LoadFromActorFile</code> is the meat and potatoes, the rest is convenience for setting up a (not configurable...) actor - nothing you couldn't do by manually making a <code>Sprite</code> actor from XML. So let's look at that instead.</p>
+<ul>
+<li>First, if the root node has an attribute <code>Condition</code> and, evaluated as a Lua function, it didn't return <code>true</code>, immediately cancel loading the actor.
+<ul>
+<li>This is a very rudimentary way of making actors disappear under certain conditions.</li>
+</ul>
+</li>
+<li>Look for the attribute <code>Class</code> to pick the archetype of the node. (<code>Type</code> is allowed &quot;for backwards compatibility&quot;.)</li>
+<li>Look for the attribute <code>File</code> and assert it's non-empty.</li>
+<li>&quot;backward compatibility hacks&quot;:
+<ul>
+<li>if a <code>Text</code> attribute exists instead of <code>Class</code>, set the archetype to <code>BitmapText</code></li>
+<li>if the <code>File</code> is set to <code>songbackground</code>, <code>songbanner</code>, or <code>coursebanner</code>, set the archetype accordingly (these do not correspond to real actors)</li>
+</ul>
+</li>
+<li>If an actor type with that archetype exists, call <code>ActorUtil::Create</code>, passing the XML.</li>
+<li>If not:
+<ul>
+<li>if the archetype was <code>songbackground</code>, <code>songbanner</code>, or <code>coursebanner</code>, create <code>Sprite</code> actors with the relevant image file</li>
+<li>if not, call <code>MakeActor</code> on the value of <code>File</code></li>
+</ul>
+</li>
+</ul>
+<p>Or, simplifying for the common case without the funny special-cases and conveniences:</p>
+<ul>
+<li>if the root node has an attribute <code>Condition</code> and it evaluates to a falsy lua function, stop</li>
+<li>look for the attribute <code>Class</code> to pick the archetype of the node</li>
+<li>look for the actor of that archetype, call <code>ActorUtil::Create</code></li>
+<li>due to haha funny macro stuff (<code>REGISTER_ACTOR_CLASS(_WITH_NAME)?</code> in <code>ActorUtil.h</code>), this leads to constructing the actor (with the <code>new</code> keyword), calling <code>LoadFromNode</code> on it with the xml, and returning it</li>
+</ul>
+<p>For <code>ActorFrame</code>s, well first when you make it with XML you actually get a slightly different <code>ActorFrameAutoDeleteChildren</code> instance, but its <code>LoadFromNode</code> method will recurse into the XML structure and call <code>ActorUtil::LoadFromActorFile</code> again.</p>
+<p>TODO: What I'm struggling to find is what connects Screens and Actors. The only method that looks in the screen registry is <code>ScreenManager::MakeNewScreenInternal</code>, which constructs the screen with the given archetype and (in the <code>REGISTER_SCREEN_CLASS</code> macro) calls <code>init</code>. I think this is the wrong place to look and the lua stuff is actually in <code>BGAnimations</code> with the underlay/overlay system?</p>
+]]></content:encoded>
+</item>
+<item>
+<title>How the hell do you use the command line</title>
+<link>https://highlysuspect.agency/posts/command_line</link>
+<guid>https://highlysuspect.agency/posts/command_line</guid>
+<pubDate>Tue, 25 Oct 2022 00:00:00 -0400</pubDate>
+<description>And other things you learned ten years ago and forgot how to teach.</description>
+<content:encoded><![CDATA[
+<p><em>This was originally gonna be one of those newfangled &quot;twitter&quot; &quot;threads&quot; the kids are posting these days but it got a bit out of hand</em></p>
+<p>I keep forgetting how unfamiliar the command line is for Normal People. I'm not a command line guru, I only know how to navigate around and use simple commands - but there's already an ocean between this and how <em>everyone else on the planet</em> uses a computer.</p>
+<p>Like &quot;you use <code>./blah</code> to refer to '<code>blah</code>, but in the current directory'&quot; Jesse, what the fuck are you talking about? A folder that doesn't go anywhere? That's crazy, next you'll tell me there's somehow a folder name that goes backwards too, hm?</p>
+<p>How do you explain the behavior where you accidentally typo an unmatched quote and the terminal gets into a confusing state where it hasn't ran the command and is actually waiting for more user input? You're supposed to figure this out <em>just from seeing a <code>&gt;</code> in the left column?</em></p>
+<p>Like, given infinite time I can surely explain all these things. But the problem is that I don't want to spend hours explaining the intracacies of how to escape spaces and special characters in arguments to command line options, because if I'm trying to teach someone how to operate a command line it's probably because I want to tell them about a program they can use <em>with</em> the command line, and the thing of interest looks less like &quot;how to run <code>clear</code> because the terminal got resized and is now stomping over old text&quot; and more like &quot;how to use <code>yt-dlp</code>&quot;.</p>
+<p>Look, I even hyped it up a bit; made it look easy by rattling off the <code>--extract-audio --audio-format mp3 &lt;youtube video link here&gt;</code> command that I have stored in an easier-to-access register in my brain than my phone number. I even spelled out <code>--extract-audio</code> instead of <code>-x</code> to make it appear a little less cryptic.</p>
+<p>The first hurdle is that the user entered the URL within brackets, assuming that my <code>&lt;youtube video link here&gt;</code> snippet included the angle brackets as part of the command. Thankfully(?) Powershell happily explodes on angle brackets instead of trying to pipe to a file, so it was an easy fix, but it did make me pause. &quot;Of course&quot;, I thought, text in angle brackets represents a placeholder, right? &quot;Of course&quot; the angle brackets are part of the placeholder and are not to be copied, because &quot;of course&quot; angle brackets are never part of a command. But this is a convention you have to learn from <em>somewhere</em>, and given that the command line is about entering cryptic unfamiliar sequences of characters and words and word-like items and dashes and dots, why <em>wouldn't</em> angle brackets fit?</p>
+<p>The second problem is that <code>-x</code> and <code>--audio-format</code> require a separately downloaded <code>ffmpeg</code> on your <code>PATH</code> (or passed in with an <code>--ffmpeg-location</code> argument) to function, meaning that the &quot;simple&quot; command isn't so simple after all. The whole <code>PATH</code> business is yet another thing that isn't <em>unexplainable</em> - it's how the computer finds programs by name, blah blah - but it's <em>total fucking moonworld logic</em> to anyone familiar with a different model of computing.</p>
+<p>Take a step back. Most people install programs by googling for an installer and clicking on an <code>.exe</code> file, and then there's maybe a desktop icon added to launch the program.</p>
+<p>The closest analogy I can think of to &quot;a program that doesn't ship with its own dependencies&quot; is something like a program requiring a Visual C++ Redistributable, which is still ultimately a program you install the familiar way - google for the exe, double click it and follow the directions until the window goes away, and without any more configuration or specifying paths or <code>PATH</code>s or computer restarting or terminal restarting or anything else out of the ordinary, the program you actually wanted to run works now. These days most of these programs are Steam games, and Steam even installs vs redistributables for you, so you do not have to do a thing.</p>
+<p>I... can't even find ffmpeg &quot;installers&quot; at all. The best I can find are zip files with <code>/bin</code> and <code>/lib</code> directories and I guess you're expected to manage your path yourself? That's if you can even find the download you want - does GPL versus LGPL matter? (It matters to <em>me</em> but to the average person?) Do I want GPL-Shared or just GPL? Is there a 64-bit version I need or does either one work? The .zip or the .7z?</p>
+<p>Windows does come with a handy utility buried wayyyy deep in the control panel for modifying environment variables that even has a nice graphical editor for the PATH. Right yeah you gotta restart all open terminals to pick up on the new PATH probably, can you try rerunning the command and seeing if it works now? Or I could have them use yt-dlp's <code>--ffmpeg-location</code> switch, which will require figuring out how to pass the path to the program (does it want <code>/bin</code> or the root ffmpeg directory? does the install path have spaces and therefore need to be quoted on the command line?), and they'll also need to specify it every time they use the downloader, so don't lose that file path and try not to worry about the giant unwieldy command!</p>
+<p>At every point of failure in this process I just think about the process of installing google chrome. You click the exe and it works now. Tada.</p>
+<p>Wow! So simple!! Downloading mp3s is easy!!!</p>
+<p>At this point I'm not proud to admit I copied the youtube URL out of the user's screenshots, downloaded it locally, saw that the mp3 was less than eight megabytes, apologized profusely, and attached it to a discord message.</p>
+<h1>In summary</h1>
+<p>&quot;Computers.&quot;</p>
+]]></content:encoded>
+</item>
+<item>
+<title>Where has all the memory gone?</title>
+<link>https://highlysuspect.agency/posts/where_has_all_the_memory_gone</link>
+<guid>https://highlysuspect.agency/posts/where_has_all_the_memory_gone</guid>
+<pubDate>Mon, 03 Oct 2022 00:00:00 -0400</pubDate>
+<description>Let's browse a Forge 1.18 modpack heap dump.</description>
+<content:encoded><![CDATA[
+<p>It's no secret that modded Minecraft requires a ton of memory, and seems to require more and more over time. Questions about lag are often answered with &quot;allocate more memory&quot;. But have you ever wondered what that memory is actually <em>used</em> for?</p>
+<p>Luckily Java lets you take a &quot;heap dump&quot;, which is pretty much a file containing every object that Java is currently managing. Tools like <a href="https://visualvm.github.io/">VisualVM</a> allow easily capturing heap dumps with the press of a button and browsing every object inside.</p>
+<p>Let's take a look, shall we?</p>
+<h2>Modpack</h2>
+<p>The modpack chosen was <a href="https://forum.feed-the-beast.com/threads/plexiglass-mountain-1-18-2.305588/">FTB Plexiglass Mountain</a> version 1.2.0 for Forge 1.18. I don't know much about this modpack, but it seems like a fairly typical modpack assembled by people who know what they're doing.</p>
+<p>Its modlist is 238 mods strong and contains a good mix of little tweaks, big content mods, and a few optimization mods. Notable for our adventure is the inclusion of <a href="https://www.curseforge.com/minecraft/mc-mods/ferritecore">FerriteCore</a>, which is a mod that dramatically reduces the amount of memory the game consumes using <a href="https://github.com/malte0811/FerriteCore/blob/main/summary.md">a number of methods</a>.</p>
+<p>TODO: Compare memory usage without FerriteCore (visualvm has a comparison tool)</p>
+<h2>Scenario</h2>
+<p>I loaded the modpack, generated a new world with Creative mode enabled and a random seed (ended up being <code>-983888108176808920</code>), flew up into the sky and looked around to render all the chunks, waited for the framerate to stabilize, waited for a garbage collection cycle, then pressed VisualVM's heap dump button. I know that this isn't very scientific.</p>
+<p>The only arguments passed were <code>-Xms8192m -Xmx8192m</code> (allocating 8gb of RAM) and other miscellany that the PolyMC launcher adds. The JVM is Eclipse Temurin 17.0.4-101, installed via <code>scoop</code>. I'm on Windows 10.</p>
+<h2>Overall memory usage</h2>
+<p>8gb of RAM was allocated to the pack. After waiting for the garbage collection cycle, the game reported that only about 25% of this memory was in use, and the Java heap captured in the file confirms this, being only 2.03gb large. I'm guessing that the garbage collector could clear more memory if it wanted to but decided that 25% is good enough. I did not notice any framerate dip at all during this event.</p>
+<h2>Single largest objects</h2>
+<p>In this section I will look at the largest <em>single</em> objects. This tends to point out the largest arrays and collections in the game (because the size of an array depends on how much stuff is inside of it). In Java, arrays to primitive types contain their elements inline, and arrays of nonprimitive types always consist of pointers to the objects. Pointers are 32 bits wide even on a 64-bit computer - the <a href="https://www.baeldung.com/jvm-compressed-oops">&quot;compressed oops&quot; trick</a> - unless you are allocating more than 32gb to the game, which I am hoping nobody is doing.</p>
+<p>The percentage is the total size of the used heap (the 2.03gb figure). When the data structure belongs to a collection, I've taken the liberty of looking for the things that reference the collection - it's less useful to say &quot;there is a big hashmap&quot; and more useful to talk about who references the big hashmap.</p>
+<h4>1. <code>f_182324_ in net.minecraft.util.MemoryReserve</code>, <code>byte[]</code>, 10,485,776 B (0.5%)</h4>
+<p>The single largest object in the game, consuming 0.5% of the entire heap, is ten mebibytes of empty space not used for anything. It is entirely filled with zeroes. The game will free this memory if it detects it's dangerously low on memory.</p>
+<p>I think this thing dates back to the applet days, too. Kinda funny.</p>
+<h4>2. <code>_buffer in lzma.sdk.lz.OutWindow</code>, <code>byte[]</code>, 8,388,624 B (0.4%)</h4>
+<p>This looks like decompression guts - visual inspection shows it contains a bunch of fragments of jar files. It is a &quot;GC root&quot; meaning it will never b e garbage collected.</p>
+<p>It is ultimately referenced by the <code>coder</code> field in one of <a href="https://github.com/cstamas/streams/blob/master/src/main/java/org/cservenak/streams/CoderThread.java">these classes</a>.</p>
+<p>TODO: Who is loading this?</p>
+<h4>3. <code>f_110877 in net.minecraft.client.renderer.block.BlockModelShaper</code>, <code>Object[]</code>, 4,194,320 B (0.2%)</h4>
+<p>This array has space for pointers to 1,048,576 <code>BlockState</code> objects. However, (according to VisualVM) it only contains 314,917 of them. This means that 2.9mb of the 4.1mb array is wasted. Why is that?</p>
+<p>Java's only growable data structure is the array, so all other Java collections that use heap memory must ultimately reference an array. And sure enough, this array is referenced from an <code>IdentityHashMap</code>. There is wasted space in the array because the performance of inserting items into a <code>HashMap</code> suffers when the map is more full - <code>HashMap</code>s like to resize after reaching a certain fill level.</p>
+<p>Resizing is typically done by doubling the size of the backing array - the idea is that resizing the array is a very expensive operation, so the amount of times the array is resized should grow with the <em>logarithm</em> of the amount of elements. With relatively small numbers of elements (say, in the four-digits), this is a great policy and strikes a good balance between &quot;memory consumption&quot; and &quot;not getting any work done because the array is being resized all the time&quot;</p>
+<p>The interesting thing, though, is that there is no reason to accomodate for the performance of adding new items to the map, because at this point in the game's lifecycle we are all done adding things to the map. This only gets modified when loading resources, so there is no need for the extra space.</p>
+<h4>4 and 5. <code>f_119960_ in net.minecraft.client.searchtree.SuffixArray</code>, 2,160,888 B (0.1%) each</h4>
+<p>The <code>SuffixArray</code> is a data structure used to accellerate searching for things in the vanilla recipe book.</p>
+<p>There are two of them! I don't know why there are two <code>SuffixArray</code> instances.</p>
+<p>TODO They both belong to <code>f_119944_ in net.minecraft.client.searchtree.SearchRegistry#1</code></p>
+<h4>6 and 7. ModelManager datastructures, 2,097,176 B (0.1%) each</h4>
+<p>One is the keys half, the other is the values half, of the same <code>ObjectToIntOpenHashMap</code>.</p>
+<p>This is another map that contains every blockstate in the game, and it's another data structure that is oversized: there are 524,289 slots in the array but most of them are pointers to <code>null</code>. This is an <code>ObjectToIntOpenHashMap</code>, rather than a Java <code>HashMap</code>, so it has a different resizing policy - but you can see that 524,289 is one more than a power-of-two. So I imagine this is another map that doubles in size every time it grows.</p>
+<h1>oh look its another draft post</h1>
+<p>I didn't finish the analysis, but it makes sense to post what I have instead of letting it rot on my hard drive</p>
+<p>Want to be better about publishing more unfinished documents.</p>
+]]></content:encoded>
+</item>
+<item>
+<title>Updating to Fabric 1.18 notes</title>
+<link>https://highlysuspect.agency/posts/one_point_eightteen_notes</link>
+<guid>https://highlysuspect.agency/posts/one_point_eightteen_notes</guid>
+<pubDate>Tue, 30 Nov 2021 00:00:00 -0500</pubDate>
+<description>Aggregated notes on updating mods to Fabric 1.18</description>
+<content:encoded><![CDATA[
+<p>I want to get off Mx. Mojang's Wild Ride</p>
+<h1>Java 17</h1>
+<p>Unlike the big Java 8 to 16 jump we did last time, there are fewer weird tooling troubles with Java 17.</p>
+<p>I don't know why the process of &quot;getting the most recent version of OpenJDK&quot; seems to change every 15 minutes, but these days, go to <a href="https://adoptium.net/">Eclipse Adoptium</a> and get Temurin 17, which is relabeled OpenJDK, which is relabeled Hotspot. Why. I'm sure come the next Minecraft java version bump the process will be different again.</p>
+<p>If you're on Windows and use Scoop, <code>scoop install temurin17-jdk</code>. If you're on Linux, I (for once) get to make fun of your package manager because it's probably still stuck on 11. Don't bother with Oracle's site.</p>
+<p>Couple things to check:</p>
+<ul>
+<li>make sure your <code>JAVA_HOME</code> is pointing at the new Java installation</li>
+<li>make sure to update <code>sourceCompatibility</code>/<code>targetCompatiblity</code> in build.gradle to 17</li>
+<li>make sure to update <code>compatibilityLevel</code> in your <code>mixin.json</code></li>
+<li>Don't forget to change the Java version in your continuous integration pipelines too, if you use that!</li>
+</ul>
+<h1>Gradle</h1>
+<p>Update Gradle to 7.3. It has better support for Java 17. It sometimes works without updating the wrapper, but Github Actions in particular is <em>super</em> picky.</p>
+<pre><code class="language-console">./gradlew wrapper --gradle-version 7.3
+
+# check
+./gradlew --version
+</code></pre>
+<h2>Troubleshooting</h2>
+<p>If you're getting crap like <code>major version 61 is newer than 60, the highest major version supported by this compiler. It is recommended that the compiler be upgraded.</code> or <code>invalid source release: 17</code>, here are some magical incantations to try:</p>
+<ul>
+<li>Project structure -&gt; get everything on to Java 17</li>
+<li>In IntelliJ, settings -&gt; build, execution, deployment -&gt; build tools -&gt; gradle, make <em>Triple Sure</em> that the Gradle JVM is set to <code>Project SDK</code>, or is otherwise on Java 17. This is like 90% of the issues.</li>
+</ul>
+<p>If that didn't work:</p>
+<ul>
+<li>Make sure everyone's actually on Java 17: restart Intellij, run <code>./gradlew --stop</code> to kill the gradle daemon, etc. Double check your <code>JAVA_HOME</code></li>
+<li>Delete <code>.gradle/caches/fabric-loom/1.18</code> then run any gradle task (<code>clean</code> will do) to dump any .jar files that might have been put together with an old compiler</li>
+<li>If all of that doesnt work uhh idk., try lighting your computer on fire</li>
+</ul>
+<h3>Native libraries problem?</h3>
+<p>I had some weird issue about LWJGL not being able to find native libraries, which caused the game to crash with a <code>NoClassDefFound</code> on <code>blaze3d.RenderSystem</code>. I don't know if the following actually fixed it, but I did this and then it worked: delete the &quot;Minecraft Client&quot; and &quot;Minecraft Server&quot; run configurations, then run <code>clean</code> to have Loom re-create them.</p>
+<h1>Loom</h1>
+<p><a href="https://fabricmc.net/versions.html">Fabricmc versions</a> says at the bottom in bold letters, <em>The recommended loom version is 0.10-SNAPSHOT</em>, so, do that. It's at the top of your build.gradle. It also works ok on Minecraft 1.17 so why not.</p>
+<h1>Remapping</h1>
+<p>If you haven't started using official Mojang names, now is a good time to start. Yarn is atrophying a bit in the presence of Mojang's names, since the project isn't as needed anymore.</p>
+<p>I recommend remapping to official names first, and then updating to 1.18 next. Just so you have fewer changes and less to worry about at each step.</p>
+<p>To run the auto-remapper, before changing anything relating to mappings in the buildscript (so loom can figure out what mappings you're <em>currently</em> on), run <code>gradlew migrateMappings --mappings &quot;net.minecraft:mappings:1.17.1&quot;</code>, or maybe ending in only <code>1.17</code> if your mod was written against 1.17.0. Finish up by copying <code>remappedSrc</code> over <code>src/main</code>.</p>
+<p>Then, adjust your buildscript as follows. If you don't mind not having parameter names in <code>genSources</code>, replace this:</p>
+<pre><code class="language-groovy">mappings &quot;net.fabricmc:yarn:${project.yarn_mappings}:v2&quot;
+</code></pre>
+<p>with this:</p>
+<pre><code class="language-groovy">mappings loom.officialMojangMappings() //notice the &quot;loom&quot;
+</code></pre>
+<p>And if you want some parameter names, the ParchmentMC project provides some. Add them to your repositories block:</p>
+<pre><code class="language-groovy">repositories {
+	maven {
+		name = &quot;ParchmentMC&quot;
+		url = &quot;https://maven.parchmentmc.net/&quot;
+	}
+}
+</code></pre>
+<p>and use this for your <code>mappings</code> instead:</p>
+<pre><code class="language-groovy">mappings loom.layered() {
+	officialMojangMappings() //notice no &quot;loom&quot;
+	parchment(&quot;org.parchmentmc.data:parchment-1.17.1:2021.10.31@zip&quot;)
+}
+</code></pre>
+<p>I don't think there is a Parchment release for 1.18 yet. Parchment releases for the wrong version actually still work, though (more or less).</p>
+<p>Some sharp edges with the auto remapper:</p>
+<ul>
+<li>If you played with Java 16 Records in your 1.17 mod, Mercury currently blows up on them. Use the intellij intention to convert them to normal classes, remap, then convert back.</li>
+<li><code>@Inject</code> targets and some other Mixin string-things don't get remapped.</li>
+</ul>
+<h1>Fabric API</h1>
+<h2>Tool Tags</h2>
+<p><code>fabric-tool-tags</code> has been deprecated. It still works, for now, but is marked <code>Deprecated(forRemoval = true)</code>. I encourage you to migrate to the vanilla <code>mineable/blah</code> block tags now, before you <em>have</em> to do it. Throw em in your datagen if you want. (fabric-api JUST landed some datagen tools, btw)</p>
+<p><code>fabric-mining-level-api</code> adds additional <code>fabric:mineable/sword</code> and <code>fabric:mineable/shears</code> block tags.</p>
+<h2>Block Entity Syncing</h2>
+<p><code>BlockEntityClientSerializable</code> is gone 🦀</p>
+<p>The reason it existed in the first place was that <code>BlockEntity#getUpdatePacket</code> was not pluggable by mods, and it was hard to convince the game to actually sync your block entity data with the client. 1.18 changed <code>getUpdatePacket</code> so mods can use it, meaning a workaround is no longer needed.</p>
+<p>There is a general-purpose block entity syncing vanilla packet, mojang name <code>ClientboundBlockEntityDataPacket</code>. It calls <code>BlockEntity#getUpdateTag</code> on the server and sends the resulting compound tag to the client, which proceeds to call the normal <code>BlockEntity#load</code> method on the client world with it.</p>
+<p>Many vanilla <code>BlockEntity</code>s have this boilerplate:</p>
+<pre><code class="language-java">@Override
+public Packet&lt;ClientGamePacketListener&gt; getUpdatePacket() {
+	return ClientboundBlockEntityDataPacket.create(this);
+}
+
+@Override
+public CompoundTag getUpdateTag() {
+	//calls into &quot;saveAdditional&quot;, which is the mojang name for
+	//the general-purpose &quot;write my data to NBT&quot; method on BlockEntities
+	//that you are familiar with
+	return saveWithoutMetadata();
+}
+</code></pre>
+<p>This setup will sync the entirety of the server's NBT tag (save the redundant <code>id</code> and <code>x</code>/<code>y</code>/<code>z</code> fields, which aren't written when using <code>saveWithoutMetadata</code>) to the client. If you don't want to send the <em>entire</em> tag, return something different in <code>getUpdateTag</code> (see: the campfire).</p>
+<p>Calling <code>level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);</code> will fire the server-to-client sync packet, just like what <code>BlockEntityClientSerializable#sync</code> did. That's kind of a mouthful of a method name, and you typically want to call it in the same contexts you'd mark the chunk dirty in, so many vanilla <code>BlockEntity</code>s have this helper method defined as well:</p>
+<pre><code class="language-java">//(not an @Override!)
+private void markUpdated() {
+	//you may know this one as &quot;markDirty&quot;:
+	setChanged();
+	//causes the update packet to be sent:
+	level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
+}
+</code></pre>
+<p>Know that the vanilla <code>ClientboundBlockEntityDataPacket</code> calls the same <code>load</code> method that loading a <code>BlockEntity</code> on the server calls. (You are free to make your own <code>Packet&lt;?&gt;</code> and return it in <code>getUpdatePacket</code>, although it's a bit awkward because I don't know if you can use the fabric-api convention of custom payload packets here.)</p>
+<h1>Of interest to codecbrained dorks:</h1>
+<p><code>Registry&lt;T&gt;</code> no longer directly implements <code>Codec&lt;T&gt;</code>, but it does offer a <code>byNameCodec()</code> method. The returned codec works the same as it used to; i.e. it saves and loads the registry entry to its <code>ResourceLocation</code>.</p>
+]]></content:encoded>
+</item>
+<item>
+<title>What the hell is a good build system</title>
+<link>https://highlysuspect.agency/posts/what_the_hell_is_a_build_system</link>
+<guid>https://highlysuspect.agency/posts/what_the_hell_is_a_build_system</guid>
+<pubDate>Thu, 09 Sep 2021 00:00:00 -0400</pubDate>
+<description>cause it sure as hell isn't Gradle</description>
+<content:encoded><![CDATA[
+<p>Minecraft modding is in kind of a weird spot when it comes to build systems. It's a Java game, Java IDEs all have great integration with Gradle, and Gradle is pretty useful, so all the build tools are written as Gradle plugins.</p>
+<p>The only problem is that Gradle is, well...</p>
+<p>Loom <a href="https://github.com/FabricMC/fabric-loom/blob/2bc7522a260434abd308a4652c5db569a17f7c6a/src/main/java/net/fabricmc/loom/LoomRepositoryPlugin.java#L76-L86">declares a bunch of Ivy repositories</a> for some reason, ForgeGradle leverages its library <a href="https://github.com/MinecraftForge/Artifactural/tree/master">Artifactural</a> to do truly terrifying and fragile things to Gradle internals, I heard VanillaGradle may or may not be writing directly to the Gradle cache directory...</p>
+<p><em>Why?</em></p>
+<h2>Decompiling</h2>
+<p>I'm pretty sure most modern developments in Java decompilers have been pushed by Minecraft modders. We need to produce readable sources from messy .jars with most of the usable information stripped out.</p>
+<h2>Recompiling</h2>
+<p>I'm not too familiar with what the Forge people are doing, but source-patches are still a big part of their toolchain. This requires pinning a specific version of a specific decompiler, applying a big pile of <code>.patch</code> files... Also decompilers aren't perfect so you need more patches to make the thing work again. And then you have to depend on the recompiled jar! Weee</p>
+<h2>&quot;binpatches&quot;</h2>
+<p>Forge also uses binary <code>.class</code> -&gt; <code>.class</code> patches somewhere in its toolchain, these need to be accounted for too.</p>
+<h2>Access Transforming / Access Widening</h2>
+<p>Knocking off <code>private</code> modifiers from things, basically.</p>
+<p>Needs runtime support through a classloader to do that during gameplay, and toolchain support so the compiler will let you compile against these formerly private fields, methods, and classes. If the pieces line up, it works flawlessly.</p>
+<p>Oh, and don't forget reading the access transformers from your dependencies.</p>
+<h2>Mappings</h2>
+<p>Mappings. They're a transformation from one namespace to another, defining what classes, methods, and fields should be renamed to, and sometimes some other goodies like method parameter names or Javadoc.</p>
+<p>Field/method mapping sets include MCP and SRG (Forge's), Yarn and Intermediary (Fabric's), and Mojang's official mappings that they've started releasing since ~1.14ish (which Forge is sorta adopting). Naturally these are distributed in about twelve competing plaintext file formats.</p>
+<p>Each mapping set has holes, and it'd be nice to stack mapping sets on top of each other. In particular, Mojang's mappings don't... provide the names of any method parameters, so there's a mapping set called Parchment out there that just provides those, so you can blend the two together.</p>
+<p>Some of them are meant for players and modders to read and write, others exist for giving stablized names to everything in the game <code>.jar</code> (what is <code>method_47192</code>? I dunno, but it's whatever it was three versions ago)</p>
+<p>If you've messed with ProGuard you might be familiar with the idea of deobfuscating a stack trace. Modding takes that idea about 25 steps farther.</p>
+<h2>Binary Remapping</h2>
+<p>Minecraft .jars are distributed under one set of names, mods are developed under a second set, and players have a third set running in their JVMs.</p>
+<p>This sounds like a great job for Gradle's &quot;artifact transformers&quot;, but remapping uses both &quot;a mappings file&quot; as well as &quot;an artifact to remap&quot;, and Gradle's artifact transformers are... one-to-one, for some bizarre reason? You can specify configuration for an artifact transformer task, but not in the form of other artifacts. (They're also <a href="https://github.com/gradle/gradle/issues/11519">just plain buggy</a>, being yet another thing Gradle people duct-taped on after the fact, instead of a well-incorporated architectural pattern.)</p>
+<p>Remapping is not only useful for producing nice sources to look at, but it's critical that the released .jar is remapped appropriately, since players use the stablized-mappings.</p>
+<h2>Source Remapping</h2>
+<p>So you can write a mod in MCP while depending on that other guy's mod using Mojang's mappings, or whatever, and it all works out. Especially handy for things like &quot;go to definition&quot; in IDEs.</p>
+<p>This isn't a huge priority, but it's very nice-to-have. Can be implemented with either rudimentary find-and-replace or a Java parser.</p>
+<p>I don't know if any tools provide this. Right now I live with messed-up names in my dependencies, I can check the decompiled version of the .jar to see working code and crossreference it with the original source to read comments. Not pretty!</p>
+<h2>Sidedness</h2>
+<p>Minecraft comes in a playable client and headless server flavor. Each distribution contains only the classes it needs, like, the headless server doesn't include any of the rendering logic. It'd be nice to have our cake (write mods that include fancy rendering) and eat it too (have the mod not NoClassDefFound on a multiplayer server), and due to the decompilation toolchain telling us exactly which classes and methods are safe to refer to from which &quot;side&quot;, we can.</p>
+<p>(Mojang is easing up on stripping things out from the other .jar in 1.17, but it's still an issue; inherent to pretty much any multiplayer game with a dedicated server, really.)</p>
+<h2>Downloading stuff</h2>
+<p>Gradle is great at downloading artifacts from Maven repositories, and a few other types of repository. Luckily, Mojang provides a Maven repository! It's not browsable, but it's at <code>libraries.minecraft.net</code>. Yay!</p>
+<p>Unluckily, it only distributes dependencies, and the game itself does not have its .jars or dependencies in the Maven repo or indeed specified by any sort of Gradle-approved convention. <a href="https://launchermeta.mojang.com/mc/game/version_manifest.json">It's a JSON file</a>. Oops.</p>
+<p>Also, the assets and sounds are downloaded through a completely separate system. Those are kind of important, too. Double oops.</p>
+<p>And under Gradle, you can't define your own types of repository without hacking up the internals with a chainsaw. Not good.</p>
+<h2>Launching the damn thing</h2>
+<p>Minecraft doesn't use a Launcher just for fun. It's anything but self-contained, and you need to specify a bunch of command line arguments for username/UUID/token, where the game should look for images and sounds, demo mode, where the game should put its save files, log4j configuration files (yes!), sometimes modloaders have their own command-line options...</p>
+<h2>Java version</h2>
+<p>Recent versions of the game <em>only</em> open on Java 16 or greater. Older versions of the game work best on Java 8 or older. Some modloaders have their own requirements (Java 9's module system caused a lot of grief for the Forge people)</p>
+<p>Some versions have a nasty bug where a faulty implementation of a sorting-comparator causes sorting to fail silently in Java 8 but hard-crash in Java 16.</p>
+<p>You're gonna have to support both, if you care at all about historical versions.</p>
+<h2>ok everyone just fuckin hates Gradle</h2>
+<p>It's slow, much too complicated, and is a duct-taped together tower of features instead of a strong flexible vision to be built off of. Bummer.</p>
+<h1>Well, what else?</h1>
+<p>That's the thing. Gradle isn't really up to the task, but other build tools really <em>really</em> aren't up to the task:</p>
+<p>There's a lot of &quot;opinionated build systems&quot; like Bazel and Meson floating around, usually geared towards building humongous codebases.</p>
+<ul>
+<li>Their Java integration usually consists of some kind of &quot;compile_java&quot; task that, while often very configurable, is not nearly configurable enough for our bizarro use-cases.</li>
+<li>They often assume that, apart from one or two tricky deps, everything is built from source, which we don't do. We don't &quot;vendor&quot; our dependencies either.</li>
+<li>They're built to be <em>extremely</em> fast, for multi-million-LoC codebases, and the user experience often suffers for it (i.e. you need to specify the dependencies for each individual Java file or package in the project, which is <em>way</em> too much for the sizes of codebase we work with)</li>
+</ul>
+<p>Most build systems assume you have some other way of fetching your dependencies off the internet and don't help you with that task. Modding is firmly entrenched in the Maven ecosystem and we really need that, though.</p>
+<p>Most build systems assume you're okay installing something new on your PC.</p>
+<p>Some build systems pride themselves on having few side effects. This is all well and good, until you want to launch the game.</p>
+<p>Gradle assumes that dependencies you download off the internet are already in some state of ready-to-goness, requiring wacky hacks when it's time to remap them.</p>
+<p>Most build systems assume you have limitless space on your PC and it's okay if your project directory is used to store <em>all</em> the assets, even the ones that are the same across ten different projects you're making. (I really hate this one, lol)</p>
+<p>Gradle multiproject <em>sucks</em> - I don't think it's Gradle's fault, really, just that the really bad plugins we have to use aren't great.</p>
+<h1>What does Gradle get <em>right</em>?</h1>
+<p>My absolute favorite feature of Gradle is the &quot;wrapper script&quot;, which is a small script you check in to VCS that downloads the real Gradle (pinned to whatever version you like) and uses that to do all the building tasks. This is very <em>very</em> nice, and not something I see in other build systems very often.</p>
+<p>Gradle is fairly decent about &quot;tasks with side effects&quot;. The task graph doesn't really depend on fragile things like file modification times.</p>
+<p>While Gradle isn't the best about fetching dependencies from the internet, it at least <em>can</em>.</p>
+<p>Many build systems work on the file-level, but Gradle's &quot;artifact&quot; analogy isn't a bad one, especially when binaries and sources typically need to move together and get affected by the same pipeline. These other systems also tend to tie tasks to files, assume that one task creates one file, or assume tasks create zero or one files but the zero-file ones are kinda special and it's okay if they act a little wonky. And I don't think Gradle has that issue.</p>
+<h1>What is the ideal build system?</h1>
+<p>Now the fun part. :)</p>
+<p>It should be written in Java. You're modding a Java game. Everyone will have Java. New versions of Java come with support for little single-file shebang scripts. Might be handy? You could write the wrapper script like that, or even the whole system, if you wanted.</p>
+<p>I don't think Gradle's concept of a task graph is <em>that</em> terrible. It's mainly the inordinate amount of weird caching that goes on, and then cache<em>busting</em> that has to happen later as various plugins start having to hack around Gradle's idiosyncracies.</p>
+<p>It's hard to organize all of the important dependency information.</p>
+<ul>
+<li>A remapped dependency depends on the original dependency and the mappings version. If <em>either</em> changes, the dependency needs to be rebuilt.</li>
+<li>Not all dependencies are project-specific, but the minute you add something like an access transformer or project-specific mapping set, the entire dependency now belongs to your project. Sort of?</li>
+<li>You might want to compile against a mod dependency that includes an access transformer. The dependency should always be applied at runtime, but at compile-time? Depends whether the dependency is supposed to be optional or not. I've been burned by accidentally taking advantage of an AT from something I thought was a soft dependency.</li>
+</ul>
+<p>I was looking at the build tool <code>redo</code> earlier, and while it's definitely <em>much</em> more low-level than what I'm looking for, it has some very smart ideas:</p>
+<ul>
+<li>Instead of <code>make</code>, which compares the modification times of the source and target files to see if one should be rebuilt, <code>redo</code> takes a bunch of properties about the file (mtime, file size, inode, etc), throws them into a big soup, and if any of it changes it rebuilds everything that depended on that file.</li>
+<li>Unfortunately, it confuses tasks and files a little too much for my liking. Fortunately, it's not as weird as <code>make</code> about &quot;phony&quot; tasks, at least.</li>
+</ul>
+]]></content:encoded>
+</item>
+<item>
+<title>Updating to Fabric 1.17 notes</title>
+<link>https://highlysuspect.agency/posts/one_point_seventeen_notes</link>
+<guid>https://highlysuspect.agency/posts/one_point_seventeen_notes</guid>
+<pubDate>Tue, 08 Jun 2021 00:00:00 -0400</pubDate>
+<description>Aggregated notes on updating mods to Fabric 1.17</description>
+<content:encoded><![CDATA[
+<p>Let's get right into it:</p>
+<h1>part 1: Updating to Java 16</h1>
+<p>Minecraft 1.17 runs on Java 16, and it's in your best interest to get everything on the Java 16 boat as soon as you can.</p>
+<p>Quick checklist for IDEA users:</p>
+<ul>
+<li>Ensure the <code>JAVA_HOME</code> environment variable points to a valid Java 16 installation.</li>
+<li>Use at least Gradle version 7.0.2. You can see my previous blogpost for instructions on how to update the hard way, or update the easy way by changing the number in <code>distributionUrl</code> of <code>gradle/wrapper/gradle-wrapper.properties</code> to <code>7.0.2</code>.</li>
+<li>File -&gt; Project Structure -&gt; Project: set <code>Project SDK</code> to 16, and <code>Language Level</code> to &quot;SDK default&quot; (top of the list).</li>
+<li>File -&gt; Settings -&gt; Build, Execution Deployment -&gt; Build Tools -&gt; Gradle: ensure <code>Gradle JVM</code> is &quot;SDK default&quot;.</li>
+<li>In your run configurations, ensure that you're gonna run the game with Java 16.</li>
+</ul>
+<h2>Buildscript</h2>
+<p>I'm going to assume your buildscript is shaped after the one in fabric-example-mod, and that you didn't tweak it toooooo too much.</p>
+<h3>Preparing for Java 16</h3>
+<p>If you have a <code>sourceCompatibility</code> and <code>targetCompatibilty</code> setting at the top, change them to <code>16</code> or <code>JavaVersion.VERSION_16</code>.</p>
+<p>The <code>tasks.withType(JavaCompile).configureEach</code> block, present in somewhat recently-cloned <code>fabric-example-mod</code>s has this block:</p>
+<pre><code class="language-groovy">// The Minecraft launcher currently installs Java 8 for users, so your mod probably wants to target Java 8 too
+// JDK 9 introduced a new way of specifying this that will make sure no newer classes or methods are used.
+// We'll use that if it's available, but otherwise we'll use the older option.
+def targetVersion = 8
+if (JavaVersion.current().isJava9Compatible()) {
+	 it.options.release = targetVersion
+}
+</code></pre>
+<p>This is obviously not relevant anymore, and can be erased.</p>
+<h3>Making things work on Gradle 7</h3>
+<ul>
+<li>
+<p>Open <code>settings.gradle</code> and make sure things are using <code>https</code>.</p>
+</li>
+<li>
+<p>Find-replace <code>modCompile</code> with <code>modImplementation</code>.</p>
+</li>
+</ul>
+<p>Finally, to fix the <code>build</code> task, change this:</p>
+<pre><code class="language-groovy">from(sourceSets.main.resources.srcDirs) {
+	include &quot;fabric.mod.json&quot;
+	expand &quot;version&quot;: project.version
+}
+</code></pre>
+<p>to this:</p>
+<pre><code class="language-groovy">filesMatching(&quot;fabric.mod.json&quot;) {
+	expand &quot;version&quot;: project.version
+}
+</code></pre>
+<h2>Optional: loom 0.8</h2>
+<p>Strictly speaking it's optional but I do recommend doing this.</p>
+<p><em>After</em> getting everything prepared for Gradle 7 and Java 16, change the Loom version at the top to <code>0.8-SNAPSHOT</code>.</p>
+<h3>Github CI</h3>
+<p>Since Loom 0.8 only runs on Java 16, you will need to update your CI file to use Java 16. Here, go <a href="https://github.com/quat1024/AutoThirdPerson/blob/bb387e048a1463cb0c0f58112a360048ed1dd204/.github/workflows/build.yml">copy-paste mine</a>.</p>
+<h1>part 2: running migrateMappings</h1>
+<p>See <a href="https://fabricmc.net/versions.html">the Fabric versions page</a>. The provided gradle incantation will remap the sources in <code>/src/main/java</code> and put them in <code>/remappedSrc</code>. It's not done in-place, but since you <em>are</em> using version control (right 👀) it's okay to overwrite your old sources.</p>
+<p>You can skip this if your mod is really small; a couple missing mappings here-and-there aren't hard to manually fix. They don't crop up very often.</p>
+<h2>Getting acquainted with the new mappings</h2>
+<p>Late in the 1.17 cycle, Mojang stopped instructing ProGuard to strip unused fields and methods. Many of these are as-of-now unmapped, and Fabric's tooling (controversially?) does not use the official Mojang names.</p>
+<p>You are going to see a lot of unmapped <code>static final int</code> fields lying around, that's just the way things are right now.</p>
+<h1>part 3: starting the engine</h1>
+<p>Also on <a href="https://fabricmc.net/versions.html">versions.html</a> is a block you can paste into your <code>gradle.properties</code> to check out the latest versions of Minecraft, Yarn mappings, Fabric Loader, and fabric-api. Do that, refresh, maybe run <code>genSources</code> as well, and</p>
+<p>Oh no</p>
+<p>Oh there's a lot of compile errors aren't there</p>
+<h1>part 4: The fun part</h1>
+<p>Here's the part where I dump all the &quot;stuff that I noticed was broken in my mods&quot; on you. This is not an exhaustive list, and only mentions the things that my own mods happen to use.</p>
+<h2>Block entities</h2>
+<p>The constructor that you must call when you extend <code>BlockEntity</code> now takes a <code>BlockPos</code> and <code>BlockState</code>, as well as a <code>BlockEntityType</code>. Side-effects of this change:</p>
+<ul>
+<li><code>createBlockEntity</code> in <code>BlockEntityProvider</code>, the thing you extend to make your block have a BE, also takes a <code>BlockPos</code> and <code>BlockState</code> argument instead of a <code>BlockView</code> (world) argument.</li>
+<li>If you instantiated your BEs through <code>BlockEntityType</code>s, the <code>instantiate</code> method on them has changed accordingly.</li>
+<li><code>readNbt</code> no longer takes a <code>BlockState</code>, since you already have it from the contructor.</li>
+</ul>
+<h3>Goddammit mojang</h3>
+<p><code>BlockEntityType#BlockEntityFactory</code> is now private for no reason at all, so you can't actually register any block entity types. Find-replace <code>BlockEntityType.Builder</code> with <code>FabricBlockEntityTypeBuilder</code>.</p>
+<h3><code>Tickable</code></h3>
+<p><code>Tickable</code> is <em>completely</em> gone. (Shock, horror.)</p>
+<p>The <code>BlockEntityProvider</code> interface now includes a <code>getTicker</code> method. Given a world, state, and block-entity type, you may return <code>null</code> if you don't tick, or a <code>(World, BlockPos, BlockState, BlockEntity) -&gt; void</code> function if you do, and it'll get added to a list of tickers.</p>
+<p>Importantly, you may return different tickers depending on the <code>isClient</code>-ness of the provided <code>World</code>, or even return <code>null</code> on one side and a ticker on the other.</p>
+<p>Irritatingly, <code>BlockEntity</code> is the <em>last</em> parameter in the list, so you need to make a static method somewhere.</p>
+<p>You'll want a method like this:</p>
+<pre><code class="language-java">@Nullable
+public static &lt;A extends BlockEntity, B extends BlockEntity&gt; BlockEntityTicker&lt;B&gt; castTicker(BlockEntityType&lt;B&gt; givenType, BlockEntityType&lt;A&gt; expectedType, BlockEntityTicker&lt;? super A&gt; ticker) {
+	//noinspection unchecked
+	return expectedType == givenType ? (BlockEntityTicker&lt;B&gt;) ticker : null;
+}
+</code></pre>
+<p>(<code>BlockEntityProvider</code> also has a <code>getGameEventListener</code> method, btw, if you want to create something like the skulk sensor.)</p>
+<h2>Tags</h2>
+<p>If you were using <code>Item#isIn</code>, it's not public anymore. Use <code>Tag#contains</code>.</p>
+<h2>Uhh</h2>
+<p>Probably most relevant to the datagen crew: <code>ItemPredicate</code> takes <code>items</code> instead of a single <code>item</code> now.</p>
+]]></content:encoded>
+</item>
+<item>
+<title>"Unable to get Windows mutable environment variable map"</title>
+<link>https://highlysuspect.agency/posts/unable_to_get_windows_mutable_environment_variable_map</link>
+<guid>https://highlysuspect.agency/posts/unable_to_get_windows_mutable_environment_variable_map</guid>
+<pubDate>Wed, 26 May 2021 00:00:00 -0400</pubDate>
+<description>Old gradle, Java 16, $JAVA_HOME, and you</description>
+<content:encoded><![CDATA[
+<p>I'm gonna tell a debugging story. It involves Gradle, Windows, Java 8, Java 16, and a funky package manager.</p>
+<p>Okay, time to update my Gradle wrapper from an ancient Gradle 4 to the latest version as of writing this, Gradle 7.0.2.</p>
+<pre><code class="language-console">$ ./gradlew wrapper --gradle-version 7.0.2
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Unable to get mutable Windows environment variable map
+
+* Try:
+Run with --stacktrace option to get the stack trace. Run with --info or --debug option to get more log output. Run with --scan to get full insights.
+
+* Get more help at https://help.gradle.org
+</code></pre>
+<p>Hm.</p>
+<p>I googled for this error and, while several people have had this problem (including a few fellow Minecraft modders), nobody had posted a solution. Time to debug it myself.</p>
+<p>Let's try <code>--stacktrace</code>.</p>
+<pre><code class="language-console">$ ./gradlew wrapper --gradle-version 7.0.2 --stacktrace
+
+[same error as before]
+
+* Exception is:
+net.rubygrapefruit.platform.NativeException: Unable to get mutable Windows environment variable map
+
+		[big stacktrace]
+		
+Caused by: java.lang.reflect.InaccessibleObjectException: Unable to make field private static final java.util.Map java.lang.ProcessEnvironment.theCaseInsensitiveEnvironment accessible: module java.base does not &quot;opens java.lang&quot; to
+unnamed module @7dc36524
+        at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:357)
+        at java.base/java.lang.reflect.AccessibleObject.checkCanSetAccessible(AccessibleObject.java:297)
+        at java.base/java.lang.reflect.Field.checkCanSetAccessible(Field.java:177)
+        at java.base/java.lang.reflect.Field.setAccessible(Field.java:171)
+        at net.rubygrapefruit.platform.internal.WrapperProcess.getWindowsEnv(WrapperProcess.java:124)
+</code></pre>
+<p>Some stuff about modules, accessibility... What version of Java is this thing running on, again?</p>
+<pre><code class="language-console">$ ./gradlew --version
+
+------------------------------------------------------------
+Gradle 4.10.2
+------------------------------------------------------------
+
+Build time:   2018-09-19 18:10:15 UTC
+Revision:     b4d8d5d170bb4ba516e88d7fe5647e2323d791dd
+
+Kotlin DSL:   1.0-rc-6
+Kotlin:       1.2.61
+Groovy:       2.4.15
+Ant:          Apache Ant(TM) version 1.9.11 compiled on March 23 2018
+JVM:          16.0.1 (AdoptOpenJDK 16.0.1+9-202105072336)
+OS:           Windows 10 10.0 amd64
+</code></pre>
+<p>Java 16 - yeah, that would do it. Frustrating. I do have both Java 8 and Java 16 installed on my computer (through <a href="https://scoop.sh/">scoop</a>, a Windows package manager), so this looks like a matter of telling Gradle which version to use.</p>
+<p>Let's determine how the Gradle wrapper script, <code>gradlew</code>, discovers the Java command to use.</p>
+<pre><code class="language-shell"># Determine the Java command to use to start the JVM.
+if [ -n &quot;$JAVA_HOME&quot; ] ; then
+    if [ -x &quot;$JAVA_HOME/jre/sh/java&quot; ] ; then
+        # IBM's JDK on AIX uses strange locations for the executables
+        JAVACMD=&quot;$JAVA_HOME/jre/sh/java&quot;
+    else
+        JAVACMD=&quot;$JAVA_HOME/bin/java&quot;
+    fi
+    if [ ! -x &quot;$JAVACMD&quot; ] ; then
+        die &quot;ERROR: JAVA_HOME is set to an invalid directory: $JAVA_HOME
+
+Please set the JAVA_HOME variable in your environment to match the
+location of your Java installation.&quot;
+    fi
+else
+    JAVACMD=&quot;java&quot;
+    which java &gt;/dev/null 2&gt;&amp;1 || die &quot;ERROR: JAVA_HOME is not set and no 'java' command could be found in your PATH.
+
+Please set the JAVA_HOME variable in your environment to match the
+location of your Java installation.&quot;
+fi
+</code></pre>
+<p>If the <code>JAVA_HOME</code> variable is set, it checks there first, otherwise it looks for <code>java</code> on the path.</p>
+<p>Sure enough:</p>
+<pre><code class="language-console">$ echo $JAVA_HOME
+C:\Users\quat\scoop\apps\adopt16-hotspot-nightly\current
+</code></pre>
+<p>I'll change it to where my Java 8 installation is:</p>
+<pre><code class="language-console">$ export JAVA_HOME=&quot;C:\Users\quat\scoop\apps\adopt8-hotspot\current&quot;
+
+$
+</code></pre>
+<p>Let's try it:</p>
+<pre><code class="language-console">$ ./gradlew wrapper --gradle-version 7.0.2
+Starting a Gradle Daemon, 2 incompatible Daemons could not be reused, use --status for details
+
+FAILURE: Build failed with an exception.
+
+* Where:
+Build file 'G:\Dev\fabric\carvedmelons\build.gradle' line: 2
+
+* What went wrong:
+An exception occurred applying plugin request [id: 'fabric-loom', version: '0.8-SNAPSHOT']
+&gt; Failed to apply plugin [id 'fabric-loom']
+   &gt; You are using an outdated version of Gradle (4.10.2). Gradle 7 or higher is required.
+     You are using an outdated version of Java (8). Java 16 or higher is required.
+     The JAVA_HOME environment variable is currently set to (C:\Users\quat\scoop\apps\adopt8-hotspot\current).
+
+* Try:
+Run with --stacktrace option to get the stack trace. Run with --info or --debug option to get more log output. Run with --scan to get full insights.
+
+* Get more help at https://help.gradle.org
+
+BUILD FAILED in 5s
+</code></pre>
+<p>Different error, so hey, that's something!</p>
+<p>Here we have a chicken-and-egg problem. I wanted to update my wrapper in the first place, because the version of the plugin I was using, <code>fabric-loom</code> version 0.8, isn't happy with Java 8 anymore.</p>
+<p>But the plugin's error is preventing the wrapper-update script from running in the first place.</p>
+<p>I'll resolve this by cheating, and renaming my <code>build.gradle</code> to like, <code>build.gradle.old</code> or something. Try again.</p>
+<pre><code class="language-console">$ ./gradlew wrapper --gradle-version 7.0.2
+&gt; Task :wrapper
+
+BUILD SUCCESSFUL in 1s
+1 actionable task: 1 executed
+</code></pre>
+<p>Well that took a suspiciously small amount of time, did it work?</p>
+<pre><code class="language-console">$ ./gradlew --version
+
+------------------------------------------------------------
+Gradle 7.0.2
+------------------------------------------------------------
+
+Build time:   2021-05-14 12:02:31 UTC
+Revision:     1ef1b260d39daacbf9357f9d8594a8a743e2152e
+
+Kotlin:       1.4.31
+Groovy:       3.0.7
+Ant:          Apache Ant(TM) version 1.10.9 compiled on September 27 2020
+JVM:          1.8.0_292 (AdoptOpenJDK 25.292-b10)
+OS:           Windows 10 10.0 amd64
+</code></pre>
+<p>Looks like it did!</p>
+<p>Finally I can put back my <code>build.gradle</code>, and reset my JAVA_HOME to point at Java 16. Success?</p>
+<h2>Things that didn't work</h2>
+<p>Initially tried to change my system PATH to put the <code>adopt8-hotspot</code> version before <code>adopt16-hotspot-nightly</code>, but that didn't work. I wasn't familiar with the <code>JAVA_HOME</code> variable and that's the one the gradle wrapper script checks first.</p>
+<p>I also tried editing environment variables through the Windows &quot;edit system environment variables&quot; dialog, but I'm not sure when the &quot;git bash&quot; environment picks up on those changes...? I tried everything short of restarting my computer and changes to <code>JAVA_HOME</code> through the dialog didn't seem to be reflected. I don't know if there's another script resetting it to the adopt16 path lying around somewhere, or caching, or if I need to restart, or what.</p>
+<h2>Oh</h2>
+<p>A friend mentioned that you can change <code>distributionUrl</code> in <code>{project root}/.gradle/wrapper/gradle.properties</code>. That might be an easier and less error-prone way to update Gradle. Ah well.</p>
+<h2>Takeaways</h2>
+<p>So really, I discovered that running Gradle tasks from the terminal ran then in Java 16, but running tasks from IntelliJ ran them in Java 8.</p>
+<p>The Java version used to run IDE tasks can be changed in <code>Build, Execution, Deployment &gt; Build Tools &gt; Gradle</code>. It can be set to read from <code>JAVA_HOME</code>, the <code>PATH</code>, or use a hardcoded Java path on your computer.</p>
+<ul>
+<li>The module system introduced in Java 9 has brought nothing but suffering into the world.</li>
+<li>Pain, pain and suffering.</li>
+<li>Always scan stacktraces for &quot;module&quot;-related issues, because random reflection-related crashes are almost always caused by Java 16.</li>
+<li>Having both Java 8 and 16 installed on your computer is:
+<ul>
+<li>useful,</li>
+<li><em>&quot;fun&quot;</em>,</li>
+<li>probably neccesary for dealing with old Java crap - I dunno what I'd do if I didn't have a Java 8 installation lying around.</li>
+<li>Maybe I should get one of those &quot;java version manager&quot; programs?</li>
+</ul>
+</li>
+<li>Renaming build.gradle makes gradle not pick up on it. Good to keep in the back of my head.</li>
+</ul>
+<h1>Hey uh, wait, Loom is still crashing</h1>
+<p>Now the blogpost transitions from &quot;debugging a Gradle issue&quot; to &quot;debugging Loom&quot;, because I'm updating an old Minecraft mod and it's, uh, it's still not working.</p>
+<p>First two issues:</p>
+<ul>
+<li>Loom whined about getting ran on Java 8 again, so I checked <code>Build, Execution, Deployment &gt; Build Tools &gt; Gradle</code> in IntelliJ and set Gradle to run on Java 16 from there as well. (There's an option to make it use whatever Java's in <code>JAVA_HOME</code>.)</li>
+<li>Gradle complained about insecure Maven repositories. If you cloned from <code>fabric-example-mod</code>, just open settings.gradle and change <code>'http://maven.fabricmc.net/'</code> to start with <code>https://</code>. Or wherever the repo links happen to be in your setup.</li>
+</ul>
+<p>Now what:</p>
+<pre><code class="language-console">A problem occurred evaluating root project 'carvedmelons'.
+&gt; Could not find method modCompile() for arguments [net.fabricmc:fabric-loader:0.11.0] on object of type org.gradle.api.internal.artifacts.dsl.dependencies.DefaultDependencyHandler.
+</code></pre>
+<p>This is because: some time between Gradle 4 and 7, they removed the &quot;compile&quot; method and renamed it to &quot;implementation&quot;. Loom folowed suit, renaming &quot;modCompile&quot; to &quot;modImplementation&quot;. Perform that rename in your buildscript.</p>
+<p>Crossing my claws:</p>
+<pre><code class="language-console">BUILD SUCCESSFUL in 45s
+</code></pre>
+<p>Cool.</p>
+<h1>Wait one more thing</h1>
+<p>I tried to run <code>build</code> to produce a release .jar and it said something about fabric.mod.json and &quot;duplicates&quot;. Another Gradle 4 to Gradle 7 mess.</p>
+<p>In the buildscript's <code>processResources</code> block, change this:</p>
+<pre><code class="language-groovy">from(sourceSets.main.resources.srcDirs) {
+	include &quot;fabric.mod.json&quot;
+	expand &quot;gradleversion&quot;: project.version
+}
+</code></pre>
+<p>to this:</p>
+<pre><code class="language-groovy">filesMatching(&quot;fabric.mod.json&quot;) {
+	expand &quot;version&quot;: project.version
+}
+</code></pre>
+<p>And you're golden.</p>
+]]></content:encoded>
+</item>
+<item>
+<title>Fabric 1.16 Datagens</title>
+<link>https://highlysuspect.agency/posts/fabric_datagens</link>
+<guid>https://highlysuspect.agency/posts/fabric_datagens</guid>
+<pubDate>Sun, 16 May 2021 00:00:00 -0400</pubDate>
+<description>Quick notes on setting up datagens in a Fabric 1.16 mod</description>
+<content:encoded><![CDATA[
+<p>It's really late right now but I want to type these up before I forget.</p>
+<p>I've just started using vanilla data generators in my Fabric 1.16 mod <a href="https://github.com/quat1024/dazzle-2/">Dazzle 2</a>. It's not easy to set them up, certainly not as easy as I heard it is in Forge, and you don't have any modloader support. So I'm going to walk through my process.</p>
+<p>This was influenced heavily by the <a href="https://github.com/AppliedEnergistics/Applied-Energistics-2/tree/fabric/master">Applied Energistics fabric branch</a>, which does some datagenning. comp500 also helped me a lot and answered some of my questions.</p>
+<h2>Gradle</h2>
+<p>Let's talk about how datagens play into the releasing process, since they muddy it up a bit.</p>
+<ul>
+<li>Right now, you have a <code>main</code> source set. This contains all the Java code and all the handwritten assets for your mod, and all of this gets put into your mod's jar.</li>
+<li>You'll want to write a data generator, but there's no point shipping the datagen code with your mod, because it will never get executed and just adds to the filesize.</li>
+<li>Finally, you'll want somewhere for the generated assets to live, preferably away from your handwritten ones.</li>
+</ul>
+<p>I solved this problem with three source sets: <code>main</code>, <code>gen</code>, and <code>gen_out</code>.</p>
+<p>Let's think about how the source sets interact with each other:</p>
+<ol>
+<li><code>main</code> has to pull resources from <code>src/main/resources</code>, but also from <code>src/gen_out/resources</code></li>
+<li>Code in <code>gen</code> has to be able to reference symbols in the main body of the mod, and also symbols from Minecraft and its dependencies.</li>
+<li><code>gen_out</code> doesn't have any code.</li>
+</ol>
+<p>Here is how I told that to Gradle:</p>
+<pre><code class="language-groovy">sourceSets {
+	//Main source code, shipped with the mod
+	main {
+		resources {
+			//this line ships the generated resouces (1)
+			srcDirs += &quot;src/gen_out/resources&quot;		
+		}
+	}
+	
+	//Source for data generators
+	gen {
+		//Make sure I can refer to things in the mod and in Minecraft from this source set (2)
+		compileClasspath += sourceSets.main.output
+		compileClasspath += sourceSets.main.compileClasspath
+		runtimeClasspath += sourceSets.main.output
+		runtimeClasspath += sourceSets.main.runtimeClasspath
+	}
+	
+	//Source set that holds all the generated data
+	gen_out {
+		//idk if theres anything to put here (3)
+	}
+}
+</code></pre>
+<p>(There's no <code>sourceSets</code> block in the example buildscript, so just add one wherever you like.)</p>
+<p>[ Note for the finished article: AE2 only uses two source sets. Mention the difference here ]</p>
+<p>I don't fully understand this part, but while we're here, let's also tell Gradle where to pull assets from when releasing the mod, and which to skip (I think?)</p>
+<pre><code class="language-groovy">jar {
+	//Mojang datagenerator .cache file
+	exclude &quot;.cache&quot;
+	
+	//ae2 fabric has this little line, i dont know if it's important!
+	finalizedBy &quot;remapJar&quot;
+	
+	from sourceSets.main.output.classesDirs
+	from sourceSets.main.output.resourcesDir
+}
+</code></pre>
+<p>The part I'm not sure on is whether <code>finalizedBy</code> is important to ensure the jar gets remapped, and whether the <code>from</code> lines are important to ensure datagen code doesn't leak into the built jar. I'll need to do more testing.</p>
+<p>Finally, we need a Gradle task to easily run the data generator whenever we like. I used the following... magical incantation, lifted wholesale from ae2-fabric again and I don't really know how it works.</p>
+<pre><code class="language-groovy">task runGenerator(type: net.fabricmc.loom.task.RunClientTask, dependsOn: downloadAssets) {
+	classpath = configurations.runtimeClasspath
+	classpath sourceSets.main.output
+	classpath sourceSets.gen.output
+}
+</code></pre>
+<p>You can add a <code>group: &quot;whatever&quot;</code> between the parenthesis, if you like, to sort the task somewhere else.</p>
+<p>(ae2-fabric also set an environment variable in this task (with the line <code>systemProperty &quot;appeng.generateData&quot;, &quot;true&quot;</code>), and bailed the datagenerator out early if the variable was not set. This does not appear to be necessary for preventing the datagen from running during other tasks.)</p>
+<p>Finally, you might want a task similar to this one:</p>
+<pre><code class="language-groovy">task cleanGeneratedResources(type: Delete) {
+	delete sourceSets.gen_out.resources.srcDirs
+}
+</code></pre>
+<p>This task erases the generated resources directory. Of course, be careful with any task that deletes files.</p>
+<h2>Code</h2>
+<p>Create folders <code>./src/gen</code> and <code>./src/gen_out</code>, and smack the gradle reimport button in IntelliJ. You'll now have three source sets.</p>
+<p>In <code>./src/gen</code>, place a Fabric mod. Add a <code>fabric.mod.json</code> in <code>./src/gen/resources/fabric.mod.json</code>, start putting code in <code>./src/gen/java/your/package/SomeClass.java</code>, the whole nine yards. ae2-fabric used a mod with a <code>PreLaunchEntrypoint</code> instead of a <code>ModInitializer</code>, but this did not appear to work for me - I got weird NPEs when loading classes. A normal entrypoint works fine.</p>
+<p>This mod will be loaded when you run your <code>runGenerator</code> task, but not with regular <code>runClient</code>. You might be able to spin up an IntelliJ run configuration from it, but I didn't need to, I just ran my <code>runGenerator</code> task.</p>
+<p>So, what does structuring a datagen mod look like? I think it's best to explain by example, so here's <a href="https://github.com/AppliedEnergistics/Applied-Energistics-2/blob/fabric/master/src/datagen/java/appeng/data/Entrypoint.java">AE2's</a> and <a href="https://github.com/quat1024/dazzle-2/tree/shinies/src/gen/java/agency/highlysuspect/dazzle2">mine</a>. Note that AE2 uses MCP names even though it's a fabric mod, they have some magic sauce.</p>
+<ul>
+<li>Locate the base path to dump assets into. This is <code>src/gen_out/resources</code>.
+<ul>
+<li>[ Mention passing this with an argument or environment variable, since it's easier to do from Gradle ]</li>
+</ul>
+</li>
+<li>Create a <code>net.minecraft.data.DataGenerator</code>.</li>
+<li>Into it, <code>install</code> things that implement <code>DataProvider</code>.</li>
+<li>Call <code>DataGenerator#run</code>. This will write all of the files.</li>
+<li>Finally, call <code>System.exit</code> so the game doesn't load all the way to the main menu.</li>
+</ul>
+<p>Of course, how much you buy into the vanilla datagen ecosystem is up to you.</p>
+<ul>
+<li>You can buy all the way into the <code>DataGenerator</code> ecosystem. This gets you timing information and a cache, where assets will not be written to disk if the file hash on-disk is the same.</li>
+<li>You can use the utilities in the <code>net.minecraft.data</code> package without a <code>DataGenerator</code>, and do the json writing yourself, if you want.</li>
+<li>You can also just roll your own system.</li>
+</ul>
+<p>[ Note that your datagen mod should load <em>after</em> the main mod, but ahhh fabric doesnt have a way to control load order, entrypoint maybe? ]</p>
+<h2>Assets</h2>
+<p>Now that the scaffolding's out of the way, how do we actually generate assets?</p>
+<p><code>DataProvider</code> is an interface for tasks that can be executed by a <code>DataGenerator</code>. You'll get a <code>DataCache</code> in its <code>run</code> method. Using the <code>DataCache</code> to write files looks like this:</p>
+<pre><code class="language-java">DataProvider.writeToPath(gson, cache, object, path);
+</code></pre>
+<p>where</p>
+<ul>
+<li><code>gson</code> is an instance of <code>Gson</code> (create with <code>new GsonBuilder().disableHtmlEscaping()</code> and optionally <code>.setPrettyPrinting()</code>, then <code>.create()</code>, and keep it somewhere accessible),</li>
+<li><code>cache</code> is the provided <code>DataCache</code>,</li>
+<li><code>object</code> is some JsonObject,</li>
+<li>and <code>path</code> is an NIO <code>Path</code> of the filename.
+<ul>
+<li>Keep the base path handy, call <code>.resolve</code> on it to pick the file name.</li>
+</ul>
+</li>
+</ul>
+<p>This serializes the json object with the provided <code>Gson</code>, and if its contents differ from the cache, writes it out to disk, making directories if they don't exist. This method <code>throws IOException</code>, so it's easiest to call from places that also throw <code>IOException</code>, such as <code>DataProvider#run</code>.</p>
+<p>This is... a bit messy (it's odd that the method to write files is a static method on <code>DataProvider</code>, and not on <code>DataCache</code> or something), throwing <code>IOException</code> is odd when there's no reasonable way to handle it other than aborting, and Mojang breaks this rule themselves (there are lots of calls to this method but other times in Mojang datagens where they just... have the source to this method plonked in somewhere else). Whatever.</p>
+<h3>Things to keep in mind</h3>
+<p>Mojang's stuff is a bit overengineered. Especially when it comes to block and item models: they collect everything into these giant maps, then write the jsons out all at once. The decompiler naming everything generic names like <code>consumer</code> and <code>map1</code> makes this really hard to untangle. I find it a lot easier to write jsons as-you-go, but a little of the tooling expects <code>Consumer</code>s that call into these map adders; using them without kinda feels like using an &quot;out parameter&quot; in C. There's some song and dance.</p>
+<p>Also, in Fabric, a <em>lot</em> is private. Fabric's tooling doesn't access-widen anything by default. You might be able to experiment with an access-widener, but dev-only AWs sound like a recipe for disaster? Maybe? Typically classes and constructors aren't private (except for the constructors that are), so if you need a utility you can copy-and-paste it out of Mojang's code.</p>
+<p>Knock-on effect of &quot;things being too private&quot; is <code>extend</code>ing the datagen classes is kinda pointless because you don't have access to any of the members anyways. None of my datagen classes ended up extending anything.</p>
+<h2>Blockstates</h2>
+<p>Blockstate JSONs are easily the most fun application of data gens. Your best friends here are <code>VariantBlockStateSupplier</code>, <code>BlockStateVariant</code>, and <code>BlockStateVariantMap</code>.</p>
+<p><code>BlockStateVariant</code> corresponds to each leaf of a blockstate file: <code>model</code>, <code>x</code>, <code>y</code>, <code>uvlock</code>, etc.</p>
+<p>Create a <code>VariantBlockStateSupplier</code> for a particular block, and assign zero or more <code>BlockStateVariant</code>s as defaults. If your block has no additional states, you're done and can write the json.</p>
+<p>To cover different blockstates, use <code>BlockStateVariantMap</code>. Construct it with any blockstate property, then assign <code>BlockStateVariant</code>s to each of the values that property can take on using <code>register</code>. Finally, assign it to a <code>VariantBlockStateSupplier.</code> Notably <code>VariantMap</code>s aren't bound to a particular block - you create them for one blockstate <em>property</em>, then can apply them as many times as you like to any blocks bearing that property!</p>
+<p>You can create a <code>VariantBlockStateSupplier</code> for the <code>facing</code> property, for example, that doesn't rotate when facing north, rotates 180 degrees when facing south, 90 degrees when facing east, and so on. There are a million examples in the class <code>net.minecraft.data.client.model.BlockStateModelGenerator</code>. In fact, that example already exists as <code>createNorthDefaultHorizontalRotationStates</code>.</p>
+<p>There are also methods for vanilla <code>mulitpart</code> models, but I have not examined those yet.</p>
+<h2>Recipes</h2>
+<p>I've always been a big advocate for propertly implementing recipe-unlock advancements, and with recipe generators, there's little excuse not to. Recipe generators generate both at the same time, so you get all the fun of generating recipes through code and recipe advancements fall out practically for free.</p>
+<p><code>ShapedRecipeJsonFactory</code> and <code>ShapelessRecipeJsonFactory</code> are your friends for most recipes. There are also factories for smelting and a few other types. It doesn't look too hard to write your own (they all simply implement an interface and spit out JSON). Your source for example usages is <code>net.minecraft.data.server.RecipesProvider</code>.</p>
+<p>While you're here, delete your <code>data/mymod/advancements/recipes/root.json</code> and generate it, too:</p>
+<pre><code class="language-java">JsonObject root = Advancement.Task.create().criterion(&quot;impossible&quot;, new ImpossibleCriterion.Conditions()).toJson();
+DataProvider.writeToPath(GSON, cache, root, outPath.resolve(&quot;data/mymod/advancements/recipes/root.json&quot;));
+</code></pre>
+<p>One gotcha is that building a recipe <em>crashes</em> if there is not at least one recipe unlock criterion, so you <em>must</em> add an advancement as well. The vast majority of recipe unlock criterion are &quot;player has each item in the recipe&quot;, so you'll probably want to write a wrapper method around <code>recipe.input</code> that adds both. I'm honestly quite surprised Mojang doesn't have one.</p>
+<p>There are also some gotchas when writing out the recipes and advancements:</p>
+<ul>
+<li>These are some of the funny &quot;out parameter&quot; things; cook up a <code>Consumer&lt;RecipeJsonProvider&gt;</code> that saves the recipe and advancement JSON, and call <code>offerTo</code> on each recipe to send it to that.</li>
+<li>The recipe advancement's parent is always set to <code>minecraft:recipes/root</code> and there is no setter. This is not correct for a modded recipe. Before serializing, overwrite the <code>parent</code> property on the <code>JsonObject</code>.</li>
+<li>The recipe advancement's file-path is taken from the <em>creative tab ID</em> of the item in the recipe output. This works great in vanilla, which splits its items up by category, but in a modded context where your creative tab is usually named something like <code>mymod.group</code>, this ends up putting your advancement at <code>data/yourmod/advancements/recipes/mymod.group/whatever.json</code> which doesn't make sense. I solved this with a simple find-and-replace on the path, <code>&quot;dazzle.group/&quot;</code> -&gt; <code>&quot;&quot;</code>.</li>
+<li>Call <code>ShapedRecipeJsonFactory#pattern</code> multiple times, with one line of the recipe pattern per-call.</li>
+</ul>
+<h2>Tags</h2>
+<p>Honestly Mojang's stuff here is an overengineered mess (like most things relating to tags), and there are some private classes involved, so I'm just going to plonk my entire tag-builder wrapper right into this post. Steal it.</p>
+<pre><code class="language-java">public class TagBuilderWrapper&lt;T&gt; {
+	public TagBuilderWrapper(Registry&lt;T&gt; registry, Path outRoot, String classifier, Identifier tagId) {
+		this.tagBuilder = new Tag.Builder();
+		this.reg = registry;
+		this.outRoot = outRoot;
+		this.classifier = classifier;
+		this.tagId = tagId;
+	}
+	
+	//Construct them like this:
+	public static TagBuilderWrapper&lt;Block&gt; blocks(Path outRoot, Identifier tagId) {
+		return new TagBuilderWrapper&lt;&gt;(Registry.BLOCK, outRoot, &quot;blocks&quot;, tagId);
+	}
+	
+	public static TagBuilderWrapper&lt;Item&gt; items(Path outRoot, Identifier tagId) {
+		return new TagBuilderWrapper&lt;&gt;(Registry.ITEM, outRoot, &quot;items&quot;, tagId);
+	}
+	
+	public final Tag.Builder tagBuilder;
+	//Registry for the things in this tag
+	public final Registry&lt;T&gt; reg;
+	//File output root directory (src/gen_out/resources)
+	public final Path outRoot;
+	//Folder that tags go into (the &quot;blocks&quot; in &quot;data/mymod/tags/blocks/mytag.json&quot;)
+	public final String classifier;
+	//Name of the tag (the &quot;mymod:mytag&quot; in the above)
+	public final Identifier tagId;
+	
+	//Wrappers around Tag.Builder()
+	public TagBuilderWrapper&lt;T&gt; add(T element) {
+		this.tagBuilder.add(this.reg.getId(element), &quot;Your Mod&quot;);
+		return this;
+	}
+	//Other wrappers omitted for brevity - just mirror Tag.Builder methods
+	
+	public void save(DataCache cache) throws IOException {
+		DataProvider.writeToPath(GSON, cache, tagBuilder.toJson(), getPath());
+	}
+	
+	public Path getPath() {
+		return outRoot.resolve(&quot;data/&quot; + tagId.getNamespace() + &quot;/tags/&quot; + classifier + &quot;/&quot; + tagId.getPath() + &quot;.json&quot;);
+	}
+}
+</code></pre>
+<p>I also have a <code>BlockAndItemTagBuilderWrapper</code>, which wraps a <code>TagBuilderWrapper&lt;Block&gt;</code> and <code>TagBuilderWrapper&lt;Item&gt;</code>, delegating to both, for the extremely common case of having a &quot;blocks&quot; and &quot;items&quot; tag with the same contents only one's a block and one's an item.</p>
+<p>(Little edge case that might come up: adding an item multiple times to a tag builder is totally fine, it'll only get written out once.)</p>
+<h2>Models</h2>
+<p>[ Doable, but a bit messy. Item models are somewhat easy? Haven't unwound some of the other cases yet. Private <code>TextureKey</code> constructor is annoying but easily reflected. Gotcha: <code>Model</code>s define what textures they're going to use and not the other way around, so you can't add <code>TextureKey</code>s onto whatever you want and expect them to appear in the gneerated model JSON. ]</p>
+<h2>Block Loot Tables</h2>
+<p>A popular use of data generators because like 99% of blocks simply drop themselves.</p>
+<p>Here, have this snippet:</p>
+<pre><code class="language-java">private LootTable drops(ItemConvertible item) {
+	return LootTable.builder().pool(
+		LootPool.builder().rolls(ConstantLootTableRange.create(1))
+			.with(ItemEntry.builder(item))
+			.conditionally(SurvivesExplosionLootCondition.builder()))
+		.type(LootContextTypes.BLOCK)
+		.build();
+}
+</code></pre>
+<p>Call that with whatever item you want. Then call <code>LootManager.toJson</code> on the resulting loot table. You'll get this (possibly very familiar-looking) JSON snippet:</p>
+<pre><code class="language-json">{
+	&quot;type&quot;: &quot;minecraft:block&quot;,
+	&quot;pools&quot;: [
+		{
+			&quot;rolls&quot;: 1,
+			&quot;entries&quot;: [
+				{
+					&quot;type&quot;: &quot;minecraft:item&quot;,
+					&quot;name&quot;: &quot;mymod:my_item&quot;
+				}
+			],
+			&quot;conditions&quot;: [
+				{
+					&quot;condition&quot;: &quot;minecraft:survives_explosion&quot;
+				}
+			]
+		}
+	]
+}
+</code></pre>
+<h2>Language Entries</h2>
+<p>[ possible to generate these, but merging them into en_us.json requires some work or manual copy-pasting ]</p>
+<p>[ is it possible to use a Gradle task to merge the language entries? right now d2 reaches over into the main source set and merges them in itself, which is a bit hacky ]</p>
+]]></content:encoded>
+</item>
+<item>
+<title>How to play Portal 2 without losing your mind</title>
+<link>https://highlysuspect.agency/posts/playing_portal_2</link>
+<guid>https://highlysuspect.agency/posts/playing_portal_2</guid>
+<pubDate>Thu, 06 May 2021 00:00:00 -0400</pubDate>
+<description>My keybinds and setup for playing Portal 2</description>
+<content:encoded><![CDATA[
+<p>Ok so I want to collect all of the &quot;things that 99% of the dedicated portal2 players use but noone ever really talks about&quot; into one post I can point to. Here we go!</p>
+<h1>Saves</h1>
+<p><code>F6</code> and <code>F7</code> save and load the game. Not everyone knows this, but now you do!</p>
+<h1>Console</h1>
+<p>The developer console is where you enter commands. It can be enabled in settings (under &quot;Keyboard and Mouse&quot;), and the default key to open the console is ` (backtick). You can also add the <code>-console</code> launch option to open the console when the game starts, useful in Portal Reloaded where the console isn't available for some reason.</p>
+<p>If you create a file at <code>steamapps/common/Portal 2/portal2/cfg/autoexec.cfg</code>, every time you start the game, it will execute each line of the file as if you typed it in the developer console.</p>
+<p>The console will show command completions, and the <code>find</code> command can be used to search through commands.</p>
+<h2>Hey what's a bind</h2>
+<p>I'm going to talk about &quot;binds&quot; a lot. The in-game settings menu allows you to customize some keybinds, but if you open the developer console and use the <code>bind</code> command, you can bind things to <em>any</em> arbitrary command. Running <code>bind x &quot;noclip&quot;</code>, for example, will run <code>noclip</code> when you press <code>x</code>.</p>
+<p>You can print a listing of all bindings with <code>key_listboundkeys</code>, and e.g. <code>unbind x</code> can be used to delete a binding. Multiple commands can be bound to the same key by separating them with <code>;</code> (a semicolon).</p>
+<p>The in-game keybindings menu uses this bind system internally as well; enter <code>key_listboundkeys</code> and observe how it's already populated with a bunch of stuff.</p>
+<p>To bind things to the mouse wheel, bind them to <code>MWHEELDOWN</code> or <code>MWHEELUP</code>. The numpad can be addressed with <code>KP_END</code> for 1, <code>KP_DOWNARROW</code> for 2, <code>KP_PGDN</code> for 3 etc.</p>
+<h2>Useful cheats and bindings</h2>
+<p>I'll preface this by saying <em>everybody</em> cheats. Basically everyone has a keyboard full of their own cheat keybinds, and you'll be hard-pressed to find someone in the community who like, never cheats. This is a puzzle game first and foremost, it doesn't matter if you accidentally fell off a ledge and used noclip to get back on. As long as you had fun figuring out the puzzle and your solution would have worked without any noclip, it counts! (Don't go into p2 speedrunning with this mindset.)</p>
+<p>If you're entering these into a <code>bind</code> command don't forget to wrap them in double quotes btw. And it's handy to prefix cheat commands with <code>sv_cheats 1;</code> so you don't need a separate &quot;enable cheats&quot; bind.</p>
+<p>When playing in co-op, only Atlas can enable <code>sv_cheats</code>, but after that both players can use cheats.</p>
+<p>With all that out of the way! Your bread-and-butter binds:</p>
+<ul>
+<li><code>sv_cheats 1; noclip</code> - Toggle noclip, allowing you to fly through walls and outside the map.
+<ul>
+<li>Goo pits, bottomless pits, and laserfields will still kill you!!!</li>
+</ul>
+</li>
+<li><code>sv_cheats 1; god</code> - Toggle god mode, removing all damage.
+<ul>
+<li>Maybe a good idea to combine with the <code>noclip</code> bind</li>
+</ul>
+</li>
+<li><code>sv_cheats 1; ent_create_portal_companion_cube</code> - Spawn a companion cube in the wall at your crosshair position.
+<ul>
+<li>There are also commands like <code>ent_create_portal_reflector_cube</code> for laser cubes, <code>ent_create_portal_weighted_sphere</code> for spheres, etc. I don't have these bound to keys, but they're good to know about in case you need to spawn one.</li>
+</ul>
+</li>
+<li><code>sv_cheats 1; host_timescale 3</code> - Run the game at triple speed!</li>
+<li><code>sv_cheats 1; host_timescale 0.25</code> - Run the game at quarter speed.</li>
+<li><code>sv_cheats 1; host_timescale 1</code> - Run the game at normal speed again.</li>
+<li><code>sv_cheats 1; toggle host_timescale 1 3 0.25</code> - One key to toggle between a bunch of game speeds, if you prefer that!
+<ul>
+<li>If you don't have sv_cheats on, <code>host_timescale</code> just changes the pitch of in-game audio, which is pretty funny</li>
+</ul>
+</li>
+<li><code>ent_fire !picker use</code> - &quot;Long range Use&quot;. This acts the same as the E key, but doesn't have any distance limitations, so you can pick things up and press pedestal buttons from any distance.
+<ul>
+<li>Hilariously this is <em>not</em> a cheat command according to the game lol</li>
+<li>It's not safe to <em>replace</em> your usual &quot;use&quot; key with this because there are lots of differences and bugs. But put it on an easy-to-reach key.</li>
+</ul>
+</li>
+<li><code>save XXXX</code> and <code>load XXXX</code>, with whatever filename you want - More save slots!
+<ul>
+<li>F6 and F7, the default quicksave keys, use the filename <code>quick</code>.</li>
+</ul>
+</li>
+</ul>
+<p>And some more specialized binds:</p>
+<ul>
+<li><code>sv_cheats 1; buddha</code> - Toggle &quot;buddha mode&quot;, where you can still take damage but can't actually die.
+<ul>
+<li>Useful to see <em>if</em> you are taking damange, since godmode removes the red overlay as well.</li>
+</ul>
+</li>
+<li><code>sv_cheats 1; notarget</code> - Toggle notarget mode. Turrets can't see you.
+<ul>
+<li>useful for really awful community maps</li>
+</ul>
+</li>
+<li><code>incrementvar crosshair 0 1 1;incrementvar r_drawviewmodel 0 1 1</code> - Toggle the crosshair and portal gun.
+<ul>
+<li>I have this on <code>F1</code> like Minecraft.</li>
+<li>In some mods <code>r_drawviewmodel</code> doesn't remove all of the portal gun. Replace it with like, <code>viewmodel_offset_x 0 2000 2000</code> to move it way off screen instead.</li>
+<li>Make sure to enable the HUD again before you exit a map, because <code>r_drawviewmodel</code> doesn't carry over between maps but <code>crosshair</code> does lol, just one of those things.</li>
+</ul>
+</li>
+<li><code>;+remote_view</code> (with a semicolon at the start) - &quot;Sticky&quot; partner view for co-op. Pressing this key opens the viewport of your co-op partner, but you don't need to hold it down to keep it open. It is safe to replace your usual partner view bind with this if you want; you can create a separate &quot;disable remote view&quot; bind with <code>;-remote_view</code> as well.
+<ul>
+<li>Putting a semicolon in front of any bind that starts with <code>+</code> will make it sticky. Usually not that useful except for this one.</li>
+</ul>
+</li>
+<li><code>jpeg</code> - Takes a screenshot!</li>
+<li><code>cl_fov 110</code> (or whatever number) - Change the game's horizontal field-of-view.
+<ul>
+<li>Unfortunately you need to press this after every loading screen because the game resets it to 90.</li>
+<li>Sometimes people bind their W key to <code>+forward;cl_fov 110</code>, so walking forwards, a thing you do anyway, resets the FOV.</li>
+<li>Hot tip but reducing the field of view makes it easier to take nice screenshots, handy for thumbnails and stuff, so you might want to bind a few keys to <code>cl_fov 60</code> and such. I have the whole bottom-right of my keyboard dedicated to FOV-changing keys for posing screenshots.</li>
+</ul>
+</li>
+</ul>
+<h2>Uhhh more useful commands</h2>
+<p>Not really things that need to be bound to a key per se, but they're nice commands to know about. Look, I just wanna dump this info on you</p>
+<ul>
+<li><code>mat_picmip &lt;number&gt;</code> - Increase the number to decrease texture resolution. Makes the game look like shit, but useful if your computer is a potato.</li>
+<li><code>viewmodel_offset_x</code> - Changes the horizonal position of the portal gun on the screen. Positive values move it to the right. <code>2</code> looks nice on widescreen.</li>
+<li><code>sv_player_collide_with_laser</code> - Setting a value of 0 removes damage and collision with lasers. You can just walk right through!</li>
+<li><code>sv_use_bendy_model</code> - Setting a value of 0 makes you use the Chell player model in community maps, if you prefer to play as her.
+<ul>
+<li>It only takes effect on the next map load and doesn't stick between game sessions, so put it in your <code>autoexec.cfg</code>.</li>
+</ul>
+</li>
+<li><code>map</code> - Loads a map!</li>
+<li><code>fadein</code> - Fades the screen back in, useful if you touched a bottomless pit with godmode and the screen faded to black.</li>
+<li><code>phys_timescale</code> - Adjusts the speed of the physics engine. You can set it to <code>0</code> safely, causing objects to freeze in place. Useful for posing screenshots.
+<ul>
+<li>Hilariously this is also not cheat protected, don't use this in your speedruns lol</li>
+</ul>
+</li>
+<li><code>cl_showpos 1</code> - Show your position and angles in the upper left of the screen.</li>
+<li><code>setpos</code> and <code>setang</code> - Set your position and angle exactly. Useful for lining up screenshots.</li>
+<li><code>ent_fire !picker &lt;way too many things to list here&gt;</code> - There's tab-completion on this for the available options. Fires an input to the thing under your crosshair, causing something to happen to it. You can change the color, parent it to something, delete it... My favorite is <code>ignite</code> which makes it catch on fire</li>
+<li><code>r_portal_use_pvs_optimization 0</code> - Stops the screen turning white when you noclip out of bounds then disable noclip. Doesn't seem to noticeably impact framerate.</li>
+<li><code>+mouse_menu_playtest</code> - Unused co-op ping menu with thumbs-up, thumbs-down, ?, and ?!* reactions. Broken in singleplayer and you will softlock if you press it!!!</li>
+<li><code>restart_level</code> (DOES NOT APPEAR IN AUTOCOMPLETE FOR SOME REASON) - Restarts the current map. Unlike plain ol <code>restart</code>, doesn't act funny on community maps.</li>
+</ul>
+<p>Okay next section!</p>
+<h1>SAR and loading fixes</h1>
+<p><a href="https://wiki.portal2.sr/SAR">SAR</a> is a plugin/mod/tool/thing that Portal 2 speedrunners use. You can download the latest version <a href="https://github.com/Blenderiste09/SourceAutoRecord/releases">over here</a>. It's like 99% nerdy speedrunner stuff, but there is a <em>really</em> nice-to-have loading screen fix as well, that makes loading take <em>much</em> less time.</p>
+<p>In particular this makes quicksaves fun and useful again: loading a quicksave created on the same map takes less than a second, on my PC.</p>
+<p>Full installation instructions are available on the <a href="https://wiki.portal2.sr/SAR#How_to_install">Portal speedrunners wiki</a> but in short, to enable the load remover:</p>
+<ul>
+<li>Download the <code>.dll</code> on Windows or <code>.so</code> on Linux. Uhh if you're on Mac, good luck!</li>
+<li>Put it wherever you want in <code>steamapps/common/Portal 2</code>. I have it right next to <code>portal2.exe</code>.</li>
+<li>Open your <code>autoexec.cfg</code> and enter:</li>
+</ul>
+<pre><code class="language-codeblock">plugin_load sar
+sar_fast_load_preset normal
+</code></pre>
+<ul>
+<li>You can write <code>full</code> instead of <code>normal</code> for even <em>faster</em> loads, but this disables all loading screen rendering, including things like the name of the community map.
+<ul>
+<li>Full details on loading presets <a href="https://wiki.portal2.sr/SAR#Loading_Fixes">on the speedrunners wiki</a> of course.</li>
+</ul>
+</li>
+<li>Start the game and enjoy speedy loading screens.</li>
+</ul>
+<p>SAR also has a few more commands that might be useful to casual players. Put these in your autoexec under <code>plugin_load</code> as well.</p>
+<ul>
+<li><code>sar_force_fov 110</code> - It's like <code>cl_fov</code>, but sticks around after map loads so you don't have to press your fov bind every time.</li>
+<li><code>sar_autojump</code> - Makes you jump continuously while holding your jump key.</li>
+</ul>
+<p>A full list of commands is available <a href="https://github.com/Blenderiste09/SourceAutoRecord/blob/master/doc/cvars.md">here</a>. There are a lot.</p>
+<p>Oh and if you're curious it stands for &quot;Source Auto Record&quot;, because the original purpose of the tool is to automatically record demos on the first tick of loading a map, but as you can see it's grown in scope quite a bit...</p>
+<h1>BEEMOD</h1>
+<p>This is more for making maps and not playing them, but I want to point you in the direction of <a href="https://github.com/BEEmod/BEE2.4">BEEMOD</a>. It's a tool to customize the items available in Puzzlemaker. There's custom test elements, but also things like additional map geometry (wedges, blocks, holes-in-glass), more features for the vanilla map elements (you can enable Portal 1-style victory lifts that only move when you stand on them), more map themes, and more. All available in the in-game editor for you to use, no Hammer knowledge needed.</p>
+<p>I will say a few things:</p>
+<ul>
+<li>Beemod's packages are a fairly big download, be prepared to wait.</li>
+<li>The custom styles are kinda ugly imo... I'm really sorry because there's a lot of work put into them, but the &quot;Original Clean&quot; style is still my favorite. It's the most readable.</li>
+<li>Due to limitations it's not possible for BEE to add new <em>types</em> of checkboxes to the editor. But they can take e.g. the &quot;Auto-drop first cube&quot; checkbox from cube droppers, graft it on to other items, and make it do something else. So the Portal 1-style victory lift setting I mentioned earlier is enabled by right-clicking a lift and enabling &quot;Auto-drop first cube&quot;. It's very, very weird. You get used to it. Everything is documented in the BEEMOD application.</li>
+<li>The invisible logic gate items are useful for way more than logic gates! The gates might be invisible, but antline and signage connections to them are not. Be creative.</li>
+<li>Light strips now have a Cube Type. The first 3 change the temperature of the emitted light and the 5th makes an invisible light strip that blocks antlines. (4th is not used.)</li>
+</ul>
+<h1>How do I bunnyhop?</h1>
+<p>Really really quick overview:</p>
+<ul>
+<li>Bind jump to your mousewheel. Scroll whenever you get close to the ground to input a jump as early as possible.</li>
+<li>Tap forward to get some initial speed, but once you have speed, move by strafing sideways instead of by walking forwards.</li>
+</ul>
+<p>That's basically it.</p>
+<p>There's wayyyy more detailed guides out there and I'm not an expert. It takes a lot of practice to get a &quot;feel&quot; for the right way to move and how momentum carries.</p>
+<h1>Hey quat uhh, this is all well and good, but what maps should i actually play with these newfound powers</h1>
+<p>Well I'm glad you asked, because unfortunately, browsing the workshop by &quot;Most Popular&quot; is not a very good way to find high-quality maps*.</p>
+<p>A longtime Portal 2 friend curated this collection called <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=470046703">&quot;Introduction to the Workshop&quot;</a>, which has <em>all</em> the classics. It's a bit old now but it's timeless, I always recommend it to new workshop players. You'll pick up all the puzzle techniques you'll need to solve community maps that aren't part of the main game (what?), and have a good time doing it.</p>
+<p>All of the people included in that collection are fairly prolific mappers, so browse their profiles and check out their other work and their favorites lists as well.</p>
+<p>Here's my list of <a href="https://steamcommunity.com/id/quaternary/myworkshopfiles?appid=620&amp;browsesort=myfavorites&amp;browsefilter=myfavorites&amp;p=1">workshop favorites</a>, although it's mostly hard shit and kinda outdated by now...</p>
+<p>*It's mainly because completing a map prompts you with the rating screen, so maps with more completions get more popular, so easy maps rise to the top. Occasionally you'll find bangers in there but like, approach it the way you'd approach Mario Maker's popular section.</p>
+<p>Now go forth!</p>
+]]></content:encoded>
+</item>
+<item>
+<title>Good title for my puzzle game</title>
+<link>https://highlysuspect.agency/posts/good_title_for_my_puzzle_game</link>
+<guid>https://highlysuspect.agency/posts/good_title_for_my_puzzle_game</guid>
+<pubDate>Sat, 20 Mar 2021 00:00:00 -0400</pubDate>
+<description>A little Puzzlescript game!</description>
+<content:encoded><![CDATA[
+<p>I made a small Puzzlescript game! You can play it online <a href="https://www.puzzlescript.net/play.html?p=fb015aa143ae4b3c1f5923a8da1a14d1">right here</a>.</p>
+<p>If you've never played a Puzzlescript game before, use the WASD or arrow keys to move the character and (in levels where it's present) use the X button or spacebar to activate and deactivate the thingie. Press Z to undo and R to reset the level. You can play it on mobile as well; slide to move the character and tap to toggle the device.</p>
+<p>To access the source code, press the &quot;hack&quot; link on the bottom or go to the <a href="https://gist.github.com/quat1024/fb015aa143ae4b3c1f5923a8da1a14d1">gist</a> where it's hosted.</p>
+<p>Known bugs:</p>
+<ul>
+<li>You can delete crates by telefragging them. Shouldn't break anything, since you need the crates.</li>
+<li>You can push the device over pits.</li>
+<li>Pushing the device really close to the edges of the level will break the outline until you push it back, but most levels have a generous buffer zone so that can't happen</li>
+</ul>
+<p>This is a prototype of something I'd like to make into a larger game outside of the Puzzlescript engine (and a lot of the bugs are because this mechanic is not especially Puzzlescript-shaped). I think it'd work well as a not-block-pushy game, like Portal. And I have some big ideas... idk. I would say &quot;watch this space&quot; but I have executive dysfunction</p>
+<p><a href="https://www.youtube.com/watch?v=ijdjq-0QKsM">Here</a> is a walkthrough, if you are stuck or just want to watch how the game works:</p>
+<iframe class="youtube" width="560" height="315" src="https://www.youtube-nocookie.com/embed/ijdjq-0QKsM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>Please enable 3rd-party iframes to see this video</iframe>]]></content:encoded>
+</item>
+<item>
+<title>Obligatory Haha New Website Post</title>
+<link>https://highlysuspect.agency/posts/obligatory_haha_new_website</link>
+<guid>https://highlysuspect.agency/posts/obligatory_haha_new_website</guid>
+<pubDate>Tue, 16 Mar 2021 00:00:00 -0400</pubDate>
+<description>What I learned making this new site!</description>
+<content:encoded><![CDATA[
+<p>So uh, hi, this is my new website! Fancy that, huh.</p>
+<p>It doesn't look too much different than my old one, apart from the inverted color scheme (light mode, heyo), but behind the scenes it's no longer a static site, and is using a backend hastily thrown together in Rust. This post intends to collect some of my thoughts on what the process of making it was like, lessons learned, etc.</p>
+<h2>Design</h2>
+<p>&quot;Readability&quot; is a nebulous concept that's tricky to nail down, small changes can drastically impact the readability. I find it hard to read lots and lots of text off a computer screen, which is why I went for a bigger font, and I found the white-on-black text of my old site easy to read in short bursts but reading an entire article like that was difficult. Luckily I had kept all (okay, most) of the CSS color information in variables, so switching to &quot;light mode&quot; was a painless process.</p>
+<p>The background color is an off-white that's tinted slightly red, which is a bit easier on the eyes than full-blown white.</p>
+<p>I actually didn't intend to create the &quot;redacted document&quot; look, with the black links looking a bit like crossed-out text from a distance, but it works and I guess it fits this ridiculous domain name.</p>
+<p>And I had a lot of fun designing <a href="/missing">the 404 page</a>. It uses a bunch of <code>text-shadow</code> and <code>clip-path</code> shenanigans.</p>
+<h2>Meta</h2>
+<p>Motivation was a struggle. I have trouble staying motivated on things long-term unless I get a burst of energy to work on them, and this project was no exception; a lot of the work happened in the first day or two then I burned out a little.</p>
+<p>Part of why staying motivated is hard is like, I haven't blogged in over a year, so why bother making a new website to show off all my old Minecraft modding posts with now-outdated info, right? There was kind of a chicken-and-egg problem there - I've wanted to scrape together things like a modding tutorial, but I didn't want to blog because I didn't have a blog to put the posts on. We'll see what happens.</p>
+<h2>Tech</h2>
+<p>(why you're probably here)</p>
+<h3>Stack</h3>
+<p>Well, first of all, here's the <a href="https://github.com/quat1024/quatweb">source code</a> to my server.</p>
+<p>The server itself is running on a tiny VPS loaned to me from a friend. Thanks, una!</p>
+<blockquote>
+<p>una your &quot;very tiny container&quot; with half as many vcpus as my computer's actual cpus, can compile rust twice as fast as my computer</p>
+</blockquote>
+<p>On the software side,</p>
+<ul>
+<li>I use <code>warp</code> to serve the document. It's not behind any reverse proxies like <code>nginx</code> or anything, but I might change that.</li>
+<li>HTML templating is currently done with <code>ramhorns</code> and Markdown parsing is done with <code>pulldown-cmark</code>.</li>
+<li>Logging uses <code>pretty-env-logger</code>.</li>
+<li>Configuration is provided through environment variables using <code>envy</code>.</li>
+<li>Uhh, some other stuff too.</li>
+</ul>
+<p>I'm actually quite surprised at how many transitive dependencies this thing has - over 200.</p>
+<p>It's kind of a &quot;static site&quot;, but also kind of not. A lot of things are cached, like the rendered-markdown of posts, and it basically just puzzles templates together for every pageload. There's a way to force it to reload those caches through stdin. I could make this into a static site but I'm stubborn (and I have some ideas for later.)</p>
+<h3>Soooo what was it like to develop the thing</h3>
+<p>I dunno, I have some thoughts on this, lol. I also want to stress that this section is <strong>from a newcomer's perspective</strong> and there are probably solutions to many of these problems.</p>
+<p>So my primary experience with Rust is that, when the fancy things work, they work beautifully, but when they don't, it's ugly.</p>
+<ul>
+<li>Parsing my <code>Settings</code> struct out of an environment variable with <code>serde</code> and <code>envy</code> was very fun and easy, so next I moved to switching the frontmatter parser for my blogposts from a handrolled <code>=</code>-splitter to something like HJSON or TOML using those libraries. I don't remember the exact problems I had but they simply did not work.</li>
+<li>Telling the server to dump its caches through <code>stdin</code> is great but it'd be even better if it happened automatically when I changed a file (like a blogpost or mustache template) that required dumping the cache. So I tried <code>notify</code>, version 5. It did... nothing.</li>
+<li>I tried <code>color-eyre</code> because I heard it had nice error reports. I had a lot of fun decorating my errors with the appropriate context information - finally, I can tell myself which post failed to parse, instead of an opaque &quot;missing created_date&quot; message... Then I tried <code>println!</code>ing the error and hardly any information showed up. Maybe I misused it, or maybe the fancy error messages with context only appear when printed through the panic handler? Who's to say.</li>
+</ul>
+<h4>async</h4>
+<p>The <code>async</code> situation is Rust is very rough around the edges. The standard library provides very little and most of the Fun work is pushed off to libraries like <code>tokio</code>, which (for example) offers you nice fancy async Channels! ...that are not compatible with ones from the standard library, or any projects that use the ones from the standard library. &quot;Colored functions&quot; (weird name, don't like it, it's what stuck) strike again. That's why I couldn't try <code>notify</code> version 4; it uses a standard library <code>mpsc::channel</code> and I really wanted to <code>await</code> on its output but I could not figure out how the hell to do that.</p>
+<p>Like I guess spinning up another OS thread isn't the end of the world but it feels like I shouldn't have to do that.</p>
+<p>My other complaint with <code>Future</code>s is the only &quot;easy&quot; thing to do with them is <code>.await</code>ing their output. Futures are ostensibly an abstraction over &quot;a value that might not be present&quot;, so it's surprising there are no <code>isDone() -&gt; bool</code> or <code>get() -&gt; Option&lt;T&gt;</code> functions, right? The method you <em>do</em> get is <code>poll</code>, but calling that is a job for the async runtime, not you. People have written <a href="https://crates.io/crates/spin_on">toy executors that spinlock while waiting for the task to complete</a> and it's like a page of code, which isn't that much in the grand scheme of things but it's a surprising amount of code for &quot;thing that makes the code run&quot;, right? Compare to something like Java where <code>Runnable::run</code> is a valid implementation of <code>Executor</code>.</p>
+<p>I digress. Maybe having a more complex <code>async</code> interface that favors scaling up to real-world executors like <code>tokio</code>, instead of scaling down to easy-to-write but hilariously inefficient toy executors like <code>spin-on</code>, is a good thing actually.</p>
+<p>Also, while the idea of having &quot;multiple executor backends to choose from while everything stabilizes&quot; sounds good in theory I suppose, in practice you are tied to one because a dependency is. I tried switching to <code>smol</code> and, well it's kind of pointless because I already use <code>warp</code> which depends on <code>tokio</code>, so unless I want two executors in my binary for whatever reason...?</p>
+<h2>Conclusion</h2>
+<p>Idk uhh. Rust is cool and this post would be more positive except I don't remember the parts that go very smoothly and I only remember the sticky bits. You know how it is.</p>
+<p>This is like a half-formed thought turned blogpost, sorry about that lmao</p>
+]]></content:encoded>
+</item>
+<item>
+<title>how 2 angry lex.md</title>
+<link>https://highlysuspect.agency/posts/how_2_angry_lex</link>
+<guid>https://highlysuspect.agency/posts/how_2_angry_lex</guid>
+<pubDate>Thu, 06 Feb 2020 00:00:00 -0500</pubDate>
+<description>Unfinished, short guide to setting up 1.12 coremods</description>
+<content:encoded><![CDATA[
+<p>This article was formerly published on my Github account <a href="https://gist.github.com/quat1024/79f8083ae6a53f419033b11bbde78649/">here</a>, although I never finished it. I've reprinted it on my new website as it originally appeared. Maybe I'll get around to finishing it someday, but unfortunately 1.12 modding is a little archaic these days and I'm mainly keeping it up for historical purposes only.</p>
+<hr class="cool"/>
+<p>Psst, hey kid, wanna write a coremod?</p>
+<h1>What</h1>
+<p>Coremods allow you to define class transformers.</p>
+<p>Whenever the game tries to load a class - <em>any</em> class, with few exceptions - all class transformers take turns stepping in and getting an opportunity to change the raw class bytes to <em>anything it wants</em>. This allows you to make changes to any class the game loads.</p>
+<h2>What can they do?</h2>
+<p>You get one chance to change a class, just before it is loaded.</p>
+<p>By &quot;change&quot;, I mean you can really do almost anything you want to a class. You can add and remove methods, change access modifiers, change the class/interface hierarchy, change the code of methods, and so on.</p>
+<h2>What can't they do?</h2>
+<p>You can't change classes <em>after</em> they're loaded. You only get the one chance, right before the class loads, and that's it. After the class loads, its implementation is finalized. (This is mostly a JVM limitation.)</p>
+<p>Your class transformer <em>has</em> to return a valid class file. If the class file is not valid, the game crashes. If you don't return a class file, the game crashes.</p>
+<h3>A warning</h3>
+<p>Class transformers are a double edged sword - one misstep can cause lots and lots of hard-to-debug errors. It takes practice and patience, and even then, issues can still be caused in production by forgetting to obfuscate a method name or other coremods changing the same classes in ways you didn't expect.</p>
+<h1>How</h1>
+<h2>Manifest attributes</h2>
+<p>When Forge initially loads your mod, it checks <code>yourmod.jar/META-INF/MANIFEST.MF</code> for some information pertaining to coremods.</p>
+<p>You must set the attribute <code>FMLCorePlugin</code> to the name of a class that implements <code>IFMLLoadingPlugin</code>. This is your entrypoint. (More on this in a bit.)</p>
+<p>You also probably want to set the attribute <code>FMLCorePluginContainsFMLMod</code> to <code>true</code>. If you don't, Forge will skip your jar when looking for <code>@Mod</code> annotations.</p>
+<p>Turns out looking in <code>MANIFEST.MF</code> is a pretty standard thing for Java programs to do, so Gradle has a convenient way of placing lines in this file so you don't need to do it yourself. Paste this incantation into your build.gradle:</p>
+<pre><code class="language-groovy">jar {
+	manifest {
+		attributes &quot;FMLCorePlugin&quot;: &quot;your.mod.package.core.LoadingPlugin&quot;
+		attributes &quot;FMLCorePluginContainsFMLMod&quot;: true
+	}
+}
+</code></pre>
+<p>Finally, if you want your coremod to be loaded in development (which, of course you do), add the following JVM argument:</p>
+<p><code>-Dfml.coreMods.load=your.mod.package.core.LoadingPlugin</code></p>
+<p>I think <code>genIntellijRuns</code> sets this in your run configurations, but if it doesn't, paste that right into &quot;VM options&quot;.</p>
+<h2><code>IFMLLoadingPlugin</code></h2>
+<p>Back to that class the <code>FMLCorePlugin</code> attribute points to. It must implement <code>IFMLLoadingPlugin</code> and additionally it should have a few annotations:</p>
+<ul>
+<li><code>@IFMLLoadingPlugin.Name</code> - a user-facing name for this coremod. It's that thing you see in crash reports.</li>
+<li><code>@IFMLLoadingPlugin.MCVersion(&quot;1.12.2&quot;)</code> - For some reason you need to write the Minecraft version. Just do that.</li>
+<li><code>@IFMLLoadingPlugin.TransformerExclusions</code> - an array of package prefixes that no class transformers will enter.
+<ul>
+<li>So, if you put <code>your.mod.package.secretstuff</code>, <em>no</em> class transformers will be able to edit, say, <code>your.mod.package.secretstuff.blahblah.MySecrets</code>.</li>
+<li>The list is global to all coremods.</li>
+<li>These classes will simply skip the coremod system, and appear in-game unmodified.</li>
+<li>I <strong>strongly recommend</strong> putting your own core package in here (i.e. the package your <code>IFMLLoadingPlugin</code> sits inside). This prevents weird issues caused by trying to transform two classes at once.</li>
+</ul>
+</li>
+<li><code>@IFMLLoadingPlugin.SortingIndex</code> - Classes go through a chain of many transformers (other modded transformers, Forge/FML internal class transformers, etc) before getting loaded. They're sorted low to high, so transformers with a low number get first dibs on changing the class.
+<ul>
+<li>I <strong>strongly recommend</strong> putting in a number greater than 1000 if you plan to touch Minecraft code.</li>
+<li>In production, Forge has a transformer at this sorting index that turns &quot;proguard names&quot; such as <code>h</code> into &quot;SRG names&quot; like <code>field_92587_d</code>.</li>
+<li>You really really want to run after this transformer, because most mappings viewer tools work better with SRG names.</li>
+</ul>
+</li>
+</ul>
+<p>Oh, and as for the methods in <code>IFMLLoadingPlugin</code>?</p>
+<ul>
+<li><code>getASMTransformerClass</code> is an array of class names that implement <code>IClassTransformer</code> (more on that in a bit, as usual)</li>
+<li>The other four can be safely ignored and left as no-ops or <code>return null</code>s:
+<ul>
+<li><code>getModContainerClass</code> is &quot;useful&quot; if you want your coremod to appear in the in-game mods list as additional clutter next to your actual mod's entry.</li>
+<li><code>injectData</code> just gives you <code>Launch.blackboard</code>.</li>
+<li>I don't know what <code>getSetupClass</code> and <code>getAccessTransformerClass</code> are for, but I have never needed to touch them.</li>
+</ul>
+</li>
+</ul>
+<h3>A note on classloading</h3>
+<p>Normally classloading is transparent - when you need a class, it gets loaded on demand. Coremods and class transformers break the illusion, however.</p>
+<p>As such, you need to be <em>extremely careful</em> about what classes your coremod and class transformer access.</p>
+<ul>
+<li>Put your coremod related things into a separate package (convenionally, <code>your.mod.package.core</code> or <code>your.mod.package.asm</code>).</li>
+<li>Then, put this package in <code>TransformerExclusions</code> (above).</li>
+<li>Don't touch the things outside the coremod package from the coremod package.
+<ul>
+<li>Really, don't!</li>
+<li>If you need to use something in your coremod, put it in your coremod package.</li>
+</ul>
+</li>
+<li>Especially: Do not, <strong>under any circumstances</strong>, load classes from Minecraft from your LoadingPlugin or your class transformer.
+<ul>
+<li>Don't use <code>Class.forName</code> to refer to MC classes. Don't even use class literals like <code>BlockStone.class</code>.</li>
+<li>Don't even look at Minecraft classes.</li>
+<li>If you need to talk about a Minecraft class, hardcode its name as a string.</li>
+</ul>
+</li>
+<li>Don't do anything overly &quot;fancy&quot;.
+<ul>
+<li>If you use a personal library mod, it's tempting to use the utilities in that library mod in your coremod.</li>
+<li>Avoid that - paste the utilities you need into a safe, <code>TransformerExclude</code>d location.</li>
+<li>Remember that many &quot;util&quot; classes contain a bunch of unrelated things. When you use your util class, you might accidentally load something from Minecraft.</li>
+</ul>
+</li>
+<li>It <em>is</em> safe to refer to things <em>inside</em> your coremod package from <em>outside</em> your coremod package.
+<ul>
+<li>If you need a shared resource, put it in the coremod package.</li>
+</ul>
+</li>
+</ul>
+<h2><code>IClassTransformer</code></h2>
+<p>This interface has only one method, <code>byte[] transform(String name, String transformedName, byte[] basicClass)</code>. Let's go through it.</p>
+<ul>
+<li><code>name</code> is the name of the class as it exists on-disk.</li>
+<li><code>transformedName</code> is whatever the <em>rename transformer</em> says the name is.
+<ul>
+<li>In development, these are always the same.</li>
+<li>In production, <code>name</code> is a Proguardy thing like <code>a</code>, and <code>transformedName</code> is the same as it is in development.</li>
+<li>TODO is that true :P</li>
+<li>Basically: just use <code>transformedName</code>.</li>
+</ul>
+</li>
+<li><code>basicClass</code> is the byte array of the class file.</li>
+</ul>
+<p>First, one small thing to note is that some class transformers return <code>null</code> when they error. Since transformers are all put together in a chain, someone else's transformer erroring can cause yours to <code>NullPointerException</code> if you try to work with the <code>basicClass</code> without checking. This can put your mod in the stacktrace for someone else's error! Always null-check <code>basicClass</code> and if it's null just pass the null down the line, not much else you can do.</p>
+<p>Typically you only need to transform one or two classes with your transformer. Remember that transformers are called for literally every single class that gets loaded, so time is of the essence and memory allocations will get magnified.</p>
+<p>Or, in other words, the first line of your class transformer should look like this:</p>
+<pre><code class="language-java">if(basicClass == null || !transformedName.equals(&quot;my.target.class.name&quot;)) return basicClass;
+</code></pre>
+<p>(or if you want to transform a bunch of classes, assuming <code>targets</code> is a very efficient collection like a tree or hashset):</p>
+<pre><code class="language-java">if(basicClass == null || !targets.contains(transformedName)) return basicClass;
+</code></pre>
+<p>Anyway, what about when <code>basicClass</code> is <em>not</em> null? Well... that's it. It's just a byte array.</p>
+<p>Unfortunately this is where Forge stops helping. However, note that you get the ObjectWeb ASM library as one of the dependencies. This library takes you the rest of the way to your goal (and is why people colloquially refer to coremodding and class transforming as &quot;asming&quot;.)</p>
+<h2>ASM</h2>
+<p><strong>TODO: Write more.</strong></p>
+<ul>
+<li>&quot;tree&quot; and &quot;node&quot; APIs, everyone uses node because it's simpler, talk about performance tradeoff</li>
+<li>typical node API pattern</li>
+</ul>
+<pre><code class="language-java">ClassReader reader = new ClassReader(basicClass);
+ClassNode node = new ClassNode(Opcodes.ASM5);
+reader.accept(node, 0);
+
+//do work
+
+ClassWriter writer = new ClassWriter(flags) //talk about flags
+node.accept(writer);
+return writer.toByteArray();
+</code></pre>
+<ul>
+<li>method naming/obfuscation</li>
+<li>jvm internals</li>
+<li>where to look for opcode references</li>
+<li><code>Opcodes</code> interface</li>
+<li></li>
+</ul>
+<h1>Debugging</h1>
+<ul>
+<li>talk about CheckClassAdapter</li>
+</ul>
+]]></content:encoded>
+</item>
+<item>
+<title>Fix stuff being broke in IntelliJ</title>
+<link>https://highlysuspect.agency/posts/intellij_fix_it</link>
+<guid>https://highlysuspect.agency/posts/intellij_fix_it</guid>
+<pubDate>Sun, 19 Jan 2020 00:00:00 -0500</pubDate>
+<description>On fixing old ForgeGradles with new IntelliJs.</description>
+<content:encoded><![CDATA[
+<p>This article was formerly published on my Github account <a href="https://gist.github.com/quat1024/8bf436c85e5c140d27d49a7dc6c09982/">here</a>. It was during a time when ForgeGradle didn't work well with 1.12 mods. Since most users don't mod 1.12 anymore, it's mostly historical information, but I'll leave it up in case someone finds a use for it.</p>
+<hr/>
+<h1>What</h1>
+<p>When compiling mods in recent versions of IntelliJ, weird things start happening:</p>
+<ul>
+<li>With ForgeGradle 2 (1.12-), none of the assets show up in-game (language keys, models, textures etc)</li>
+<li>Broken hotswapping.</li>
+<li>Potentially other Bad, Terrible Things that are yet to be discovered.</li>
+</ul>
+<h1>How</h1>
+<h2>Hotswapping is broken / Resources are broken</h2>
+<ol>
+<li>Open Settings (head to File -&gt; Settings).</li>
+<li>Expand &quot;Build, Execution, Deployment&quot;.</li>
+<li>Expand &quot;Build Tools&quot;.</li>
+<li>Expand &quot;Gradle&quot;.</li>
+<li>Under the right pane, under &quot;Build and Run&quot;, change both from &quot;Gradle&quot; to &quot;IntelliJ Idea&quot;.</li>
+<li>Apply.</li>
+<li>Restart IntelliJ (quick way: is File -&gt; Invalidate Caches / Restart -&gt; Just Restart)</li>
+</ol>
+<p>You will need to change this once for every project.</p>
+<p>You also may have to set the project build directory after configuring this, since IntelliJ forgot; just use the <code>build/</code> directory (in the root of your project, adjacent to <code>src/</code>, probably already exists if you compiled it before).</p>
+<h2>genIntelliJRuns-generated run configs are erroring</h2>
+<p>(This probably doesn't happen in 1.13+, but it certainly does in 1.12-)</p>
+<ol>
+<li>Open the Run/Debug configurations dialog (expand the run configs dropdown -&gt; Edit Configurations...)</li>
+<li>Under &quot;Use classpath of module&quot;, change it to the one that ends in &quot;.main&quot;</li>
+<li>Do this for each run configuration.</li>
+</ol>
+<h1>Why</h1>
+<p>IntelliJ changed its model of how Gradle tasks are executed. Resources get put in a different folder from where ForgeGradle expects to find them, hot-swapping doesn't work, etc.</p>
+<h1>Who</h1>
+<p>Thanks to Tama for figuring out the resources issue on MMD. Thanks to Paul Fulham for pointing out that it also breaks hotswapping and by &quot;pointing out&quot; I mean that he found out the hard way and had to find out how to fix it. I'm just posting this somewhere I can link to it.</p>
+]]></content:encoded>
+</item>
+<item>
+<title>Overview of Resource Reloading in 1.14.4/Fabric</title>
+<link>https://highlysuspect.agency/posts/we_out_here_reloadin</link>
+<guid>https://highlysuspect.agency/posts/we_out_here_reloadin</guid>
+<pubDate>Sun, 19 Jan 2020 00:00:00 -0500</pubDate>
+<description>On the new resource reloading system introduced in 1.14.</description>
+<content:encoded><![CDATA[
+<p>This article was formerly published on my Github account <a href="https://gist.github.com/quat1024/2645637708b9577a57671df0eab953e2/">here</a>, although I never finished it. I've reprinted it on my new website as it originally appeared.</p>
+<hr class="think"/>
+<h3>TL;DR</h3>
+<p>If you want to load some resources or data in Fabric 1.14 or 1.15, do this:</p>
+<pre><code class="language-java">ResourceManagerHelper.get(ResourceType.ASSETS).registerReloadListener(new SimpleResourceReloadListener&lt;MyResource&gt;() {
+  @Override
+  public Identifier getFabricId() {
+    return new Identifier(&quot;some_identifier&quot;, &quot;that_describes_this_task&quot;);
+  }
+  
+  @Override
+  public CompletableFuture&lt;MyResource&gt; load(ResourceManager manager, Profiler profiler, Executor executor) {
+    return CompletableFuture.supplyAsync(() -&gt; {
+      //Do loading tasks (read files, grab things from the ResourceManager, etc)
+      //You're off-thread in this method, so don't touch the game.
+      MyResource res = loadMyResource(manager);
+      return res;
+    }, executor);
+  }
+  
+  @Override
+  public CompletableFuture&lt;Void&gt; apply(MyResource res, ResourceManager manager, Profiler profiler, Executor executor) {
+    return CompletableFuture.runAsync(() -&gt; {
+      //Your loaded resource gets threaded into   ^^^ the first argument of this method.
+      //Apply the loaded data to the game somehow (dump caches and refill them, set variables, etc)
+      applyMyResourceToTheGame(res);
+    }, executor);
+  }
+});
+</code></pre>
+<p>If you just want to listen to the resource reloading process and do something when it's done (postprocess a resource, print a message, whatnot), but you don't need to load anything new in-game, instead do this:</p>
+<pre><code class="language-java">ResourceManagerHelper.get(ResourceType.ASSETS).registerReloadListener(new SimpleSynchronousResourceReloadListener() {
+  @Override
+  public Identifier getFabricId() {
+    return new Identifier(&quot;some_identifier&quot;, &quot;that_describes_this_task&quot;);
+  }
+  
+  @Override
+  public void apply(ResourceManager res) {
+    //Do what you need to do
+  }
+});
+</code></pre>
+<p>Some code examples:</p>
+<ul>
+<li>Satin, using an async reloader: <a href="https://github.com/Ladysnake/Satin/blob/2f5cf9d9865aff4c8b9b6aae400d9765cb7ee8d4/src/main/java/ladysnake/satin/Satin.java#L34">registering</a>, <a href="https://github.com/Ladysnake/Satin/blob/2f5cf9d9865aff4c8b9b6aae400d9765cb7ee8d4/src/main/java/ladysnake/satin/impl/ReloadableShaderEffectManager.java">using</a></li>
+<li>Exotic Matter, using a synchronous reloader: <a href="https://github.com/grondag/exotic-matter-2/blob/c0099eb456121ed405fab3cd704b8cba8e4c1634/src/main/java/grondag/xm/XmClient.java#L46">registering</a>, <a href="https://github.com/grondag/exotic-matter-2/blob/c0099eb456121ed405fab3cd704b8cba8e4c1634/src/main/java/grondag/xm/paint/XmPaintRegistryImpl.java">using</a></li>
+<li>Blue Light Special, using an async reloader: <a href="https://github.com/kvverti/blue-light-special/blob/1f522285ef7e489ff96511a6069db0c12f4ca658/src/main/java/io/github/kvverti/bluelightspecial/BlueLightSpecialClient.java#L23">registering</a>, <a href="https://github.com/kvverti/blue-light-special/blob/1f522285ef7e489ff96511a6069db0c12f4ca658/src/main/java/io/github/kvverti/bluelightspecial/client/resource/CagedLanternColorSupplier.java">using</a></li>
+</ul>
+<h1>What???</h1>
+<p>Mojang did a number to the resource reloading system in 1.14. It's a lot more complicated and if you aren't familiar with asynchronous programming/<code>CompletableFuture</code>s like I am, it's very hard to use.</p>
+<ul>
+<li>The same machinery is used on the client to reload resource packs and on the server to reload data packs, since they are basically the same thing as far as the system is concerned.</li>
+<li>It's also used during the game startup process, all the way down to the initial loading splash screen and the resource-reload progress screen being literally the exact same screen.</li>
+<li>It's now multithreaded! There's a number of different resource <em>types</em> in Minecraft (client: fonts, textures, sounds, colormaps, ..., server: functions, tags, recipes, ...) and they all get loaded at the same time.</li>
+</ul>
+<p>N.B. Throughout this article, &quot;resource&quot; will be used to interchangably refer to resource packs and data packs, since the resource reloader doesn't care.</p>
+<p>Also, I won't be going into too much detail on the <code>ResourceManager</code> itself. It's the &quot;overridey filesystem&quot; that lets you just ask &quot;gimme <code>/textures/minecraft/entity/pig.png</code>&quot; without having to worry about which resource pack in the cascade that image is going to come from.</p>
+<h1>Why???</h1>
+<ul>
+<li>Why <em>not</em> multithread it? Honestly it's really a lot faster.</li>
+<li>Some resources take a long time to cook even after they're prepared: texture stitching, fonts, and so on. This has to get done eventually, but there's no need for them to block like, file I/O in the meantime.</li>
+</ul>
+<h1>How</h1>
+<p>I'm going to start from the bottom (how Mojang implements resource reloading in Minecraft), show why it's a pain to implement them the way Mojang does, and work up to how Fabric helps you implement resource reloaders in your mod.</p>
+<h2><code>ResourceReloader</code></h2>
+<p>This is the management class for all resource reloading and where &quot;the magic happens&quot;. Unfortunately the code is a <em>complete</em> mess to read and understand... there is a lot going on, and this is kinda the intersection of a bunch of different tasks the resource reloading system wants to be able to do (reloading in the client and server environments, debuggable/profilable reloading, etc) so there are a lot of loose variables.</p>
+<p>Here's the important takeaways:</p>
+<ul>
+<li>The two <code>Executors</code> correspond to the two stages of resource reloading. The first <code>Executor</code> is for <em>loading</em> tasks and the second is for <em>application</em> tasks.</li>
+<li>The loading executor is typically used for things like reading a texture or resource from disk.</li>
+<li>The application executor is typically used for processing and finalizing the data (setting the variables to the new data, dumping old caches)</li>
+<li>For example, on the client: 
+<ul>
+<li>The loading executor is the <em>server worker thread pool</em>, which you may recognize from its job of managing async tasks like chunkloading and generating the datafixer.</li>
+<li>This is a pool consisting of multiple threads; this is where the concurrency happens</li>
+<li>The application executor is <code>MinecraftClient</code>.</li>
+<li>If you've ever processed a server-to-client packet, using it as an <code>Executor</code> is familiar to you; this is exactly the same object you get when you call <code>packetContext.getTaskQueue().execute(something)</code>. It's for the same reason: you were off-thread, but now you want to touch the game, so you need to get on-thread.</li>
+</ul>
+</li>
+</ul>
+<h2><code>ResourceReloadListener</code></h2>
+<p>This is a functional interface from Minecraft representing some type of reloading task.</p>
+<p>The Yarn name <code>reload</code> is a bit misleading - it should probably be something like <code>createReloadTasks</code> - because no &quot;action&quot; happens in this method. It merely creates and returns a <code>CompletableFuture</code>, and it's the <em><code>Future</code>'s job</em> to submit loading and application tasks to the appropriate executors. When those tasks get executed <em>that's</em> when the &quot;reloading&quot; arguably occurs.</p>
+<p>You'll also notice an inner interface here, <code>Synchronizer</code>. An instance of this interface is passed into <code>reload</code>, and its <code>whenPrepared</code> method is how you tell Minecraft &quot;ok, I am done preparing my asset, it's now time to move into the application stage and apply them to the running game&quot;. You can supply any object you want (presumably, the result of loading the resources from disk) in your <code>CompletableFuture</code>; the <code>Synchronizer</code> simply passes it down unmodified so you can use it in your application task.</p>
+<p>So much talk, so little code. Here's the general skeleton for implementing your own resource reload listeners from scratch:</p>
+<pre><code class="language-java">public CompletableFuture&lt;Void&gt; reload(Synchronizer helper, ResourceManager resourceManager, Profiler loadProfiler, Profiler applyProfiler, Executor loadExecutor, Executor applyExecutor) {
+  return CompletableFuture
+    .supplyAsync(() -&gt; {
+      MyResource res = doSomeLoading(loadProfiler);
+      return res;
+    }, loadExecutor)
+    .thenCompose(helper::whenPrepared)
+    .thenAcceptAsync((res) -&gt; {
+      doSomeApplication(res, applyProfiler);
+    }, applyExecutor);
+}
+</code></pre>
+<p>This is where it might get a bit funny looking if you're not familiar with asynchronous programming. Note that the body of <code>reload</code> doesn't do anything except return a really big CompletableFuture. <em>Nothing has been executed yet</em>.</p>
+<p>Note the pattern: <code>supplyAsync</code> takes a function which supplies an asset (and it happens on the <code>loadeExecutor</code>), <code>thenCompose</code> takes <code>helper::whenPrepared</code> which tells MC you're done with this stage, and finally <code>thenAcceptAsync</code> takes a function which accepts the supplied asset (this time on the <code>applyExecutor</code>).</p>
+<p>Again, this is just a pile of three functions; these get scheduled to the appropriate thread pools and later executed whenever an asset reload happens (F3+T client, <code>/reload</code> server), but nothing has happened immediately after calling <code>reload</code>. It's a common and understandable learner's mistake to try and do something in <code>reload</code> - nope, it's too early.</p>
+<p>In fact, Mojang uses this pattern so much they have a helper class for it. It's been named <code>SinglePreparationResourceReloadListener</code>. Oh, and of course, actually making <em>use</em> of the profilers is optional, but Mojang does, and you should too.</p>
+<p>So, now you know the inner guts. Spoiler though, you probably won't be implementing this class yourself, since Fabric provides some machinery to make implementing this class much, much easier.</p>
+<h1>Fabric's machinery</h1>
+<p>The <code>fabric-resource-loader</code> module of Fabric API, among other things, makes it easier to create new <code>ReloadListener</code> tasks for whatever you want to reload. Here is a list of your new favorite classes (all in <code>net.fabricmc.fabric.api.resource</code>):</p>
+<h2><code>ResourceManagerHelper</code></h2>
+<p>Your entrypoint into the hell world. Call <code>ResourceManagerHelper.get(ResourceType.ASSETS)</code> for the clientside resource reload listener, and <code>ResourceType.DATA</code> for the serverside one. Register reload listeners to the returned object with, well, <code>registerReloadListener</code></p>
+<p>Any listeners registered to this happen <em>after</em> vanilla loading processes, which is usually what you want anyways - if you want to <em>change</em> vanilla loading processes instead, lean on Mixin.</p>
+<p>The whole <code>Helper</code> wrapper (instead of just adding them to MC's resource reload manager directly) helps preserve the invariant that custom ones always happen after vanilla ones and vanilla ones always happen in the same order as they do in vanilla.</p>
+<h2><code>IdentifiableResourceReloadListener</code></h2>
+<p>You probably won't end up implementing this yourself either. This interface extends vanilla <code>ResourceReloadListener</code> with two additional methods: one (<code>getFabricId</code>) returns an <code>Identifier</code> uniquely identifying this listener (so like, <code>mymod:fancy_particle_loader</code> or something).</p>
+<p>The other method (<code>getFabricDependencies</code>) is optional, and pertains to a small Fabric extension to the reload listener system - it returns a collection of <code>Identifiers</code> of listeners that <em>must</em> have their application stage happen <em>before</em> this one. Useful if you need that sort of thing.</p>
+<p>(It's not possible to order the preparation stages because it's multithreaded; their order is at the whimsy of the thread pool running them.)</p>
+<p>Note that vanilla reload listeners have this interface mixed on (check <code>MixinKeyedResourceReloadListener</code>), so vanilla resource reload listeners also have a <code>FabricId</code>. Check <code>ResourceReloadListenerKeys</code> for a list. (You can use these vanilla IDs in <code>getFabricDependencies</code>, but modded ones all happen after vanilla ones anyways, so who cares.)</p>
+<h2><code>SimpleResourceReloadListener</code></h2>
+<p>This is the money shot.</p>
+<p>This interface implements <code>IdentifiableResourceReloadListener</code> with the pattern in the far-above code sample, breaking out <code>load</code> and <code>apply</code> into convenient, separated methods and hiding most of the dirty <code>CompletableFuture</code> plumbing, and <strong>is the interface you probably want to implement if you are loading assets from a resource or data pack.</strong></p>
+<p>This is the interface illustrated in the code sample all the way at the top of this article.</p>
+<p>Submit these to the resource reload system by calling <code>ResourceManagerHelper.get(...).registerReloadListener</code>.</p>
+<h2><code>SimpleSynchronousResourceReloadListener</code></h2>
+<p>This interface has no methods of its own, but is a union of <code>IdentifiableResourceReloadListener</code> and vanilla Minecraft's <code>SynchronousResourceReloadListener</code> (a simplified interface with an empty <code>load</code> stage).</p>
+<p>If you simply want to hook the Minecraft resource reloading process and do something after it happens, but you don't need to load anything new from disk (say, you're dumping a cache, printing a message, or doing some post-processing on a resource), then <strong>this is the interface you probably want to implement</strong>.</p>
+<p>Submit these to the resource reload system the same way as a more complex one: <code>ResourceManagerHelper.get(...).registerReloadListener</code>.</p>
+<h1>Common problems</h1>
+<h3>I rolled my own resource reloader but the game never seems to finish reloading, the progress bar just gets stuck at 95%. What's going on?</h3>
+<p>When implementing <code>reload</code>, it's tempting to try and blow off the complexity of Minecraft, do all the work in the main body of <code>reload</code>, and return some dummy <code>CompletableFuture</code> just to satisfy the method contract. Don't: it's wrong, it's probably not thread-safe, and since <code>whenPrepared</code> is never called Minecraft just waits forever for your reload listener to finish the loading stage.</p>
+<p>If you just want a simple &quot;hey, I'm reloading&quot; hook, use <code>SimpleSynchronousResourceReloadListener</code>; if you want to load some data, use <code>SimpleResourceReloadListener</code>.</p>
+<h1>Thanks</h1>
+<p>Thanks to williewillus for pointing some stuff out about resource reload listeners in Forge on Vazkii's Discord.</p>
+]]></content:encoded>
+</item>
+</channel></rss>

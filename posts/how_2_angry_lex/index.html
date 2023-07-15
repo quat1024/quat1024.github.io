@@ -1,35 +1,34 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<title>how 2 angry lex.md - Highly Suspect Agency</title>
-	<link rel="stylesheet" type="text/css" href="/stylin.css"/>
-	<link rel="stylesheet" type="text/css" href="/rotator.css"/>
-	<link rel="icon" type="image/x-icon" href="/favicon.ico"/>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>how 2 angry lex.md - Highly Suspect Agency</title>
+<meta property="og:title" content="how 2 angry lex.md">
+<meta property="og:description" content="Unfinished, short guide to setting up 1.12 coremods">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://highlysuspect.agency">
+<meta property="og:image" content="https://highlysuspect.agency/favicon128.png">
+<meta property="theme-color" content="#950000">
+<link rel="stylesheet" type="text/css" href="/stylin.css">
+<link rel="stylesheet" type="text/css" href="/rotator.css">
+<link rel="alternate" type="application/rss+xml" href="/feed.xml">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
 <header>
-	<a href="/" class="logo" aria-hidden="true">
-		<div class="circle1"></div>
-		<div class="cover1"></div>
-		<div class="circle2"></div>
-		<div class="cover2"></div>
-		<div class="iris"></div>
-	</a>
-	<h1><a href="/">Highly Suspect Agency</a></h1>
-	<div style="flex-grow: 1"></div>
-	<nav><a href="/posts">Blog</a></nav>
+<a href="/" class="sign" aria-hidden="true">
+<div class="circle s1"></div><div class="cover s2"></div><div class="circle s3"></div><div class="cover s4"></div><div class="iris"></div>
+</a>
+<h1><a href="/">Highly Suspect Agency</a></h1>
+<div style="flex-grow: 1"></div>
+<nav><a href="/feed.xml">RSS</a> <a href="/posts">Blog</a></nav>
 </header>
 <div class="bigheader">
-<h1 class="bigheader">how 2 angry lex.md</h1>
-<div class="byline">quat, Feb 06, 2020 &mdash; 
-<a href="/tags/forge">forge</a>
-<a href="/tags/1.12">1.12</a>
-<a href="/tags/mc-modding">mc-modding</a>
-</div>
+<h1>how 2 angry lex.md</h1>
+<div class="byline">quat, Feb 06, 2020 &mdash; <a href="/tags/mc-modding">mc-modding</a> <a href="/tags/forge">forge</a> <a href="/tags/1.12">1.12</a> </div>
 </div>
 <article>
-<p>This article was formerly published on my Github account <a href="https://gist.github.com/quat1024/79f8083ae6a53f419033b11bbde78649/">here</a>, although I never finished it. I’ve reprinted it on my new website as it originally appeared. Maybe I’ll get around to finishing it someday, but unfortunately 1.12 modding is a little archaic these days and I’m mainly keeping it up for historical purposes only.</p>
+<p>This article was formerly published on my Github account <a href="https://gist.github.com/quat1024/79f8083ae6a53f419033b11bbde78649/">here</a>, although I never finished it. I've reprinted it on my new website as it originally appeared. Maybe I'll get around to finishing it someday, but unfortunately 1.12 modding is a little archaic these days and I'm mainly keeping it up for historical purposes only.</p>
 <hr class="cool"/>
 <p>Psst, hey kid, wanna write a coremod?</p>
 <h1>What</h1>
@@ -37,18 +36,18 @@
 <p>Whenever the game tries to load a class - <em>any</em> class, with few exceptions - all class transformers take turns stepping in and getting an opportunity to change the raw class bytes to <em>anything it wants</em>. This allows you to make changes to any class the game loads.</p>
 <h2>What can they do?</h2>
 <p>You get one chance to change a class, just before it is loaded.</p>
-<p>By “change”, I mean you can really do almost anything you want to a class. You can add and remove methods, change access modifiers, change the class/interface hierarchy, change the code of methods, and so on.</p>
-<h2>What can’t they do?</h2>
-<p>You can’t change classes <em>after</em> they’re loaded. You only get the one chance, right before the class loads, and that’s it. After the class loads, its implementation is finalized. (This is mostly a JVM limitation.)</p>
-<p>Your class transformer <em>has</em> to return a valid class file. If the class file is not valid, the game crashes. If you don’t return a class file, the game crashes.</p>
+<p>By &quot;change&quot;, I mean you can really do almost anything you want to a class. You can add and remove methods, change access modifiers, change the class/interface hierarchy, change the code of methods, and so on.</p>
+<h2>What can't they do?</h2>
+<p>You can't change classes <em>after</em> they're loaded. You only get the one chance, right before the class loads, and that's it. After the class loads, its implementation is finalized. (This is mostly a JVM limitation.)</p>
+<p>Your class transformer <em>has</em> to return a valid class file. If the class file is not valid, the game crashes. If you don't return a class file, the game crashes.</p>
 <h3>A warning</h3>
-<p>Class transformers are a double edged sword - one misstep can cause lots and lots of hard-to-debug errors. It takes practice and patience, and even then, issues can still be caused in production by forgetting to obfuscate a method name or other coremods changing the same classes in ways you didn’t expect.</p>
+<p>Class transformers are a double edged sword - one misstep can cause lots and lots of hard-to-debug errors. It takes practice and patience, and even then, issues can still be caused in production by forgetting to obfuscate a method name or other coremods changing the same classes in ways you didn't expect.</p>
 <h1>How</h1>
 <h2>Manifest attributes</h2>
 <p>When Forge initially loads your mod, it checks <code>yourmod.jar/META-INF/MANIFEST.MF</code> for some information pertaining to coremods.</p>
 <p>You must set the attribute <code>FMLCorePlugin</code> to the name of a class that implements <code>IFMLLoadingPlugin</code>. This is your entrypoint. (More on this in a bit.)</p>
-<p>You also probably want to set the attribute <code>FMLCorePluginContainsFMLMod</code> to <code>true</code>. If you don’t, Forge will skip your jar when looking for <code>@Mod</code> annotations.</p>
-<p>Turns out looking in <code>MANIFEST.MF</code> is a pretty standard thing for Java programs to do, so Gradle has a convenient way of placing lines in this file so you don’t need to do it yourself. Paste this incantation into your build.gradle:</p>
+<p>You also probably want to set the attribute <code>FMLCorePluginContainsFMLMod</code> to <code>true</code>. If you don't, Forge will skip your jar when looking for <code>@Mod</code> annotations.</p>
+<p>Turns out looking in <code>MANIFEST.MF</code> is a pretty standard thing for Java programs to do, so Gradle has a convenient way of placing lines in this file so you don't need to do it yourself. Paste this incantation into your build.gradle:</p>
 <pre><code class="language-groovy">jar {
 	manifest {
 		attributes &quot;FMLCorePlugin&quot;: &quot;your.mod.package.core.LoadingPlugin&quot;
@@ -58,11 +57,11 @@
 </code></pre>
 <p>Finally, if you want your coremod to be loaded in development (which, of course you do), add the following JVM argument:</p>
 <p><code>-Dfml.coreMods.load=your.mod.package.core.LoadingPlugin</code></p>
-<p>I think <code>genIntellijRuns</code> sets this in your run configurations, but if it doesn’t, paste that right into “VM options”.</p>
+<p>I think <code>genIntellijRuns</code> sets this in your run configurations, but if it doesn't, paste that right into &quot;VM options&quot;.</p>
 <h2><code>IFMLLoadingPlugin</code></h2>
 <p>Back to that class the <code>FMLCorePlugin</code> attribute points to. It must implement <code>IFMLLoadingPlugin</code> and additionally it should have a few annotations:</p>
 <ul>
-<li><code>@IFMLLoadingPlugin.Name</code> - a user-facing name for this coremod. It’s that thing you see in crash reports.</li>
+<li><code>@IFMLLoadingPlugin.Name</code> - a user-facing name for this coremod. It's that thing you see in crash reports.</li>
 <li><code>@IFMLLoadingPlugin.MCVersion(&quot;1.12.2&quot;)</code> - For some reason you need to write the Minecraft version. Just do that.</li>
 <li><code>@IFMLLoadingPlugin.TransformerExclusions</code> - an array of package prefixes that no class transformers will enter.
 <ul>
@@ -72,10 +71,10 @@
 <li>I <strong>strongly recommend</strong> putting your own core package in here (i.e. the package your <code>IFMLLoadingPlugin</code> sits inside). This prevents weird issues caused by trying to transform two classes at once.</li>
 </ul>
 </li>
-<li><code>@IFMLLoadingPlugin.SortingIndex</code> - Classes go through a chain of many transformers (other modded transformers, Forge/FML internal class transformers, etc) before getting loaded. They’re sorted low to high, so transformers with a low number get first dibs on changing the class.
+<li><code>@IFMLLoadingPlugin.SortingIndex</code> - Classes go through a chain of many transformers (other modded transformers, Forge/FML internal class transformers, etc) before getting loaded. They're sorted low to high, so transformers with a low number get first dibs on changing the class.
 <ul>
 <li>I <strong>strongly recommend</strong> putting in a number greater than 1000 if you plan to touch Minecraft code.</li>
-<li>In production, Forge has a transformer at this sorting index that turns “proguard names” such as <code>h</code> into “SRG names” like <code>field_92587_d</code>.</li>
+<li>In production, Forge has a transformer at this sorting index that turns &quot;proguard names&quot; such as <code>h</code> into &quot;SRG names&quot; like <code>field_92587_d</code>.</li>
 <li>You really really want to run after this transformer, because most mappings viewer tools work better with SRG names.</li>
 </ul>
 </li>
@@ -85,9 +84,9 @@
 <li><code>getASMTransformerClass</code> is an array of class names that implement <code>IClassTransformer</code> (more on that in a bit, as usual)</li>
 <li>The other four can be safely ignored and left as no-ops or <code>return null</code>s:
 <ul>
-<li><code>getModContainerClass</code> is “useful” if you want your coremod to appear in the in-game mods list as additional clutter next to your actual mod’s entry.</li>
+<li><code>getModContainerClass</code> is &quot;useful&quot; if you want your coremod to appear in the in-game mods list as additional clutter next to your actual mod's entry.</li>
 <li><code>injectData</code> just gives you <code>Launch.blackboard</code>.</li>
-<li>I don’t know what <code>getSetupClass</code> and <code>getAccessTransformerClass</code> are for, but I have never needed to touch them.</li>
+<li>I don't know what <code>getSetupClass</code> and <code>getAccessTransformerClass</code> are for, but I have never needed to touch them.</li>
 </ul>
 </li>
 </ul>
@@ -97,24 +96,24 @@
 <ul>
 <li>Put your coremod related things into a separate package (convenionally, <code>your.mod.package.core</code> or <code>your.mod.package.asm</code>).</li>
 <li>Then, put this package in <code>TransformerExclusions</code> (above).</li>
-<li>Don’t touch the things outside the coremod package from the coremod package.
+<li>Don't touch the things outside the coremod package from the coremod package.
 <ul>
-<li>Really, don’t!</li>
+<li>Really, don't!</li>
 <li>If you need to use something in your coremod, put it in your coremod package.</li>
 </ul>
 </li>
 <li>Especially: Do not, <strong>under any circumstances</strong>, load classes from Minecraft from your LoadingPlugin or your class transformer.
 <ul>
-<li>Don’t use <code>Class.forName</code> to refer to MC classes. Don’t even use class literals like <code>BlockStone.class</code>.</li>
-<li>Don’t even look at Minecraft classes.</li>
+<li>Don't use <code>Class.forName</code> to refer to MC classes. Don't even use class literals like <code>BlockStone.class</code>.</li>
+<li>Don't even look at Minecraft classes.</li>
 <li>If you need to talk about a Minecraft class, hardcode its name as a string.</li>
 </ul>
 </li>
-<li>Don’t do anything overly “fancy”.
+<li>Don't do anything overly &quot;fancy&quot;.
 <ul>
-<li>If you use a personal library mod, it’s tempting to use the utilities in that library mod in your coremod.</li>
+<li>If you use a personal library mod, it's tempting to use the utilities in that library mod in your coremod.</li>
 <li>Avoid that - paste the utilities you need into a safe, <code>TransformerExclude</code>d location.</li>
-<li>Remember that many “util” classes contain a bunch of unrelated things. When you use your util class, you might accidentally load something from Minecraft.</li>
+<li>Remember that many &quot;util&quot; classes contain a bunch of unrelated things. When you use your util class, you might accidentally load something from Minecraft.</li>
 </ul>
 </li>
 <li>It <em>is</em> safe to refer to things <em>inside</em> your coremod package from <em>outside</em> your coremod package.
@@ -124,7 +123,7 @@
 </li>
 </ul>
 <h2><code>IClassTransformer</code></h2>
-<p>This interface has only one method, <code>byte[] transform(String name, String transformedName, byte[] basicClass)</code>. Let’s go through it.</p>
+<p>This interface has only one method, <code>byte[] transform(String name, String transformedName, byte[] basicClass)</code>. Let's go through it.</p>
 <ul>
 <li><code>name</code> is the name of the class as it exists on-disk.</li>
 <li><code>transformedName</code> is whatever the <em>rename transformer</em> says the name is.
@@ -137,7 +136,7 @@
 </li>
 <li><code>basicClass</code> is the byte array of the class file.</li>
 </ul>
-<p>First, one small thing to note is that some class transformers return <code>null</code> when they error. Since transformers are all put together in a chain, someone else’s transformer erroring can cause yours to <code>NullPointerException</code> if you try to work with the <code>basicClass</code> without checking. This can put your mod in the stacktrace for someone else’s error! Always null-check <code>basicClass</code> and if it’s null just pass the null down the line, not much else you can do.</p>
+<p>First, one small thing to note is that some class transformers return <code>null</code> when they error. Since transformers are all put together in a chain, someone else's transformer erroring can cause yours to <code>NullPointerException</code> if you try to work with the <code>basicClass</code> without checking. This can put your mod in the stacktrace for someone else's error! Always null-check <code>basicClass</code> and if it's null just pass the null down the line, not much else you can do.</p>
 <p>Typically you only need to transform one or two classes with your transformer. Remember that transformers are called for literally every single class that gets loaded, so time is of the essence and memory allocations will get magnified.</p>
 <p>Or, in other words, the first line of your class transformer should look like this:</p>
 <pre><code class="language-java">if(basicClass == null || !transformedName.equals(&quot;my.target.class.name&quot;)) return basicClass;
@@ -145,12 +144,12 @@
 <p>(or if you want to transform a bunch of classes, assuming <code>targets</code> is a very efficient collection like a tree or hashset):</p>
 <pre><code class="language-java">if(basicClass == null || !targets.contains(transformedName)) return basicClass;
 </code></pre>
-<p>Anyway, what about when <code>basicClass</code> is <em>not</em> null? Well… that’s it. It’s just a byte array.</p>
-<p>Unfortunately this is where Forge stops helping. However, note that you get the ObjectWeb ASM library as one of the dependencies. This library takes you the rest of the way to your goal (and is why people colloquially refer to coremodding and class transforming as “asming”.)</p>
+<p>Anyway, what about when <code>basicClass</code> is <em>not</em> null? Well... that's it. It's just a byte array.</p>
+<p>Unfortunately this is where Forge stops helping. However, note that you get the ObjectWeb ASM library as one of the dependencies. This library takes you the rest of the way to your goal (and is why people colloquially refer to coremodding and class transforming as &quot;asming&quot;.)</p>
 <h2>ASM</h2>
 <p><strong>TODO: Write more.</strong></p>
 <ul>
-<li>“tree” and “node” APIs, everyone uses node because it’s simpler, talk about performance tradeoff</li>
+<li>&quot;tree&quot; and &quot;node&quot; APIs, everyone uses node because it's simpler, talk about performance tradeoff</li>
 <li>typical node API pattern</li>
 </ul>
 <pre><code class="language-java">ClassReader reader = new ClassReader(basicClass);
@@ -174,10 +173,9 @@ return writer.toByteArray();
 <ul>
 <li>talk about CheckClassAdapter</li>
 </ul>
-
-<hr class="cool"/>
-<div style="text-align: left"><a href="/posts/intellij_fix_it">&larr; Fix stuff being broke in IntelliJ</a><br/>
-<div style="text-align: right"><a href="/posts/obligatory_haha_new_website">Obligatory Haha New Website Post &rarr;</a>
+<hr class="cool">
+<div style="text-align: left"><a href="/posts/intellij_fix_it">&larr; Fix stuff being broke in IntelliJ</a></div>
+<div style="text-align: right"><a href="/posts/obligatory_haha_new_website">Obligatory Haha New Website Post &rarr;</a></div>
 <div style="text-align: right; font-size:60%">Powered by <a href="https://github.com/quat1024/quatweb-static">Rust</a>™</div>
 </article>
 </body>
