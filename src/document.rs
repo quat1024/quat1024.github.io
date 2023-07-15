@@ -103,7 +103,7 @@ impl Document {
 
 	pub fn end_article(&mut self) {
 		//TODO: move the footer somewhere else (outside the <article>, definitely)
-		self.html.push_line(r#"<div style="text-align: right; font-size:60%">Powered by <a href="https://github.com/quat1024/quatweb-static">Rust</a>™</div>"#);
+		self.html.push_line(r#"<div style="text-align: right; font-size:60%">Powered by <a href="https://github.com/quat1024/quat1024.github.io/">Rust</a>™</div>"#);
 		self.html.push_line(r#"</article>"#);
 	}
 
