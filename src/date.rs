@@ -2,7 +2,7 @@ use std::fmt::Display;
 use std::ops::Deref;
 use std::str::FromStr;
 
-use chrono::Local;
+use chrono::FixedOffset;
 use chrono::NaiveDate;
 use chrono::TimeZone;
 
@@ -47,6 +47,9 @@ impl Display for MyDate {
 
 impl MyDate {
 	pub fn to_rfc822(&self) -> String {
-		Local.from_local_datetime(&self.and_hms(0, 0, 0)).unwrap().format(JANKY_RFC822_CAUSE_CHRONO_IS_WEIRD).to_string()
+		//We need to specify a time and timezone for this date format, I only include a zoneless date in the files
+		//just assume midnight eastern time
+		let tz = FixedOffset::west_opt(4 * 3600).unwrap();
+		tz.from_local_datetime(&self.and_hms(0, 0, 0)).unwrap().format(JANKY_RFC822_CAUSE_CHRONO_IS_WEIRD).to_string()
 	}
 }
