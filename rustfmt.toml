@@ -1,0 +1,8 @@
+unstable_features=true
+
+hard_tabs=true
+imports_granularity="item"
+group_imports="StdExternalCrate"
+max_width=160
+use_small_heuristics="Max"
+match_block_trailing_comma=true
