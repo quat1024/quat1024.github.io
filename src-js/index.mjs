@@ -33,21 +33,20 @@ let inPostsDir = path.join(inDir, "posts");
 let posts = await fs.readdir(inPostsDir)
   // 👇 yeah readdir just gives you filenames :/
   .then(filenames => filenames.map(x => path.join(inPostsDir, x)))
-  .then(paths => Promise.all(paths.map(path => post.readPost(path))));
+  .then(paths => Promise.all(paths.map(path => new post.Post().read(path))));
 
-
-let postdb = post.db(posts);
-//console.log(postdb);
+let postdb = new post.Db(posts);
 
 console.log("Rendering pages");
 
 await Promise.all([
-  fs.writeFile(path.join(outDir, "index.html"), templates.landing().render()),
+  fs.writeFile(path.join(outDir, "index.html"), templates.landing().renderToString()),
   
   ...posts.map(async post => {
     let parent = path.join(outDir, "posts", post.slug);
-    await fs.mkdir(parent, {recursive: true})
-    return fs.writeFile(path.join(parent, "index.html"), templates.post(post).render())
+    await fs.mkdir(parent, {recursive: true});
+    
+    return fs.writeFile(path.join(parent, "index.html"), post.toHtml().renderToString())
   })
 ])
 

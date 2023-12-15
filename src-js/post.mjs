@@ -4,6 +4,108 @@ import * as datefns from "date-fns";
 
 import * as markdown from "./markdown.mjs"
 
+import { post as postTemplate } from "./templates.mjs"
+
+export class Post {
+  markdownSource; //string
+  rendered; //string
+  
+  title; //string
+  slug; //string
+  author; //string
+  tags; //[string]
+  draft; //bool
+  created_date; //Date
+  updated_date; //Date
+  description; //string
+  
+  id; //<- int, filled in when creating a PostDb... ugly
+  
+  constructor() {
+    
+  }
+  
+  async read(path) {
+    let fileContents = await fs.readFile(path, {encoding: "utf-8"});
+    
+    let idx = fileContents.indexOf("---");
+    
+    //frontmatter
+    let frontmatter = {};
+    fileContents.slice(0, idx)
+      .split('\n')
+      .map(line => line.trim())
+      .filter(line => line.length != 0)
+      .map(line => line.split('=').map(x => x.trim()))
+      .forEach(([key, value]) => frontmatter[key] = hrmm(value));
+
+    this.title = frontmatter.title;
+    this.slug = frontmatter.slug;
+    this.author = frontmatter.author;
+    this.tags = frontmatter.tags ? frontmatter.tags.split(',').sort() : [];
+    this.draft = frontmatter.draft ? true : false;
+    this.created_date = datefns.parse(frontmatter.created_date, "MMM d, y", new Date());
+    this.updated_date = frontmatter.updated_date ? datefns.parse(frontmatter.updated_date, "MMM d, y", new Date()) : undefined;
+    this.description = frontmatter.description ? frontmatter.description : "";
+    
+    //the rest of the owl
+    this.markdownSource = fileContents.slice(idx + 3).trim();
+    this.rendered = (await markdown.parse(this.markdownSource)).replace('\r', ""); //Windows moment
+    
+    return this;
+  }
+  
+  toHtml() {
+    return postTemplate({
+      ...this,
+      blurb: this.description,
+      created_date: datefns.format(this.created_date, "MMM d, y"),
+      updated_date: this.updated_date ? datefns.format(this.updated_date, "MMM d, y") : null
+    });
+  }
+}
+
+export class Db {
+  //int -> Post
+  postsById;
+  
+  //string -> int
+  bySlug;
+  
+  //tag -> [int]
+  byTag;
+  
+  //[int]
+  chronological;
+  
+  // Post[]
+  constructor(posts) {
+    console.log("hi");
+    
+    //integer ids
+    this.postsById = {};
+    for(var i = 0; i < posts.length; i++) {
+      posts[i].id = i;
+      this.postsById[i] = posts[i];
+    }
+    
+    //by slug
+    this.bySlug = {};
+    posts.forEach(post => this.bySlug[post.slug] = post.id);
+    
+    //by tag
+    this.byTag = {};
+    posts.forEach(post => post.tags.forEach(tag => {
+      if(!this.byTag[tag])
+        this.byTag[tag] = [];
+      this.byTag[tag].push(post.id);
+    }))
+    
+    //chronological
+    this.chronological = [...posts].sort((a, b) => datefns.compareAsc(a.created_date, b.created_date)).map(p => p.id);
+  }
+}
+
 function hrmm(what) {
   if (what === "true")
     return true;
@@ -11,61 +113,4 @@ function hrmm(what) {
     return false;
   else
     return what;
-}
-
-export async function readPost(path) {
-  return await fs.readFile(path, { encoding: "utf-8" }).then(async (raw) => {
-    let idx = raw.indexOf("---");
-
-    //frontmatter parsing
-    let post = {};
-    raw.slice(0, idx)
-      .split('\n')
-      .map(line => line.trim())
-      .filter(line => line.length != 0)
-      .map(line => line.split('=').map(x => x.trim()))
-      .forEach(([key, value]) => post[key] = hrmm(value));
-
-    if (post.tags)
-      post.tags = post.tags.split(',').sort();
-    else
-      post.tags = [];
-    
-    if(post.created_date)
-      post.created_date = datefns.parse(post.created_date, "MMM d, y", new Date());
-    if(post.updated_date)
-      post.updated_date = datefns.parse(post.updated_date, "MMM d, y", new Date());
-
-    //marked down
-    let md = raw.slice(idx + 3).trim();
-    post.rendered = await markdown.parse(md);
-
-    return post;
-  })
-}
-
-export function db(posts) {
-  let slugs = posts.map(post => post.slug).sort();
-  let tags = posts.flatMap(post => post.tags).filter((v, i, a) => a.indexOf(v) == i).sort();
-
-  let bySlug = {};
-  posts.forEach(post => bySlug[post.slug] = post);
-  
-  let byTag = {};
-  posts.forEach(post => post.tags.forEach(tag => {
-    if(!byTag[tag])
-      byTag[tag] = [];
-    
-    byTag[tag].push(post.slug);
-  }));
-  
-  let chronological = [...posts].sort((a, b) => datefns.compareAsc(a.created_date, b.created_date)).map(p => p.slug);
-
-  return {
-    slugs,
-    tags,
-    bySlug, //this one has the actual post bodies in it
-    byTag,
-    chronological
-  }
 }
