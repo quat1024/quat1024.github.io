@@ -39,7 +39,11 @@ export class Tag {
     contents = contents
       .flat(Infinity)
       .filter(obj => obj !== null && obj !== undefined)
-      .map(obj => instanceofString(obj) ? new Escape(obj) : obj);
+      .map(obj => {
+        if(instanceofString(obj)) {
+          return doEscaping(name) ? new Escape(obj) : new NoEscape(obj);
+        } else return obj;
+      });
     
     this.name = name;
     this.attrs = attrs;
@@ -109,6 +113,14 @@ function hasClosing(name) {
   return noClosing[name] == undefined;
 }
 
+const noEscaping = {
+  script: true
+}
+
+function doEscaping(name) {
+  return noEscaping[name] == undefined;
+}
+
 const trueValueAnyway = {
   "aria_hidden": true
 }
@@ -154,6 +166,7 @@ export const link = (a, ...c) => new Tag("link", a, ...c);
 export const meta = (a, ...c) => new Tag("meta", a, ...c);
 export const nav = (a, ...c) => new Tag("nav", a, ...c);
 export const p = (a, ...c) => new Tag("p", a, ...c);
+export const script = (a, ...c) => new Tag("script", a, ...c);
 export const section = (a, ...c) => new Tag("section", a, ...c);
 export const title = (a, ...c) => new Tag("title", a, ...c);
 

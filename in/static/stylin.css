@@ -1,13 +1,43 @@
 @import url('https://fonts.googleapis.com/css2?family=Crimson+Pro&family=Source+Serif+Pro:ital,wght@1,900&family=JetBrains+Mono&display=swap');
 
-/* settings */
+/* based off https://piccalil.li/blog/a-more-modern-css-reset/ */
 
-* { box-sizing: border-box; }
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  -moz-text-size-adjust: none;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+}
+
+h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, ul, ol {
+	margin-block-start: 0;
+  margin-block-end: 0;
+}
+
+body {
+	margin: 0; /* my addition */
+}
+
+ul[role='list'], ol[role='list'] {
+  list-style: none;
+}
+
+body {
+  min-height: 100vh;
+  line-height: 1.5;
+}
+
+h1, h2, h3, h4, h5, h6, button, input, label {
+  line-height: 1.1;
+}
 
 /* fonts */
 
 body {
-	font: 400 20px/1.45 "Crimson Pro", sans-serif;
+	font-family: "Crimson Pro", sans-serif;
+	font-weight: 400;
+	font-size: 1.25rem; /* Crimson has a really tiny em square for some reason */
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -15,190 +45,131 @@ h1, h2, h3, h4, h5, h6 {
 	font-weight: 900;
 	font-style: italic;
 }
+h1 { font-size: 3rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.5rem; }
+h4 { font-size: 1.25rem; }
+h5 { font-size: 1.2rem; }
+h6 { font-size: 1rem; }
 
 code {
-	font: 16px "JetBrains Mono", monospace; /* optically comparable to 20px Crimson Pro */
+	font-family: "JetBrains Mono", monospace;
+	font-size: 1rem;
 }
 
 /* colors */
 
-* {
+:root {
 	--fgcolor: black;
 	--linkcolor: #950000;
+	--linkactive: red;
 	--linecolor: #cbbbbb;
 	
 	--bgcolor: #fcf8f4;
 	--bgaccentcolor: #f5eeeb;
 	
-	--blockbgcolor: rgba(0, 0, 0, 0.05);
-	--inlinecodebgcolor: rgba(50, 0, 0, 0.1);
+	--bbbblockbgcolor: #efebe8;
+	--blockbgcolor: color-mix(in srgb, var(--fgcolor) 5%, var(--bgcolor));
+	--inlinecodebgcolor: color-mix(in srgb, var(--fgcolor) 5%, color-mix(in srgb, var(--linkactive) 3%, var(--bgcolor)));
 }
+
+html { background-color: var(--bgcolor); color: var(--fgcolor); }
+a { color: var(--linkcolor); }
+a:active { color: var(--linkactive); }
+code:not([class^="language"]) { background-color: var(--inlinecodebgcolor); }
+blockquote, pre, pre > code { background-color: var(--blockbgcolor); }
+::selection { background-color: #521c1c; color: var(--bgcolor); }
 
 .fade { opacity: 0.5; }
 
-a { color: var(--linkcolor); }
-a:active { color: red; }
+/* spaces */
 
-article a[href^="http"]:where(:not([href*="://highlysuspect.agency/"]))::after{
-	content: "︎↗";
-	/* courtesy of https://www.paritybit.ca/blog/styling-external-links */
-}
-article a[href^="mailto"]::after{ content: "︎ 📧"; }
-
-blockquote, code[class^="language"] { background-color: var(--blockbgcolor); }
-code:not([class^="language"]) { background-color: var(--inlinecodebgcolor); }
-
-::selection {
-	background-color: #521c1c;
-	color: var(--bgcolor);
+article {
+	margin: 0 auto;
+	width: min(85%, 50rem);
 }
 
-/* high level layout */
-
-html {
-	margin: 0;
-	background-color: var(--bgcolor);
-	color: var(--fgcolor);
+body > * + *, article > * + * {
+	margin-top: var(--vertical-rhythm, 1em);
 }
 
-body {
-	margin: 0;
-	padding: 0;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
+/* styles */
+
+article h1::after, article h2::after, article h3::after, article h4::after, article h5::after, article h6::after {
+	content: '';
+	display: block;
+	width: min(20em, 100%);
+	border-bottom: 0.1em solid var(--linecolor);
 }
 
-h1, h2, h3, h4, h5, h6 {
-	margin: 0;
+article blockquote {
+	border-left: 2px solid var(--linecolor);
+	padding: 0.25em 1.5em;
+}
+
+article ul, article ol { padding-left: 2em; }
+article ul { list-style: "- "; }
+
+/* codeblock */
+article > pre {
+	display: block;
+	padding: 0.5em;
+	overflow-x: auto;
+	line-height: 1.2;
+	tab-size: 2;
+	-moz-tab-size: 2;
+}
+
+/* inline code ummmmmm :flushed: umm this is annoying */
+article code:not([class^="language"]) {
+	padding: 0.1em 0.2em;
+}
+
+.youtube {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 /* page header */
 
 header {
-	width: 100%;
-	height: 130px;
-	
-	background-color: var(--bgaccentcolor);
-	
-	padding: 0px;
-	
 	display: flex;
 	align-items: center;
+	height: 9rem;
+	background-color: var(--bgaccentcolor);
+	padding: 0 0.5em;
+	gap: 0.5em;
 	
-	/* used in rotator.css */
-	--size: 120px;
+	--size: 8rem;
 }
 
-header .sign {
-	background-color: var(--fgcolor);
-	border-radius: 100%;
-	margin: 0 .5rem;
-	padding: .5rem;
-}
-
-header h1 {
-	font-size: min(5vw, 100px);
-	font-family: "JetBrains Mono", monospace;
-	font-style: normal;
-	font-weight: 900;
-	
-	line-height: 1;
-	text-transform: uppercase;
-	overflow-wrap: normal !important;
-}
-
-header h1 a {
-	text-decoration: none;
+header h1, header h1 a {
+	font: normal 900 clamp(20px, 5vw, 100px)/1 "JetBrains Mono", monospace;
 	color: var(--fgcolor);
+	text-decoration: none;
+	text-transform: uppercase;
+	display: inline-block; /* required to fix line-height */
+	line-height: 1;
 	overflow-wrap: normal !important;
 }
 
-header nav a {
-	padding: 0.1em 0.3em;
+header nav {
+	margin-left: auto;
+	display: flex;
+	gap: 0.5ch;
 }
 
-/* bigheader (for article pages) */
-
-.bigheader {
-	width: 100%;
-	text-align: center;
-}
-
-.bigheader h1 {
-	font-size: 65px;
-	padding: 0.3em 1em;
-	line-height: 110%;
-}
-
-/* most page content */
-
-article {
-	width: 55rem;
-	max-width: 85%;
-	margin: 1em auto;
-}
-
-article h1 {
-	font-size: 50px;
-	border-bottom: 5px solid var(--linecolor);
-}
-
-article h2, article h3 {
-	border-bottom: 2px solid var(--linecolor);
-}
-
-article blockquote {
-	border-left: 2px solid var(--fgcolor);
-	padding: 0.25em 1.5em;
-}
-
-article ul {
-	padding-left: 2em; /* override browser style */
-	list-style: '- ';
-}
-
-article ul li {
-	margin-top: 0.7em;
-}
-
-/* Unfortunately my current markdown parser outputs <code> for both inline code and codeblocks. That's annoying. */
-/* This is codeblocks */
-article code[class^="language"] {
-	display: block;
-	padding: 1em;
-	max-width: 100%;
-	overflow-x: auto;
-	
-	tab-size: 2;
-	-moz-tab-size: 2;
-}
-
-/* This is inline code */
-article code:not([class^="language"]) {
-	background-color: var(--inlinecodebgcolor);
-	padding: 0.1em 0.2em;
-}
-
-/* fix inline code in headings */
-h1 code, h2 code, h3 code, h4 code, h5 code, h6 code {
-	padding: .45em;
-	font-style: normal;
-}
-
-.youtube {
-	display: block;
-	margin: 0 auto;
-}
+/* cool hr */
 
 hr {
 	border: none;
-	border-top: 2px solid var(--linecolor);
 	overflow: visible;
-	text-align: center;
-	width: 70%;
-	height: 0;
 	margin: 3em auto;
+	width: 70%;
+	height: 2px;
+	background: linear-gradient(to right, transparent 0%, var(--linecolor) 50%, transparent 100%);
+	text-align: center;
 }
 
 hr:after {
@@ -211,44 +182,30 @@ hr:after {
 	top: -12px;
 	
 	background-color: var(--bgcolor);
-	background-image: url("/img/tiny_dragnmlem.png");
 	background-position: center;
 	background-repeat: no-repeat;
 }
 
-hr.cool:after {
-	background-image: url("/img/tiny_dragncool.png");
-}
-
-hr.think:after {
-	background-image: url("/img/tiny_dragnthink.png");
-}
+hr.mlem:after { background-image: url("/img/tiny_dragnmlem.png"); }
+hr.cool:after { background-image: url("/img/tiny_dragncool.png"); }
+hr.think:after { background-image: url("/img/tiny_dragnthink.png"); }
 
 /* "mobile" layout */
 @media (max-width: 40rem) {
-	/* use more of the screen */
-	article { max-width: 95%; }
+	article {
+		width: 100%;
+		padding: 0 1ch;
+	}
 	
-	/* reduce the font size a little bit */
-	body { font-size: 18px; }
-	code { font-size: 15px; }
-	.bigheader h1 { font-size: 38px; }
-	
-	/* try to avoid horizontal scroll at all costs (long words in eg codeblocks can do it */
-	* { overflow-wrap: anywhere; }
-	
-	/* hardcode a font size for the top homepage link, and force it to wrap onto three lines */
-	header h1 a {
+	header h1, header h1 a {
 		font-size: min(8vw, 1.4em);
 		display: block;
 		max-width: 1px;
 	}
 	
-	header { --size: 100px; }
+	/* try to avoid horizontal scroll at all costs (long words in eg codeblocks can do it */
+	* { overflow-wrap: anywhere; }
 	
 	/* desktop layouts place list bullets in the gutter, but this falls off the page with a thin left margin */
 	article ul { padding-left: 1em; }
-	
-	/* force a line break after dates in post listings */
-	li .date { display: block; }
 }

@@ -1,6 +1,13 @@
 .sign {
 	width: var(--size);
 	height: var(--size);
+	min-width: var(--size);
+	min-height: var(--size);
+	
+	background-color: var(--fgcolor);
+	border-radius: 100%;
+	padding: .5rem;
+	
 	display: grid;
 	grid-template-areas: "all";
 	align-items: center;
