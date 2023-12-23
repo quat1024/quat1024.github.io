@@ -43,8 +43,7 @@ export function layout(partial) {
           t.a({ href: "/" }, "Highly Suspect Agency")
         ),
         t.nav({},
-          t.a({ href: "/feed.xml" }, "RSS"),
-          t.a({ href: "/posts" }, "Blog")
+          t.a({ href: "/feed.xml" }, "RSS")
         )
       ),
       partial.body
