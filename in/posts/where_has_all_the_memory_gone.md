@@ -4,6 +4,7 @@ author=quat
 description=Let's browse a Forge 1.18 modpack heap dump.
 created_date=Oct 03, 2022
 tags=mc-modding,forge,1.18
+subject=minecraft
 draft=true
 ---
 It's no secret that modded Minecraft requires a ton of memory, and seems to require more and more over time. Questions about lag are often answered with "allocate more memory". But have you ever wondered what that memory is actually *used* for?

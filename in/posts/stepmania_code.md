@@ -4,6 +4,7 @@ author=quat
 description=A look at the oldest dance game codebase.
 created_date=Apr 02, 2023
 tags=games,stepmania
+subject=games
 ---
 StepMania is a nearly-old-enough-to-drink piece of software by the dance game community. It's impossible to succinctly describe, it is everything and nothing at the same time - it was originally designed as a PC-based clone of Dance Dance Revolution but the code has found its way to game consoles too, and even circled its way right back into the arcade, it's open-source but also closed-source, it has been worked on by countless groups and communities and collectives and people and basically the only constant is that it's a labor of love.
 

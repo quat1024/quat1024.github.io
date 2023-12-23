@@ -4,6 +4,7 @@ author=quat
 description=A little Puzzlescript game!
 created_date=Mar 20, 2021
 tags=games
+subject=games
 ---
 I made a small Puzzlescript game! You can play it online [right here](https://www.puzzlescript.net/play.html?p=fb015aa143ae4b3c1f5923a8da1a14d1).
 

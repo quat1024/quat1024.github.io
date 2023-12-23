@@ -4,6 +4,7 @@ author=quat
 description=Old gradle, Java 16, $JAVA_HOME, and you
 created_date=May 26, 2021
 tags=java,mc-modding
+subject=java
 ---
 I'm gonna tell a debugging story. It involves Gradle, Windows, Java 8, Java 16, and a funky package manager.
 

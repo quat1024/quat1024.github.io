@@ -4,6 +4,7 @@ author=quat
 description=Unfinished, short guide to setting up 1.12 coremods
 created_date=Feb 6, 2020
 tags=mc-modding,forge,1.12
+subject=minecraft
 ---
 This article was formerly published on my Github account [here](https://gist.github.com/quat1024/79f8083ae6a53f419033b11bbde78649/), although I never finished it. I've reprinted it on my new website as it originally appeared. Maybe I'll get around to finishing it someday, but unfortunately 1.12 modding is a little archaic these days and I'm mainly keeping it up for historical purposes only.
 

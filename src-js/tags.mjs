@@ -63,10 +63,9 @@ export class Tag {
       for (let [k, v] of Object.entries(this.attrs)) {
         //key
         result += ` ${k.replace("_", "-")}`;
+        v = v.toString();
         
         //some properties (like 'checked') don't include the ="true" part
-        if (v === true)
-          v = "true";
         if (isValueless(k) && v === "true")
           continue;
         
@@ -82,7 +81,7 @@ export class Tag {
       
       if(this.contents.length == 1 && (this.contents[0] instanceof NoEscape || this.contents[0] instanceof Escape))
         doIndent = false;
-      else if (this.name == "p") //cheeky heuristic
+      else if (this.name == "p" || this.attrs.class === "byline") //yeah this is dumb
         doIndent = false;
 
       for (let child of this.contents) {
@@ -106,7 +105,8 @@ export class Tag {
 const noClosing = {
   meta: true,
   link: true,
-  hr: true
+  hr: true,
+  br: true,
 };
 
 function hasClosing(name) {
@@ -150,6 +150,7 @@ export const html = (a, ...c) => {
   return t;
 }
 export const a = (a, ...c) => new Tag("a", a, ...c);
+export const br = (a, ...c) => new Tag("br", a, ...c);
 export const article = (a, ...c) => new Tag("article", a, ...c);
 export const body = (a, ...c) => new Tag("body", a, ...c);
 export const div = (a, ...c) => new Tag("div", a, ...c);
@@ -162,13 +163,16 @@ export const h6 = (a, ...c) => new Tag("h6", a, ...c);
 export const head = (a, ...c) => new Tag("head", a, ...c);
 export const header = (a, ...c) => new Tag("header", a, ...c);
 export const hr = (a, ...c) => new Tag("hr", a, ...c);
+export const li = (a, ...c) => new Tag("li", a, ...c);
 export const link = (a, ...c) => new Tag("link", a, ...c);
 export const meta = (a, ...c) => new Tag("meta", a, ...c);
 export const nav = (a, ...c) => new Tag("nav", a, ...c);
 export const p = (a, ...c) => new Tag("p", a, ...c);
 export const script = (a, ...c) => new Tag("script", a, ...c);
 export const section = (a, ...c) => new Tag("section", a, ...c);
+export const span = (a, ...c) => new Tag("span", a, ...c);
 export const title = (a, ...c) => new Tag("title", a, ...c);
+export const ul = (a, ...c) => new Tag("ul", a, ...c);
 
 export const meta_ = (property, content) => meta({ property, content });
 export const prose_ = (...list) => list.map(e => p({}, e)) //list of paragraphs

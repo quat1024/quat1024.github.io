@@ -4,6 +4,7 @@ author=quat
 description=When that thing you like slowly turns into a live-service game
 created_date=May 11, 2023
 tags=mc-modding
+subject=minecraft
 ---
 For a while I've wanted to write a few thoughts on how the [post-"expect more changes in minor versions from now on" world](https://help.minecraft.net/hc/en-us/articles/9971900758413) is coming along, the gradual "live service-ification" of Java Edition, and how the modders are doing. This ended up being a loosely-categorized brain dump.
 

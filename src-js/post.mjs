@@ -6,6 +6,11 @@ import * as markdown from "./markdown.mjs"
 
 import { post as postTemplate } from "./templates.mjs"
 
+//java's Comparator.comparingBy
+function comparingBy(fn) {
+  return (a, b) => fn(a) - fn(b);
+}
+
 export class Post {
   markdownSource; //string
   rendered; //string
@@ -13,9 +18,11 @@ export class Post {
   title; //string
   slug; //string
   author; //string
-  tags; //[string]
+  subject; //string
   draft; //bool
+  created_date_str;
   created_date; //Date
+  updated_date_str;
   updated_date; //Date
   description; //string
   
@@ -42,9 +49,11 @@ export class Post {
     this.title = frontmatter.title;
     this.slug = frontmatter.slug;
     this.author = frontmatter.author;
-    this.tags = frontmatter.tags ? frontmatter.tags.split(',').sort() : [];
+    this.subject = frontmatter.subject;
     this.draft = frontmatter.draft ? true : false;
+    this.created_date_str = frontmatter.created_date;
     this.created_date = datefns.parse(frontmatter.created_date, "MMM d, y", new Date());
+    this.updated_date_str = frontmatter.updated_date;
     this.updated_date = frontmatter.updated_date ? datefns.parse(frontmatter.updated_date, "MMM d, y", new Date()) : undefined;
     this.description = frontmatter.description ? frontmatter.description : "";
     
@@ -72,8 +81,8 @@ export class Db {
   //string -> int
   bySlug;
   
-  //tag -> [int]
-  byTag;
+  //subject -> [int]
+  bySubject;
   
   //[int]
   chronological;
@@ -93,16 +102,20 @@ export class Db {
     this.bySlug = {};
     posts.forEach(post => this.bySlug[post.slug] = post.id);
     
-    //by tag
-    this.byTag = {};
-    posts.forEach(post => post.tags.forEach(tag => {
-      if(!this.byTag[tag])
-        this.byTag[tag] = [];
-      this.byTag[tag].push(post.id);
-    }))
+    //by primary tag
+    this.bySubject = {};
+    posts.forEach(post => {
+        if(!this.bySubject[post.subject])
+          this.bySubject[post.subject] = [];
+        this.bySubject[post.subject].push(post.id);
+    });
     
     //chronological
     this.chronological = [...posts].sort((a, b) => datefns.compareAsc(a.created_date, b.created_date)).map(p => p.id);
+  }
+  
+  subjects() {
+    return Object.keys(this.bySubject);
   }
 }
 

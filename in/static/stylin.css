@@ -84,13 +84,25 @@ blockquote, pre, pre > code { background-color: var(--blockbgcolor); }
 
 /* spaces */
 
+body {
+	padding-bottom: 4rem; /* TODO actual footer */
+}
+
 article {
 	margin: 0 auto;
 	width: min(85%, 50rem);
 }
 
-body > * + *, article > * + * {
+body > * + *, article > * + *, ol > * + *, ul > * + * {
 	margin-top: var(--vertical-rhythm, 1em);
+}
+
+li {
+	--vertical-rhythm: 0.8em;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	--vertical-rhythm: 1.2em;
 }
 
 /* styles */

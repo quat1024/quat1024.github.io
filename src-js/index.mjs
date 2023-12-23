@@ -40,7 +40,7 @@ let postdb = new post.Db(posts);
 console.log("Rendering pages");
 
 await Promise.all([
-  fs.writeFile(path.join(outDir, "index.html"), templates.landing().renderToString()),
+  fs.writeFile(path.join(outDir, "index.html"), templates.landing(postdb).renderToString()),
   
   ...posts.map(async post => {
     let parent = path.join(outDir, "posts", post.slug);

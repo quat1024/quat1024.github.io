@@ -14,8 +14,8 @@ export function page(partial) {
       t.meta_("og:image", "https://highlysuspect.agency/favicon128.png"),
       partial.blurb ? t.meta_("og:description", partial.blurb) : undefined,
       t.meta_("theme-color", "#950000"),
-      t.meta({name: "viewport", content: "width=device-width, initial-scale=1"}), //wtf... its name and not 'property'
-      
+      t.meta({ name: "viewport", content: "width=device-width, initial-scale=1" }), //wtf... its name and not 'property'
+
       t.link({ rel: "stylesheet", type: "text/css", href: "/stylin.css" }),
       t.link({ rel: "stylesheet", type: "text/css", href: "/rotator.css" }),
       t.link({ rel: "alternate", type: "application/rss+xml", href: "/feed.xml" }),
@@ -32,7 +32,7 @@ export function layout(partial) {
     ...partial,
     body: [
       t.header({},
-        t.a({ href: "/", class: "sign", aria_hidden: true },
+        t.a({ href: "/", class: "sign", aria_hidden: true, tabindex: -1 }, //decorative duplicate link
           t.div({ class: "circle s1" }),
           t.div({ class: "cover s2" }),
           t.div({ class: "circle s3" }),
@@ -52,7 +52,46 @@ export function layout(partial) {
   })
 }
 
-export function landing(partial) {
+export function recents(postdb) {
+  let topThree = postdb.chronological.reverse().slice(0, 3)
+    .map(id => postdb.postsById[id])
+    .map(post => postInfo(post));
+
+  return [
+    t.p({}, "Here are the three most recent posts."),
+    t.ul({}, topThree)
+  ]
+}
+
+export function topics(postdb) {
+  let bySubject = {};
+
+  for (let id of postdb.chronological) {
+    let post = postdb.postsById[id];
+
+    if (!bySubject[post.subject])
+      bySubject[post.subject] = [];
+    bySubject[post.subject].push(post);
+  }
+
+  let subjects = [...Object.keys(bySubject)];
+  subjects.sort();
+  subjects.sort((a, b) => bySubject[b].length - bySubject[a].length);
+
+  let result = [];
+  for (let subj of subjects) {
+    result.push([
+      t.h3({}, `On ${subj}`),
+      t.ul({},
+        ...bySubject[subj].map(post => postInfo(post))
+      )
+    ]);
+  }
+
+  return result;
+}
+
+export function landing(postdb) {
   return layout({
     body: t.article({},
       t.h1({}, "Hey"),
@@ -66,9 +105,25 @@ export function landing(partial) {
       ...t.prose_(
         t.noEscape(`To ask a question about my Minecraft mods, please leave a comment, join my <a href="/discord">public Discord</a>, or send a <a href="https://www.curseforge.com/members/quat1024/projects">CurseForge message.</a>`),
         t.noEscape(`For other inquiries, email me: <a href="mailto:quat@highlysuspect.agency">quat@highlysuspect.agency</a>`)
-      )
+      ),
+      t.h2({}, "Writing"),
+      recents(postdb),
+      t.p({}, "And here's the rest."),
+      topics(postdb)
     )
   });
+}
+
+export function postInfo(post) {
+  return t.li({},
+    t.span({ class: "date" }, post.created_date_str),
+    t.a({ href: `/posts/${post.slug}` }, post.title),
+    post.draft ? " (DRAFT)" : undefined,
+    post.description ? [
+      t.br({}),
+      post.description
+    ] : undefined
+  );
 }
 
 export function post(post) {
@@ -95,10 +150,7 @@ export function post(post) {
             post.draft ? t.noEscape(" &mdash; (draft post)") : undefined,
             t.noEscape(" &mdash; "),
 
-            post.tags.length > 0 ?
-              post.tags.map(tag => [
-                t.a({ href: `/tags/{tag}` }, tag), " "
-              ]) : "Untagged"
+            post.subject
           ),
         ),
         t.noEscape(post.rendered),

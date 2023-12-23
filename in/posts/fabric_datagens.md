@@ -4,6 +4,7 @@ author=quat
 description=Quick notes on setting up datagens in a Fabric 1.16 mod
 created_date=May 16, 2021
 tags=mc-modding,fabric,1.16
+subject=minecraft
 draft=true
 ---
 It's really late right now but I want to type these up before I forget.

@@ -3,6 +3,7 @@ title=How the hell do you use the command line
 author=quat
 description=And other things you learned ten years ago and forgot how to teach.
 created_date=Oct 25, 2022
+subject=design
 ---
 *This was originally gonna be one of those newfangled "twitter" "threads" the kids are posting these days but it got a bit out of hand*
 

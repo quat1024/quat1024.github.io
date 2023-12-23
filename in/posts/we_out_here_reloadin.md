@@ -4,6 +4,7 @@ author=quat
 description=On the new resource reloading system introduced in 1.14.
 created_date=Jan 19, 2020
 tags=mc-modding,fabric,1.14
+subject=minecraft
 ---
 This article was formerly published on my Github account [here](https://gist.github.com/quat1024/2645637708b9577a57671df0eab953e2/), although I never finished it. I've reprinted it on my new website as it originally appeared.
 

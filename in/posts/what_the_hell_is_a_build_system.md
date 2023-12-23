@@ -4,6 +4,7 @@ author=quat
 description=cause it sure as hell isn't Gradle
 created_date=Sep 09, 2021
 tags=mc-modding,design,java
+subject=java
 draft=true
 ---
 Minecraft modding is in kind of a weird spot when it comes to build systems. It's a Java game, Java IDEs all have great integration with Gradle, and Gradle is pretty useful, so all the build tools are written as Gradle plugins.
