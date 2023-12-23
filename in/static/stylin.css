@@ -45,10 +45,10 @@ h1, h2, h3, h4, h5, h6 {
 	font-weight: 900;
 	font-style: italic;
 }
-h1 { font-size: 3rem; }
-h2 { font-size: 2rem; }
-h3 { font-size: 1.5rem; }
-h4 { font-size: 1.25rem; }
+h1 { font-size: 3.5rem; }
+h2 { font-size: 2.5rem; }
+h3 { font-size: 2rem; }
+h4 { font-size: 1.5rem; }
 h5 { font-size: 1.2rem; }
 h6 { font-size: 1rem; }
 
@@ -64,11 +64,11 @@ code {
 	--linkcolor: #950000;
 	--linkactive: red;
 	--linecolor: #cbbbbb;
+	--linecolor50: color-mix(in srgb, var(--linecolor) 50%, transparent);
 	
 	--bgcolor: #fcf8f4;
 	--bgaccentcolor: #f5eeeb;
 	
-	--bbbblockbgcolor: #efebe8;
 	--blockbgcolor: color-mix(in srgb, var(--fgcolor) 5%, var(--bgcolor));
 	--inlinecodebgcolor: color-mix(in srgb, var(--fgcolor) 5%, color-mix(in srgb, var(--linkactive) 3%, var(--bgcolor)));
 }
@@ -111,12 +111,28 @@ article h1::after, article h2::after, article h3::after, article h4::after, arti
 	content: '';
 	display: block;
 	width: min(20em, 100%);
-	border-bottom: 0.1em solid var(--linecolor);
+	height: 0.1em;
+	background: linear-gradient(to right, var(--linecolor) 0%, var(--linecolor50) 100%);
+	clip-path: polygon(0% 0%, 100% 50%, 0% 100%);
+	-webkit-clip-path: polygon(0% 0%, 100% 50%, 0% 100%);
 }
 
 article blockquote {
-	border-left: 2px solid var(--linecolor);
 	padding: 0.25em 1.5em;
+	position: relative;
+}
+
+article blockquote::before {
+	content: "";
+  display: block;
+  position: absolute;
+  margin-left: calc(-1.5em - 0.3em + 0.1px); /* roundoff error? */
+  margin-top: -0.25em;
+  width: 0.3em;
+  height: 100%;
+  background: linear-gradient(to bottom, var(--linecolor) 0%, var(--linecolor50) 100%);
+	clip-path: polygon(0% 0%, 100% 0%, 100% 100%);
+	-webkit-clip-path: polygon(0% 0%, 100% 0%, 100% 100%);
 }
 
 article ul, article ol { padding-left: 2em; }
