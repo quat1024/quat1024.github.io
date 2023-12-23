@@ -38,9 +38,14 @@ let posts = await fs.readdir(inPostsDir)
 let postdb = new post.Db(posts);
 
 console.log("Rendering pages");
+await fs.mkdir(path.join(outDir, "discord"), {recursive: true});
 
 await Promise.all([
   fs.writeFile(path.join(outDir, "index.html"), templates.landing(postdb).renderToString()),
+  
+  fs.writeFile(path.join(outDir, "discord.html"), templates.discord().renderToString()), //old location
+  fs.writeFile(path.join(outDir, "discord", "index.html"), templates.discord().renderToString()), //new location
+  
   
   ...posts.map(async post => {
     let parent = path.join(outDir, "posts", post.slug);

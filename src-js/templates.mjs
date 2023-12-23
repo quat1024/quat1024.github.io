@@ -159,3 +159,27 @@ export function post(post) {
     ]
   });
 }
+
+export function discord() {
+  return layout({
+    body: t.article({}, t.noEscape(`
+    <h1>Hello!</h1>
+    <p>This is a landing page I made so I don't need to update fifteen thousand links when I need to change the invite link.</p>
+    <p>If you'd like to go to my Discord server, <a href="https://discord.gg/WUXsbGH">step right this way</a>. To go to my Matrix room,
+    <a href="https://matrix.to/#/#quat_mods:matrix.org">step this way instead</a>.</p>
+    <h2>Other contacts</h2>
+    <p>If you need help or support, but don't want to use Discord or Matrix:</p>
+    <ul>
+    <li>Leave a comment on the mod's CurseForge page.</li>
+    <li>Open an issue on the mod's issue tracker. It's okay if you don't have "an issue" and just want to ask a question, I don't mind.
+    The issue tracker is usually on GitHub and linked on the mod's CurseForge or Modrinth page. All my mods are open-source on Github so if
+    there's no link, let me know.</li>
+    <li>Email me: <a href="mailto:quat@highlysuspect.agency">quat@highlysuspect.agency</a>
+    <li>Ping me on Twitter, <a href="https://twitter.com/quat1024" target="_blank">@quat1024</a>. Just @ me, i don't check DMs often.</li>
+    </ul>
+    <p>Unfortunately I cannot provide support for my old Forge 1.12 mods.</p>
+    <h2>Things you don't need to tell me about</h2>
+    <p>I am well aware that Minecraft 1.20 is out. Please be patient.`)
+    )
+  });
+}
