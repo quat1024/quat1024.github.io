@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>degree audit but good</title>
+	<meta property="og:title" content="degree audit but good">
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="https://highlysuspect.agency">
+	<meta property="og:image" content="https://highlysuspect.agency/favicon128.png">
+	<meta property="theme-color" content="#950000">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<script>
+		function go() {
+			let inField = document.getElementById("in");
+			let outField = document.getElementById("out");
+
+			doIt(inField, outField);
+			inField.addEventListener("input", () => doIt(inField, outField));
+		}
+
+		function doIt(inField, outField) {
+			let valueExploded = inField.value
+				.split(/\s/) //split on whitespace
+				.map(str => str.split(",")) //for each entry, further split on commas
+				.flat()
+				.map(str => str.trim()) //snip snip
+				.filter(str => str.length != 0 && str != "OR") //filter out gunk
+
+			//we now have a list that looks like:
+			//["AFMAST", "1101", "1102", "2201", ..., "ANTHROP", "1101", "2210", ...]
+			//i.e. every subject is followed by a list of classes.
+			//We do have to kinda guess which represent classes and which represent course numbers.
+
+			let subjects = {};
+			let currentSubject = undefined;
+			for (let item of valueExploded) {
+				if (!/[0-9]/.test(item)) {
+					//looks like a course name
+					currentSubject = item;
+					if (!subjects[item]) subjects[item] = [];
+				} else if (currentSubject) {
+					subjects[currentSubject].push(item);
+				}
+			}
+
+			for (let classes of Object.keys(subjects)) {
+				//Yes i found a duplicate in there lol
+				subjects[classes] = [...new Set(subjects[classes])].sort();
+			}
+
+			console.log(subjects);
+
+			let output = "";
+			for (let subject of Object.keys(subjects).sort()) {
+				output += subject + "\n";
+				output += " " + subjects[subject].join(" ");
+				output += "\n\n";
+			}
+			output = output.trim();
+
+			outField.value = output;
+			outField.rows = Math.max(10, output.split("\n").length + 3); //magical number
+		}
+
+		document.addEventListener("DOMContentLoaded", () => go());
+	</script>
+	<style>
+		:root {
+			--fgcolor: black;
+			--linkcolor: #950000;
+			--linkactive: red;
+			--linecolor: #cbbbbb;
+			--linecolor50: color-mix(in srgb, var(--linecolor) 50%, transparent);
+			--bgcolor: #fcf8f4;
+			--bgaccentcolor: #f5eeeb;
+			--blockbgcolor: color-mix(in srgb, var(--fgcolor) 5%, var(--bgcolor));
+			--inlinecodebgcolor: color-mix(in srgb, var(--fgcolor) 5%, color-mix(in srgb, var(--linkactive) 3%, var(--bgcolor)));
+		}
+
+		html,
+		body {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+			min-height: 100vh;
+			background-color: var(--bgcolor);
+			color: var(--fgcolor);
+		}
+		
+		p {
+			margin: 0;
+		}
+
+		body {
+			padding: 2em 0;
+			
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			gap: 1rem;
+		}
+		
+		.textfields {
+			display: flex;
+			flex-direction: row;
+			gap: 1rem;
+		}
+
+		.card {
+			background-color: var(--bgaccentcolor);
+			border-radius: 0.5em;
+			padding: 0.5em;
+			
+			display: flex;
+			flex-direction: column;
+			gap: 0.5rem;
+		}
+
+		.card textarea {
+			background-color: var(--blockbgcolor);
+			border-color: var(--linecolor);
+			color: var(--fgcolor);
+			
+			width: 30rem;
+		}
+		
+		.card p {
+			font-family: system-ui;
+			font-weight: bold;
+		}
+
+		@media screen and (max-width: 75rem) {
+			.body {
+				align-items: flex-start;
+				justify-content: left;
+			}
+
+			.textfields {
+				flex-direction: column;
+				width: 95%;
+			}
+			
+			.card textarea {
+				width: unset;
+				max-width: 100%;
+			}
+		}
+
+		.stupid {
+			text-align: center;
+			font-weight: bold;
+			font-size: 200%;
+			font-family: cursive;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="stupid">
+		the patent pending Highly Suspect Agency&reg; <i>Degree audit but good&copy;</i> system&trade;
+	</div>
+	<div class="textfields">
+		<div class="card">
+			<p>Paste your degree audit class listing gunk here</p>
+			<textarea id="in" rows="20">AFAMAST 1101,1112,2201,2218,2270,2281,2285,2367.04 ANTHROP 1101,2210,2241 OR
+NELC 2241 ARABIC 2241 ARTEDUC 2600,2600H,2700 CLAS 3205,3215 OR
+HISTORY 3215 COMPSTD 1100,1100H,2101,2105,2301,2242 OR SPANISH 2242
+COMPSTD 2264 OR ENGLISH 2264 COMPSTD 2281,2301,2323 OR ETHNSTD 2323
+COMPSTD 2340,2350 OR 2350H,2381 OR SPANISH 2381 OR WGSST 2381 COMPSTD 2995
+CRPLAN 3510 DANCE 2500 EDUTL 3005,3368 ENGLISH 2176,2221,2270,2270H,2281,
+ENGLISH 2282,2381,2581 ESHESA 2577 ESPHE 3206 FRENCH 2804 GERMAN 3317
+HDFS 3440 HEBREW 3704 HISTART 3010,3010H,3205 OR JEWSHST 3205 HISTART 3605
+OR ETHNSTD 3605 OR HISTART 3605H OR ETHNSTD 3605H HISTORY 2046,2455,2610,
+HISTORY 2610H,2620,3215,3231,3620,3641 INTSTDS 2200 OR NELC 2200
+ITALIAN 2056,2057 JEWSHST 2455,3704 LING 3601,3606 NELC 1125 PHILOS 1420
+PSYCH 1375 PUBAFRS 2170 RELSTDS 2370,2370H POLITSC 3147 SASIA 2230
+SLAVIC 2995.99 SPANISH 2242 SOCIOL 1102,2309,2320,2380,2463 SOCWORK 1140
+THEATRE 2700 WGSST 1110,1110H,2215,2230,2260,2282,2305,2306,2317,2327,2340 OR
+ETHNSTD 2340 WGSST 2367.04,2400</textarea>
+		</div>
+		<div class="card">
+			<p>There now it's better</p>
+			<textarea id="out"></textarea>
+		</div>
+	</div>
+	<a href="mailto:quat@highlysuspect.agency">Complaints</a>
+</body>
+
+</html>
