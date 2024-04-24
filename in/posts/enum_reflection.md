@@ -33,7 +33,7 @@ public enum TestEnum {
 
 Our goal is to manufacture new instances of TestEnum other than the three provided instances. It'd be nice if methods like `TestEnum.values()` and `TestEnum.valueOf()` worked on our newly minted objects as well.
 
-We'll start with Java 8 and then look at hwo things have changed in Java 21.
+We'll start with Java 8 and then look at how things have changed in Java 21.
 
 ## Anatomy of an enum
 
@@ -315,7 +315,7 @@ But in the meantime *tons* of stuff was added to `Reflection.fieldFilterMap`. It
 
 `fieldFilterMap` now includes *all* fields from most of the core reflection API classes, like `Constructor`, `Field`, and `Method`. Reflecting `ConstructorAccessor` and mutating `Field.modifiers` is not easily possible.
 
-## Constructing the enum
+### Constructing the enum
 
 Here are the options:
 
@@ -327,7 +327,7 @@ Because `Constructor` has been added to fieldFilterMap, it's impossible to get o
 
 Luckily the `MethodHandle` trick still works, so we can construct the enum with a methodhandle. Bytecode-editing in a factory method is possible too.
 
-## Overwriting `$VALUES`
+### Overwriting $VALUES
 
 * Hack at the `modifiers` field of `Field` to allow a `Field.set` call. Works only until the method gets JITted.
 * Use a special classloader that makes `$VALUES` public and non-final, then edit it with regular reflection.
@@ -335,7 +335,7 @@ Luckily the `MethodHandle` trick still works, so we can construct the enum with 
 
 `Field` has been added to `fieldFilterMap`. So we *have* to use a custom ClassLoader.
 
-## Clobbering the enum caches
+### Clobbering the enum caches
 
 It's still legal to reflect the `Class` fields thankfully, but reading and writing them requires an `add-opens`.
 
