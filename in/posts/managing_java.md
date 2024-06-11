@@ -2,7 +2,7 @@ slug=managing_java
 title=How to download Java
 author=quat
 description=Every player who visits Oracle's website is a failing on behalf of the community.
-created_date=June 4, 2024
+created_date=Jun 4, 2024
 subject=java,minecraft
 draft=true
 ---
