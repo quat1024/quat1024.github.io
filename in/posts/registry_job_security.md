@@ -4,6 +4,7 @@ author=quat
 description=Ok how does the registry system work *actually* in 1.20.1
 created_date=Nov 30, 2023
 tags=minecraft,mc-modding
+subject=minecraft
 ---
 
 Another notes page!
