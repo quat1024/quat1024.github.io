@@ -3,7 +3,7 @@ title=How to download Java
 author=quat
 description=Every player who visits Oracle's website is a failing on behalf of the community.
 created_date=Jun 4, 2024
-subject=java,minecraft
+subject=java
 draft=true
 ---
 Minecraft needs Java to run. After Java applets died, most of the remaining Java users were programmers, so a lot of the more recent documentation about how to use Java has shifted towards a programmerish audience. There's a lack of resources for everyday people. This document is an attempt at closing the gap.
