@@ -1,5 +1,5 @@
 import * as marked from "marked"
 
-export async function parse(str) {
-  return await marked.parse(str, { async: true });
+export function parse(str) {
+  return marked.parse(str);
 }

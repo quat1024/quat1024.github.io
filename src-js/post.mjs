@@ -1,15 +1,9 @@
-import * as fs from "node:fs/promises";
-import * as path from "node:path";
-import * as datefns from "date-fns";
+import fs from "node:fs";
+import datefns from "date-fns";
 
-import * as markdown from "./markdown.mjs"
+import { parse as parseMarkdown } from "./markdown.mjs"
 
 import { post as postTemplate } from "./templates.mjs"
-
-//java's Comparator.comparingBy
-function comparingBy(fn) {
-  return (a, b) => fn(a) - fn(b);
-}
 
 export class Post {
   markdownSource; //string
@@ -32,13 +26,12 @@ export class Post {
     
   }
   
-  async read(path) {
-    let fileContents = await fs.readFile(path, {encoding: "utf-8"});
-    
-    let idx = fileContents.indexOf("---");
+  read(path) {
+    const fileContents = fs.readFileSync(path, {encoding: "utf-8"});
+    const idx = fileContents.indexOf("---");
     
     //frontmatter
-    let frontmatter = {};
+    const frontmatter = {};
     fileContents.slice(0, idx)
       .split('\n')
       .map(line => line.trim())
@@ -59,7 +52,7 @@ export class Post {
     
     //the rest of the owl
     this.markdownSource = fileContents.slice(idx + 3).trim();
-    this.rendered = (await markdown.parse(this.markdownSource)).replace('\r', ""); //Windows moment
+    this.rendered = (parseMarkdown(this.markdownSource)).replace('\r', ""); //Windows moment
     
     return this;
   }
@@ -93,7 +86,7 @@ export class Db {
     
     //integer ids
     this.postsById = {};
-    for(var i = 0; i < posts.length; i++) {
+    for(let i = 0; i < posts.length; i++) {
       posts[i].id = i;
       this.postsById[i] = posts[i];
     }
