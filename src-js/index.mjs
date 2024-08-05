@@ -1,5 +1,6 @@
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
+import * as process from "node:process";
 
 import * as h from "./tags.mjs"
 import * as post from "./post.mjs"
@@ -21,7 +22,7 @@ await fs.access(inDir, fs.constants.F_OK);
 
 console.log("Cleaning out/");
 await fs.rm(outDir, { force: true, recursive: true });
-await fs.mkdir(outDir);
+//await fs.mkdir(outDir); //https://github.com/denoland/deno/issues/24900
 
 console.log("Copying in/static/ assets");
 let staticDir = path.join(inDir, "static");

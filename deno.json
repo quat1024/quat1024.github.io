@@ -1,0 +1,11 @@
+{
+  "tasks": {
+    "run": "deno run --allow-read --allow-write src-js/index.mjs",
+    "clean": "rm -rf ./out",
+    "serve": "miniserve ./out --index index.html -v"
+  },
+  "imports": {
+    "date-fns": "npm:date-fns@^2.30.0",
+    "marked": "npm:marked@^11.0.1"
+  }
+}

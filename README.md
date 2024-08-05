@@ -1,11 +1,9 @@
 # quatweb-static
 
-Static site generator
+This is like 50% my website and 50% an excuse to play around with technology I find interesting.
 
-Rust code is old, site is generated with the Javascript now. `npm run run`.
-
-Previously it was a dynamic web server (living at [quat1024/quatweb](https://github.com/quat1024/quatweb)) but... now it's not. Deploying to Github Pages is done using the new beta "custom deploy action" feature thingie
+Previously written in pure JS, previously previously written in Rust, previously previously previously a [dynamic web server](https://github.com/quat1024/quatweb)
 
 ## notes
 
-serving with [miniserve](https://github.com/svenstaro/miniserve) (very nice utility): `miniserve ./out --index index.html`, add `-v` for delicious delicious logspam
+locally serving with [miniserve](https://github.com/svenstaro/miniserve): `miniserve ./out --index index.html`, add `-v` for logspam (actually use `deno task serve` for that)
