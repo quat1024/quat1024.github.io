@@ -1,4 +1,4 @@
-import * as t from "./tags.mjs";
+import * as t from "./tags.ts";
 
 export function page(partial) {
   let title = "Highly Suspect Agency";

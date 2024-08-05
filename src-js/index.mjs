@@ -37,13 +37,13 @@ const postdb = new post.Db(posts);
 console.log("Rendering pages");
 fs.mkdirSync(path.join(outDir, "discord"), { recursive: true });
 
-fs.writeFileSync(path.join(outDir, "index.html"), templates.landing(postdb).renderToString());
-fs.writeFileSync(path.join(outDir, "discord.html"), templates.discord().renderToString()); //old location
-fs.writeFileSync(path.join(outDir, "discord", "index.html"), templates.discord().renderToString()); //new location
+fs.writeFileSync(path.join(outDir, "index.html"), templates.landing(postdb).show());
+fs.writeFileSync(path.join(outDir, "discord.html"), templates.discord().show()); //old location
+fs.writeFileSync(path.join(outDir, "discord", "index.html"), templates.discord().show()); //new location
 posts.map(post => {
   const parent = path.join(outDir, "posts", post.slug);
   fs.mkdirSync(parent, { recursive: true });
-  fs.writeFileSync(path.join(parent, "index.html"), post.toHtml().renderToString())
+  fs.writeFileSync(path.join(parent, "index.html"), post.toHtml().show())
 });
 
 console.log("Done");
