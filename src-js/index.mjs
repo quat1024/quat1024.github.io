@@ -2,7 +2,7 @@ import * as fs from "node:fs";
 import * as path from "node:path";
 import * as process from "node:process";
 
-import * as post from "./post.mjs"
+import * as post from "./post.ts"
 import * as templates from "./templates.mjs"
 
 const cwd = process.cwd();
@@ -31,7 +31,7 @@ const inPostsDir = path.join(inDir, "posts");
 const posts = await Promise.all(fs.readdirSync(inPostsDir)
   // 👇 yeah readdir just gives you filenames :/
   .map(filename => path.join(inPostsDir, filename))
-  .map(path => new post.Post().read(path)));
+  .map(path => new post.Post(path)));
 const postdb = new post.Db(posts);
 
 console.log("Rendering pages");

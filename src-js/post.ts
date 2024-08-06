@@ -1,49 +1,45 @@
 import fs from "node:fs";
 import datefns from "date-fns";
 
-import { parse as parseMarkdown } from "./markdown.mjs"
+import { parse as parseMarkdown } from "./markdown.ts"
 
 import { post as postTemplate } from "./templates.mjs"
 
 export class Post {
-  markdownSource; //string
-  rendered; //string
+  markdownSource: string;
+  rendered: string;
   
-  title; //string
-  slug; //string
-  author; //string
-  subject; //string
-  draft; //bool
-  created_date_str;
+  title: string;
+  slug: string;
+  author: string;
+  subject: string;
+  draft: boolean;
+  created_date_str: string;
   created_date; //Date
-  updated_date_str;
+  updated_date_str: string;
   updated_date; //Date
-  description; //string
+  description: string;
   
-  id; //<- int, filled in when creating a PostDb... ugly
+  id!: number; //<- int, filled in when creating a PostDb... ugly
   
-  constructor() {
-    
-  }
-  
-  read(path) {
+  constructor(path: any) {
     const fileContents = fs.readFileSync(path, {encoding: "utf-8"});
     const idx = fileContents.indexOf("---");
     
     //frontmatter
-    const frontmatter = {};
+    const frontmatter: Record<string, string> = {};
     fileContents.slice(0, idx)
       .split('\n')
       .map(line => line.trim())
       .filter(line => line.length != 0)
       .map(line => line.split('=').map(x => x.trim()))
-      .forEach(([key, value]) => frontmatter[key] = hrmm(value));
+      .forEach(([key, value]) => frontmatter[key] = value);
 
     this.title = frontmatter.title;
     this.slug = frontmatter.slug;
     this.author = frontmatter.author;
     this.subject = frontmatter.subject;
-    this.draft = frontmatter.draft ? true : false;
+    this.draft = parseBool(frontmatter.draft) ? true : false;
     this.created_date_str = frontmatter.created_date;
     this.created_date = datefns.parse(frontmatter.created_date, "MMM d, y", new Date());
     this.updated_date_str = frontmatter.updated_date;
@@ -69,19 +65,19 @@ export class Post {
 
 export class Db {
   //int -> Post
-  postsById;
+  postsById: Record<number, Post>;
   
   //string -> int
-  bySlug;
+  bySlug: Record<string, number>;
   
   //subject -> [int]
-  bySubject;
+  bySubject: Record<string, number[]>;
   
   //[int]
-  chronological;
+  chronological: number[];
   
   // Post[]
-  constructor(posts) {
+  constructor(posts: Post[]) {
     console.log("hi");
     
     //integer ids
@@ -112,11 +108,13 @@ export class Db {
   }
 }
 
-function hrmm(what) {
+function parseBool(what: string | boolean): boolean {
   if (what === "true")
     return true;
   else if (what === "false")
     return false;
+  else if(typeof what == "string")
+    throw new Error("can't parse " + what + " as a boolean!");
   else
     return what;
 }
