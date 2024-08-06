@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>What does Minecraft exit code 1 mean?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+			
+/* trying out https://utopia.fyi */
+
+:root {
+	--txt-0: clamp(0.875rem, 0.7446rem + 0.6522vw, 1.25rem);
+  --txt-1: clamp(1.05rem, 0.8717rem + 0.8913vw, 1.5625rem);
+  --txt-2: clamp(1.26rem, 1.0189rem + 1.2054vw, 1.9531rem);
+  --txt-3: clamp(1.512rem, 1.1887rem + 1.6164vw, 2.4414rem);
+  --txt-4: clamp(1.8144rem, 1.384rem + 2.1519vw, 3.0518rem);
+  --txt-5: clamp(2.1773rem, 1.6077rem + 2.8477vw, 3.8147rem);
+  --txt-6: clamp(2.6127rem, 1.8629rem + 3.7489vw, 4.7684rem);
+	
+  --space-2xs: clamp(0.4375rem, 0.3723rem + 0.3261vw, 0.625rem);
+  --space-xs: clamp(0.6875rem, 0.6005rem + 0.4348vw, 0.9375rem);
+  --space-s: clamp(0.875rem, 0.7446rem + 0.6522vw, 1.25rem);
+  --space-m: clamp(1.3125rem, 1.1168rem + 0.9783vw, 1.875rem);
+  --space-l: clamp(1.75rem, 1.4891rem + 1.3043vw, 2.5rem);
+  --space-xl: clamp(2.625rem, 2.2337rem + 1.9565vw, 3.75rem);
+  --space-2xl: clamp(3.5rem, 2.9783rem + 2.6087vw, 5rem);
+
+  --space-xs-m: clamp(0.6875rem, 0.2745rem + 2.0652vw, 1.875rem);
+	--space-s-l: clamp(0.875rem, 0.3098rem + 2.8261vw, 2.5rem);
+	
+	--bg: rgb(252, 245, 243);
+	--fg: rgb(27, 12, 12);
+	--accent: rgb(225, 17, 17);
+	
+	--bg2: color-mix(in oklab, var(--bg) 90%, var(--fg));
+	--mid: color-mix(in oklab, var(--bg) 85%, var(--fg));
+	--accent2: color-mix(in oklab, var(--accent) 80%, var(--bg));
+}
+
+a { color: var(--accent); }
+a:visited { color: var(--accent2); }
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--fg: rgb(255, 244, 240);
+		--bg: rgb(30, 27, 27);
+		--accent: rgb(238,62,62);
+	}
+}
+			
+html {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	background: linear-gradient(to bottom, var(--bg) 0%, var(--bg2) 100%), var(--bg2);
+	background-size: auto 50rem, contain;
+	background-position: top, center;
+	background-repeat: repeat-x, repeat;
+	
+	color: var(--fg);
+	margin: var(--space-s-l);
+	
+	font-size: var(--txt-1);
+	font-family: "Source Serif 4", serif;
+}
+
+.top {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.top h1 {
+	font-size: var(--txt-6);
+	font-weight: 500;
+	text-align: center;
+	margin: 0; padding: 0; /* reset */
+}
+
+.top h1 strong {
+	font-weight: 900;
+	white-space: nowrap;
+}
+
+.yesreally {
+	font-size: var(--txt-3);
+	font-style: italic;
+	padding-top: 0.6em;
+	text-align: center;
+}
+
+.nobreak {
+	white-space: nowrap;
+}
+@media (max-width: 300px) {
+	.nobreak { white-space: unset; }
+}
+
+.thatshim {
+	aspect-ratio: 533/235;
+	width: auto;
+	height: auto;
+	max-width: 100%;
+	margin-top: var(--space-s-l);
+}
+
+.fixit {
+	margin: var(--space-xs-m) auto;
+	padding: var(--space-xs-m);
+	max-width: 75ch;
+	background-color: var(--bg);
+	border-radius: var(--space-xs);
+	box-shadow: 0px 3px 15px var(--mid);
+}
+
+.fixit h2 {
+	margin-top: 0;
+	margin-bottom: var(--space-m);
+	font-size: var(--txt-3);
+}
+
+details {
+	margin: var(--space-2xs);
+}
+
+details[open] {
+	border-bottom: 5px solid var(--bg2);
+	margin-bottom: var(--space-m);
+}
+
+details summary {
+	background-color: var(--bg2);
+	border-radius: var(--space-xs);
+	padding: var(--space-2xs);
+	padding-left: var(--space-s);
+	cursor: pointer; /* wtf why isnt this default */
+	transition: background-color 0.1s linear;
+}
+
+details summary:hover {
+	background-color: var(--mid);
+}
+
+details[open] summary {
+	margin-bottom: var(--space-m);
+}
+
+.footer {
+	font-size: var(--txt-0);
+	text-align: center;
+	opacity: 0.9;
+}
+</style>
+<script type="text/javascript">
+document.addEventListener("DOMContentLoaded", _ => {
+	if(window.location.hash) {
+		let codenum = parseInt(window.location.hash.slice(1));
+		if(!Number.isNaN(codenum)) {
+			document.getElementById("code").innerHTML = codenum.toString();
+		}
+	}
+})
+</script>
+</head>
+<body>
+<div class="top">
+<h1>Exit Code <span id="code">1</span> means <strong>"The game crashed"</strong>.</h1>
+<div class="yesreally"><span class="nobreak">Yes, that's all it means.</span> <span class="nobreak">The exit code is not useful.</span> <span class="nobreak">Sorry to disappoint.</span></div>
+<img class="thatshim" src="./exit1.png" width="533" height="235">
+</div>
+<div class="fixit">
+	<h2>What next?</h2>
+	You'll need to find and share your <strong>logs</strong>. Logs are <em>far</em> more actionable than the "exit code". They are very important for diagnosing all sorts of Minecraft problems.
+	<p>
+	The process to find your logs varies per launcher.
+	
+	<details><summary>CurseForge</summary>
+	Right-click your modpack and select "Open Folder".
+	<p>Navigate into the folder called <kbd>logs</kbd> and look for the file named <kbd>latest.log</kbd>.
+	<p><a href="https://help.akliz.net/docs/find-minecraft-forge-logs#curseforge-launcher">More information.</a></details>
+	
+	<details><summary>Prism Launcher</summary>
+	Right-click your modpack and select "Folder". Open the folder called <kbd>.minecraft</kbd>.
+	<p>Navigate into the folder called <kbd>logs</kbd> and look for the file named <kbd>latest.log</kbd>.
+	</details>
+	
+	<details><summary>Official/vanilla launcher</summary>
+	<em>Windows:</em> Open Explorer, click inside the address bar, and enter <kbd>%APPDATA%/.minecraft</kbd>. Press Enter.
+	<p>Navigate into the folder called <kbd>logs</kbd> and look for the file named <kbd>latest.log</kbd>.
+	<p><a href="https://docs.fabricmc.net/players/troubleshooting/uploading-logs#locating-logs">More information.</a>
+	</details>
+</div>
+<div class="fixit">
+	<h2>Uploading</h2>
+	Once you have your logs, upload them to a paste site. Logs are <em>long</em>, so don't paste them directly into your post.
+	<p>
+	Here are some nice paste sites:
+	<ul>
+		<li><a href="https://mclo.gs/">mclo.gs</a> <em>(my personal favorite)</em></li>
+		<li><a href="https://paste.gg/">paste.gg</a></li>
+		<li><a href="https://paste.ee/">paste.ee</a></li>
+		<li><a href="https://www.toptal.com/developers/hastebin">Hastebin</a></li>
+	</ul>
+	If you're sharing logs somewhere that supports attachments (like a Discord channel or GitHub issue), you can also attach your logs as a file.
+</div>
+<div class="fixit">
+	<h2>Good luck</h2>
+	Minecraft problems are really frustating. Good luck getting your problem solved!
+</div>
+<div class="footer"><em>A public service of the <a href="https://highlysuspect.agency/">Highly Suspect Agency</a></em> | <a href="https://github.com/quat1024/quat1024.github.io/">Improve this page</a></div>
+</body>
+</html>
