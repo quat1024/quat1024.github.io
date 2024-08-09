@@ -1,7 +1,4 @@
 //javascript moment
-function instanceofString(obj: unknown): obj is string {
-  return obj instanceof String || typeof(obj) == "string";
-}
 
 export interface Showable {
   show(indent: number): string
@@ -49,12 +46,17 @@ export class Tag implements Showable {
       .map(obj => {
         if(obj instanceof LiteralString || obj instanceof EscapedString || obj instanceof Tag) {
           return obj;
-        } else return contentsNeedEscaping(name) ? new EscapedString(obj.toString()) : new LiteralString(obj.toString());
+        //} else return contentsNeedEscaping(name) ? new EscapedString(obj.toString()) : new LiteralString(obj.toString());
+        } else return new LiteralString(obj.toString()); //TODO it's re-escaping my rendered markdown
       }) as Showable[]; //TODO clunky typecast
     
     this.name = name;
     this.attrs = attrs ?? {};
     this.contents = contentsProcessed;
+    
+    if(name === "html") {
+      this.prelude = "<!DOCTYPE html>\n"
+    }
   }
 
   show(indent = 0) {

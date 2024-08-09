@@ -3,7 +3,7 @@ import datefns from "date-fns";
 
 import { parse as parseMarkdown } from "./markdown.ts"
 
-import { post_ as postTemplate } from "./templates.ts"
+import { PostPage2 } from "./templates.tsx"
 
 export class Post {
   markdownSource: string;
@@ -57,12 +57,7 @@ export class Post {
   }
   
   toHtml() {
-    return postTemplate({
-      ...this,
-      blurb: this.description,
-      created_date: datefns.format(this.created_date, "MMM d, y"),
-      updated_date: this.updated_date ? datefns.format(this.updated_date, "MMM d, y") : null
-    });
+    return PostPage2({post: this});
   }
 }
 

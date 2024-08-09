@@ -3,7 +3,7 @@ import * as path from "node:path";
 import * as process from "node:process";
 
 import * as post from "./post.ts"
-import * as templates from "./templates.ts"
+import * as templates from "./templates.tsx"
 
 const cwd = process.cwd();
 const inDir = path.join(cwd, "in");
@@ -37,13 +37,16 @@ const postdb = new post.Db(posts);
 console.log("Rendering pages");
 fs.mkdirSync(path.join(outDir, "discord"), { recursive: true });
 
-fs.writeFileSync(path.join(outDir, "index.html"), templates.landing(postdb).show());
-fs.writeFileSync(path.join(outDir, "discord.html"), templates.discord().show()); //old location
-fs.writeFileSync(path.join(outDir, "discord", "index.html"), templates.discord().show()); //new location
+fs.writeFileSync(path.join(outDir, "index.html"), templates.Landing2({postdb}).show(0));
+
+let discord = templates.Discord2().show(0);
+fs.writeFileSync(path.join(outDir, "discord.html"), discord); //old location
+fs.writeFileSync(path.join(outDir, "discord", "index.html"), discord); //new location
+
 posts.map(post => {
   const parent = path.join(outDir, "posts", post.slug);
   fs.mkdirSync(parent, { recursive: true });
-  fs.writeFileSync(path.join(parent, "index.html"), post.toHtml().show())
+  fs.writeFileSync(path.join(parent, "index.html"), post.toHtml().show(0))
 });
 
 console.log("Done");
