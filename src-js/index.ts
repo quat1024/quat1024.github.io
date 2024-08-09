@@ -39,6 +39,8 @@ fs.mkdirSync(path.join(outDir, "discord"), { recursive: true });
 
 fs.writeFileSync(path.join(outDir, "index.html"), templates.Landing2({postdb}).show(0));
 
+fs.writeFileSync(path.join(outDir, "feed.xml"), templates.Feed2({postdb}).show(0, true)); //rss mode
+
 let discord = templates.Discord2().show(0);
 fs.writeFileSync(path.join(outDir, "discord.html"), discord); //old location
 fs.writeFileSync(path.join(outDir, "discord", "index.html"), discord); //new location

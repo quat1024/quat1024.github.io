@@ -22,7 +22,7 @@ export function Page2(props: { title?: string, head?: t.TagBody[], blurb?: strin
         : []]}
       <meta property="theme-color" content="#950000" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <link rel="stylesheet" type="text/css" href="/stylin.css" />
+      <link rel="stylesheet" type="text/css" href="/stylin.css?cbust=2" />
       <link rel="stylesheet" type="text/css" href="/rotator.css" />
       <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
       <link rel="icon" type="image/x-icon" href="/favicon.ico" />
@@ -80,6 +80,24 @@ export function All2(props: { postdb: post.Db }): t.Showable {
   return <ul>{...infos}</ul>
 }
 
+export function Feed2(props: {postdb: post.Db}): t.Showable {
+  const postdb = props.postdb;
+
+  const infos = postdb.chronological
+    .map(id => postdb.postsById[id])
+    .map(post => <PostInfo2Feed post={post} />);
+
+  return <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+    <channel>
+      <title>Highly Suspect Agency</title>
+      <description>🤔</description>
+      <link>https://highlysuspect.agency/feed.xml</link>
+      <atom:link href="https://highlysuspect.agency/feed.xml" rel="self" type="application/rss+xml" />
+      {...infos}
+    </channel>
+  </rss>
+}
+
 export function Landing2(props: { postdb: post.Db }): t.Showable {
   if (props == null) throw new Error("null props");
 
@@ -112,6 +130,26 @@ export function PostInfo2(props: { post: post.Post }): t.Showable {
   </li>
 }
 
+export function PostInfo2Feed(props: {post: post.Post}): t.Showable {
+  if(props == null) throw new Error("null props");
+  const post: post.Post = props.post;
+  
+  return <item>
+    <title>{post.title}</title>
+    <link>https://highlysuspect.agency/posts/{post.slug}</link>
+    <guid>https://highlysuspect.agency/posts/{post.slug}</guid>
+    <pubDate>{post.created_date.toUTCString()}</pubDate>
+    {...(post.description ?
+      [<description>{post.description}</description>] : [])}
+    <content:encoded>
+      {"<![CDATA["}
+      {post.rendered}
+      {"]]>"}
+    </content:encoded>
+  </item>
+  
+  //TODO: escape CDATA in the rendered post
+}
 
 export function PostPage2(props: { post: post.Post }): t.Showable {
   if (props == null) throw new Error("null props");

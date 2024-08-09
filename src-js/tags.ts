@@ -2,7 +2,7 @@
 //didnt intend for it to be used with jsx
 
 export interface Showable {
-  show(indent: number): string
+  show(indent: number, rss?: boolean): string
 }
 
 export type Attrs = Record<string, string | number | boolean>;
@@ -60,7 +60,7 @@ export class Tag implements Showable {
     }
   }
 
-  show(indent = 0) {
+  show(indent: number = 0, rss: boolean = false) {
     let result = "";
 
     //for DOCTYPE basically
@@ -95,13 +95,15 @@ export class Tag implements Showable {
         doIndent = false;
       else if (this.name == "p" || this.attrs.class === "byline") //yeah this is bad !
         doIndent = false;
+      else if(rss)
+        doIndent = false; //yeag
 
       //no newline between consecutive plain elements
       let lastWasSimple = false;
       for (const child of this.contents) {
         if (doIndent && !lastWasSimple)
           result += `\n${ind(indent + 1)}`;
-        result += child.show(indent + 1);
+        result += child.show(indent + 1, rss);
         
         lastWasSimple = !(child instanceof Tag);
       }
@@ -111,7 +113,7 @@ export class Tag implements Showable {
     }
 
     //closing tag
-    if (hasClosing(this.name))
+    if (rss || hasClosing(this.name))
       result += `</${this.name}>`
 
     return result;

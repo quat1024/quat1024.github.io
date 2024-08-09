@@ -214,9 +214,10 @@ hr:after {
 	background-repeat: no-repeat;
 }
 
-hr.mlem:after { background-image: url("/img/tiny_dragnmlem.png"); }
-hr.cool:after { background-image: url("/img/tiny_dragncool.png"); }
-hr.think:after { background-image: url("/img/tiny_dragnthink.png"); }
+hr.mlem:after { background-image: url("/img/motive/tiny_dragnmlem.png"); }
+hr.cool:after { background-image: url("/img/motive/tiny_dragncool.png"); }
+hr.think:after { background-image: url("/img/motive/tiny_dragnthink.png"); }
+hr.motiveblank:after { background-image: url("/img/motive/blank.png"); }
 
 /* "mobile" layout */
 @media (max-width: 40rem) {
