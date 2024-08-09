@@ -1,6 +1,6 @@
 {
   "tasks": {
-    "run": "deno run --allow-read --allow-write --allow-sys src-js/index.mjs",
+    "run": "deno run --allow-read --allow-write --allow-sys src-js/index.ts",
     "clean": "rm -rf ./out",
     "serve": "miniserve ./out --index index.html -v"
   },
