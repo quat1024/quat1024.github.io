@@ -47,13 +47,13 @@ export class Tag implements Showable {
       .flat(Infinity)
       .filter(obj => obj !== null && obj !== undefined)
       .map(obj => {
-        if(instanceofString(obj)) {
-          return contentsNeedEscaping(name) ? new EscapedString(obj) : new LiteralString(obj);
-        } else return obj;
+        if(obj instanceof LiteralString || obj instanceof EscapedString || obj instanceof Tag) {
+          return obj;
+        } else return contentsNeedEscaping(name) ? new EscapedString(obj.toString()) : new LiteralString(obj.toString());
       }) as Showable[]; //TODO clunky typecast
     
     this.name = name;
-    this.attrs = attrs;
+    this.attrs = attrs ?? {};
     this.contents = contentsProcessed;
   }
 
@@ -88,15 +88,19 @@ export class Tag implements Showable {
       
       //TODO how 2 actually pretty print html without mucking up the formatting?
       //is it possible?
-      if(this.contents.length == 1 && (this.contents[0] instanceof LiteralString || this.contents[0] instanceof EscapedString))
+      if(this.contents.every(e => !(e instanceof Tag))) //entirely composed of literals
         doIndent = false;
-      else if (this.name == "p" || this.attrs.class === "byline") //yeah this is dumb
+      else if (this.name == "p" || this.attrs.class === "byline") //yeah this is bad !
         doIndent = false;
 
+      //no newline between consecutive plain elements
+      let lastWasSimple = false;
       for (const child of this.contents) {
-        if (doIndent)
+        if (doIndent && !lastWasSimple)
           result += `\n${ind(indent + 1)}`;
         result += child.show(indent + 1);
+        
+        lastWasSimple = !(child instanceof Tag);
       }
 
       if (doIndent)
@@ -185,4 +189,4 @@ export const title = (a: Attrs, ...c: TagBody[]): Tag => new Tag("title", a, ...
 export const ul = (a: Attrs, ...c: TagBody[]): Tag => new Tag("ul", a, ...c);
 
 export const meta_ = (property: string, content: string): Tag => meta({ property, content });
-export const prose_ = (...list: TagBody[]): Tag[] => list.map(e => p({}, e)) //list of paragraphs
+export const prose_ = (...list: Showable[]): Tag[] => list.map(e => p({}, e)) //list of paragraphs
