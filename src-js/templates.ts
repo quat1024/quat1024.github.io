@@ -1,6 +1,14 @@
 import * as t from "./tags.ts";
+import * as post from "./post.ts";
 
-export function page(partial) {
+export type PagePartial = {
+  title?: string,
+  blurb?: string,
+  head?: () => t.TagBody,
+  body: t.TagBody
+}
+
+export function page(partial: PagePartial): t.Tag {
   let title = "Highly Suspect Agency";
   if (partial.title)
     title = `${partial.title} - ${title}`;
@@ -27,7 +35,7 @@ export function page(partial) {
   );
 }
 
-export function layout(partial) {
+export function layout(partial: any) {
   return page({
     ...partial,
     body: [
@@ -51,34 +59,34 @@ export function layout(partial) {
   })
 }
 
-export function recents(postdb) {
-  let topThree = postdb.chronological.reverse().slice(0, 3)
+export function recents(postdb: post.Db) {
+  const topThree = postdb.chronological.reverse().slice(0, 3)
     .map(id => postdb.postsById[id])
     .map(post => postInfo(post));
 
   return [
     t.p({}, "Here are the three most recent posts."),
-    t.ul({}, topThree)
+    t.ul({}, topThree as any)
   ]
 }
 
-export function topics(postdb) {
-  let bySubject = {};
+export function topics(postdb: post.Db) {
+  const bySubject: Record<string, post.Post[]> = {};
 
-  for (let id of postdb.chronological) {
-    let post = postdb.postsById[id];
+  for (const id of postdb.chronological) {
+    const post = postdb.postsById[id];
 
     if (!bySubject[post.subject])
       bySubject[post.subject] = [];
     bySubject[post.subject].push(post);
   }
 
-  let subjects = [...Object.keys(bySubject)];
+  const subjects = [...Object.keys(bySubject)];
   subjects.sort();
   subjects.sort((a, b) => bySubject[b].length - bySubject[a].length);
 
-  let result = [];
-  for (let subj of subjects) {
+  const result = [];
+  for (const subj of subjects) {
     result.push([
       t.h3({}, `On ${subj}`),
       t.ul({},
@@ -90,7 +98,7 @@ export function topics(postdb) {
   return result;
 }
 
-export function landing(postdb) {
+export function landing(postdb: post.Db) {
   return layout({
     body: t.article({},
       t.h1({}, "Hey"),
@@ -106,14 +114,14 @@ export function landing(postdb) {
         t.noEscape(`For other inquiries, email me: <a href="mailto:quat@highlysuspect.agency">quat@highlysuspect.agency</a>`)
       ),
       t.h2({}, "Writing"),
-      recents(postdb),
+      recents(postdb) as any, //TODO
       t.p({}, "And here's the rest."),
-      topics(postdb)
+      topics(postdb) as any //TODO
     )
   });
 }
 
-export function postInfo(post) {
+export function postInfo(post: post.Post) {
   return t.li({},
     t.span({ class: "date" }, post.created_date_str),
     t.a({ href: `/posts/${post.slug}` }, post.title),
@@ -121,15 +129,15 @@ export function postInfo(post) {
     post.description ? [
       t.br({}),
       post.description
-    ] : undefined
+    ] : undefined as any //TODO
   );
 }
 
-export function post(post) {
+export function post_(post: post.Post) {
   let motive = post.motive;
   if (!motive) {
-    let rand = post.slug.split("").reduce((acc, t) => acc + t.charCodeAt(0), 0)
-    let motives = ["cool", "mlem", "think"];
+    const rand = post.slug.split("").reduce((acc, t) => acc + t.charCodeAt(0), 0)
+    const motives = ["cool", "mlem", "think"];
     motive = motives[rand % motives.length];
   }
 
@@ -143,9 +151,9 @@ export function post(post) {
           t.div({ class: "byline" },
             post.author,
             ", ",
-            post.created_date,
+            post.created_date as any, //TODO
 
-            post.modified_date ? [" (updated ", post.modified_date, ")"] : undefined,
+            //post.modified_date ? [" (updated ", post.modified_date, ")"] : undefined,
             post.draft ? t.noEscape(" &mdash; (draft post)") : undefined,
             t.noEscape(" &mdash; "),
 
@@ -178,7 +186,7 @@ export function discord() {
     </ul>
     <p>Unfortunately I cannot provide support for my old Forge 1.12 mods.</p>
     <h2>Things you don't need to tell me about</h2>
-    <p>I am well aware that Minecraft 1.20 is out. Please be patient.`)
+    <p>I am well aware that Minecraft 1.21 is out. Please be patient.`)
     )
   });
 }

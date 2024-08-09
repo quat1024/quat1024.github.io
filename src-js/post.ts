@@ -3,7 +3,7 @@ import datefns from "date-fns";
 
 import { parse as parseMarkdown } from "./markdown.ts"
 
-import { post as postTemplate } from "./templates.mjs"
+import { post_ as postTemplate } from "./templates.ts"
 
 export class Post {
   markdownSource: string;
@@ -19,6 +19,8 @@ export class Post {
   updated_date_str: string;
   updated_date; //Date
   description: string;
+  
+  motive: string | undefined; //horizontal rule icon
   
   id!: number; //<- int, filled in when creating a PostDb... ugly
   
@@ -45,6 +47,7 @@ export class Post {
     this.updated_date_str = frontmatter.updated_date;
     this.updated_date = frontmatter.updated_date ? datefns.parse(frontmatter.updated_date, "MMM d, y", new Date()) : undefined;
     this.description = frontmatter.description ? frontmatter.description : "";
+    this.motive = frontmatter.motive;
     
     //the rest of the owl
     this.markdownSource = fileContents.slice(idx + 3).trim();

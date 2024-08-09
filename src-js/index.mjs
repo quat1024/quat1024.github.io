@@ -3,7 +3,7 @@ import * as path from "node:path";
 import * as process from "node:process";
 
 import * as post from "./post.ts"
-import * as templates from "./templates.mjs"
+import * as templates from "./templates.ts"
 
 const cwd = process.cwd();
 const inDir = path.join(cwd, "in");

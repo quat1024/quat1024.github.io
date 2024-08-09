@@ -36,6 +36,7 @@
   "remote": {},
   "workspace": {
     "dependencies": [
+      "npm:@types/node@^22.1.0",
       "npm:date-fns@^2.30.0",
       "npm:marked@^11.0.1"
     ]
