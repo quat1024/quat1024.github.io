@@ -13,7 +13,7 @@ export function Page2(props: { title?: string, head?: t.TagBody[], blurb?: strin
   return <html lang="en">
     <head>
       <title>{fullTitle}</title>
-      <meta property="og:title" content="Highly Suspect Agency" />
+      <meta property="og:title" content={fullTitle} />
       <meta property="og:type" content="website" />
       <meta property="og:url" content="https://highlysuspect.agency" />
       <meta property="og:image" content="https://highlysuspect.agency/favicon128.png" />
