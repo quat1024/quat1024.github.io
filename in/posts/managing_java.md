@@ -3,8 +3,8 @@ title=How to download Java
 author=quat
 description=Every player who visits Oracle's website is a failing on behalf of the community.
 created_date=Jun 4, 2024
+updated_date=Aug 8, 2024
 subject=java
-draft=true
 ---
 Minecraft needs Java to run. After Java applets died, most of the remaining Java users were programmers, so a lot of the more recent documentation about how to use Java has shifted towards a programmerish audience. There's a lack of resources for everyday people. This document is an attempt at closing the gap.
 
@@ -37,19 +37,19 @@ Here's a tip: pick a different folder than `C:/Program Files/Java`. Old versions
 
 You don't really need to *install* Java to *use* it. Java is just a collection of files on your computer; in the `bin` folder you'll find `javaw.exe`, which is the file your Minecraft launcher runs to start Minecraft.
 
-All installing Java does is add a file-association to your computer (so you can double-click on `.jar` files to run them) and modify a few environment variables (so you can run `java` in the command-line). You don't need any of this to play Minecraft. Instead, just manually tell your launcher where to find Java.
+All "installing Java" does is add a file-association to your computer (so you can double-click on `.jar` files to run them) and modify a few environment variables (so you can run `java` in the command-line). You don't need any of this to play Minecraft. Instead, just manually tell your launcher where to find Java.
 
-#### Method
-
-Head to the [Eclipse Temurin](https://adoptium.net/temurin/releases/) website and get the "zip" instead of the installer.
-
-#### Benefits
-
-#### Drawbacks
-
-You won't have the file-association set up system-wide. You won't be able to double-click on a `.jar` to "run" it.
+You can do this by heading to the [Eclipse Temurin](https://adoptium.net/temurin/releases/) website and downloading the "zip" instead of the installer. Extract it somewhere safe, and in your launcher's settings, tell it to use that JDK. This method is pretty simple and doesn't leave anything permanent on your computer. You can easily try new versions of Java, easily install multiple versions at the same time, and switch between them by changing the file path in your launcher's settings.
 
 ## 4. Package managers
+
+Linux distributions typically have some "system" package manager, which is usually the best place to get maybe-outdated but largely-system-compatible versions of Java. Windows famously does not have a good package manager, but projects like Chocolatey and (my favorite) [Scoop](https://scoop.sh/) fill the gap. In particular, Scoop has a Java "bucket" which contains installable versions of every Java version I can think of.
+
+You can install Scoop by following the directions on the home page + finishing with `scoop install git`, then `scoop bucket add java` followed by `scoop install temurin21-jdk` will keep it up to date. (Scoop internally needs a copy of `git` for its bookkeeping, since the "repository" is just a github repo; if you already have a working git on your system, you don't need to install one from Scoop.)
+
+Benefits of this: There's a single interface for installing all sorts of Java versions; no need to open a web browser and track down the right website. There's somewhat better system integration (Scoop manages the system `PATH` in such a way that typing `scoop reset (some jdk)` will switch the program `java` refers to).
+
+If you don't already use a system package manager, it's overkill to install one just to get Java. There's occasionally a need to download an older version of Java within the same major version (say, old versions of Java 8 before an SSL certificate update), and at least Scoop does not keep old versions of packages around. When you `scoop install temurin8-jdk` you will get the latest version of Temurin 8. Scoop provides support for switching back to old versions, but the old versions have to have already been downloaded by you.
 
 # Rationale
 
@@ -64,8 +64,8 @@ Oracle's JDK and Temurin are both based off the OpenJDK open-source project. Ora
 There are lots of other builds of Java based on the OpenJDK open-source project:
 
 * You can download [directly from OpenJDK](https://jdk.java.net/). They only provide zips (no installers) and don't provide Java 8.
-* You can download from Azul or Amazon or Microsoft or whatever. Their builds differ from OpenJDK mostly in professional support opportunities and other things that aren't really relevant to Minecraft players.
-* You can download GraalVM. Good luck with that.
+* You can download from Azul or Amazon or Microsoft or a bunch of other companies. Their builds differ from OpenJDK mostly in professional support opportunities and other things that aren't really relevant to Minecraft players.
+* You can download GraalVM. Good luck using that.
 
 I recommend Temurin because it's "plain", the website is decent, and it's the JDK I use on my personal computers.
 
