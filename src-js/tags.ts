@@ -1,4 +1,5 @@
-//javascript moment
+//TODO tidy this shit up! it's loosely converted from plain js so the types are real messy
+//didnt intend for it to be used with jsx
 
 export interface Showable {
   show(indent: number): string
@@ -148,47 +149,3 @@ function isValueless(attr: string): boolean {
 function ind(i: number): string {
   return '\t'.repeat(i);
 }
-
-//shorthand
-export function tag(name: string, attrs = {}, ...contents: TagBody[]): Tag {
-  return new Tag(name, attrs, ...contents);
-}
-
-//shorthand
-export function noEscape(text: string): LiteralString {
-  return new LiteralString(text);
-}
-
-//very shorthand
-export const html = (a: Attrs, ...c: TagBody[]): Tag => {
-  const t = new Tag("html", a, ...c);
-  t.prelude = "<!DOCTYPE html>\n";
-  return t;
-}
-export const a = (a: Attrs, ...c: TagBody[]): Tag => new Tag("a", a, ...c);
-export const br = (a: Attrs, ...c: TagBody[]): Tag => new Tag("br", a, ...c);
-export const article = (a: Attrs, ...c: TagBody[]): Tag => new Tag("article", a, ...c);
-export const body = (a: Attrs, ...c: TagBody[]): Tag => new Tag("body", a, ...c);
-export const div = (a: Attrs, ...c: TagBody[]): Tag => new Tag("div", a, ...c);
-export const h1 = (a: Attrs, ...c: TagBody[]): Tag => new Tag("h1", a, ...c);
-export const h2 = (a: Attrs, ...c: TagBody[]): Tag => new Tag("h2", a, ...c);
-export const h3 = (a: Attrs, ...c: TagBody[]): Tag => new Tag("h3", a, ...c);
-export const h4 = (a: Attrs, ...c: TagBody[]): Tag => new Tag("h4", a, ...c);
-export const h5 = (a: Attrs, ...c: TagBody[]): Tag => new Tag("h5", a, ...c);
-export const h6 = (a: Attrs, ...c: TagBody[]): Tag => new Tag("h6", a, ...c);
-export const head = (a: Attrs, ...c: TagBody[]): Tag => new Tag("head", a, ...c);
-export const header = (a: Attrs, ...c: TagBody[]): Tag => new Tag("header", a, ...c);
-export const hr = (a: Attrs, ...c: TagBody[]): Tag => new Tag("hr", a, ...c);
-export const li = (a: Attrs, ...c: TagBody[]): Tag => new Tag("li", a, ...c);
-export const link = (a: Attrs, ...c: TagBody[]): Tag => new Tag("link", a, ...c);
-export const meta = (a: Attrs, ...c: TagBody[]): Tag => new Tag("meta", a, ...c);
-export const nav = (a: Attrs, ...c: TagBody[]): Tag => new Tag("nav", a, ...c);
-export const p = (a: Attrs, ...c: TagBody[]): Tag => new Tag("p", a, ...c);
-export const script = (a: Attrs, ...c: TagBody[]): Tag => new Tag("script", a, ...c);
-export const section = (a: Attrs, ...c: TagBody[]): Tag => new Tag("section", a, ...c);
-export const span = (a: Attrs, ...c: TagBody[]): Tag => new Tag("span", a, ...c);
-export const title = (a: Attrs, ...c: TagBody[]): Tag => new Tag("title", a, ...c);
-export const ul = (a: Attrs, ...c: TagBody[]): Tag => new Tag("ul", a, ...c);
-
-export const meta_ = (property: string, content: string): Tag => meta({ property, content });
-export const prose_ = (...list: Showable[]): Tag[] => list.map(e => p({}, e)) //list of paragraphs
