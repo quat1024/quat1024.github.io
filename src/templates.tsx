@@ -85,6 +85,7 @@ export function Feed2(props: {postdb: post.Db}): t.Showable {
 
   const infos = postdb.chronological
     .map(id => postdb.postsById[id])
+    .filter(post => !post.draft)
     .map(post => <PostInfo2Feed post={post} />);
 
   return <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
