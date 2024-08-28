@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <title>markdown MINUS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+    rel="stylesheet">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta property="og:title" content="markdown MINUS">
+  <meta name="twitter:title" content="markdown MINUS">
+  <meta name="description"
+    content="markdown MINUS is a &quot;worse version&quot; of markdown for cohost which doesn't let you use fucked-up text in your everyday posts.">
+  <meta property="og:description"
+    content="markdown MINUS is a &quot;worse version&quot; of markdown for cohost which doesn't let you use fucked-up text in your everyday posts.">
+  <meta name="twitter:description"
+    content="markdown MINUS is a &quot;worse version&quot; of markdown for cohost which doesn't let you use fucked-up text in your everyday posts.">
+  <meta property="og:image" content="https://highlysuspect.agency/favicon128.png">
+  <meta name="twitter:site" content="https://highlysuspect.agency/markdown-minus/">
+  <link rel="canonical" href="https://highlysuspect.agency/markdown-minus/" />
+  <meta property="theme-color" content="#950000">
+
+  <!-- <link rel="manifest" crossorigin="anonymous" href="manifest.json"> -->
+  <!-- <script type="module" crossorigin="" src="/markdown-plus/assets/index.a767922a.js"></script> -->
+  <link rel="stylesheet" href="./index.12345.css">
+
+  <script>
+    function safeFromEmails(piece) {
+      return piece
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replace(/$\s*(\-+)/g, (match, cap) => "\\" + cap)
+        .replaceAll(/[\[\]\_\^()*`~#]/g, (match) => "\\" + match)
+        .replaceAll(/([0-9]+)\./g, (match, cap) => cap + "\\.")
+        .replaceAll("://", ":/<b></b>/");
+    }
+
+    function escape(orig) {
+      return orig.split("\\") //no existing backslashes in the string anymore
+        .filter((piece) => piece.length > 0)
+        .map((piece) => safeFromEmails(piece))
+        .join(""); //so i dont have to worry about "escaping" \* into \\* and actually unescaping it
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const $editor = document.getElementById("editor");
+      const $result = document.getElementById("result");
+      const $charcount = document.getElementById("charcount");
+      const $copyclipboard = document.getElementById("copyclipboard")
+
+      if(!$editor.value) {
+        $editor.value = `introducing **markdown minus**. it's like markdown if it was *even worse* and had ~~more~~ fewer features!
+
+1. no styling
+2. no lists
+3. no fun
+
+[try it today!](https://highlysuspect.agency/markdown-minus)`;
+      }
+      
+      let result = "";
+
+      function doIt() {
+        result = escape($editor.value);
+        $result.innerText = result;
+        $charcount.innerText = new Blob([result]).size + "B";
+      }
+      $editor.addEventListener("input", e => doIt());
+      doIt();
+      
+      $copyclipboard.addEventListener("click", e => {
+        navigator.clipboard.writeText(result);
+        $copyclipboard.classList.add("copied");
+      })
+      $copyclipboard.addEventListener("mouseout", e => $copyclipboard.classList.remove("copied"));
+      $copyclipboard.addEventListener("blur", e => $copyclipboard.classList.remove("copied"));
+    });
+
+  </script>
+</head>
+
+<body id="app">
+  <app class="svelte-delgui">
+    <header class="full-width svelte-delgui">
+      <div class="logo svelte-delgui"><img src="logo_back.png" class="logo-img svelte-delgui" alt="the markdown logo">
+        <div style="transform:translateX(-100px)"><img src="./minus.gif" class="logo-plus svelte-delgui"
+            alt="a shitty flaming text gif saying 'minus', revealing the full title of the logo to be 'markdown minus'">
+        </div>
+      </div>
+      <i>by <a href="https://cohost.org/quat">quat</a> (kinda)</i>
+    </header>
+    <div class="textarea horiz svelte-delgui"><textarea id="editor" placeholder="type Some Thing.."
+        class="svelte-delgui"></textarea>
+      <div class="textarea-bottom svelte-delgui">
+        <div><input type="checkbox" id="plaintext" checked disabled> <label for="plaintext">add plaintext version
+            <small>(it is already plaintext)</small></label></div>
+      </div>
+    </div>
+    <div class="result horiz svelte-delgui">
+      <div class="result-preview svelte-delgui" id="result"></div>
+      <div class="result-bottom svelte-delgui">
+        <div class="char-count svelte-delgui" id="charcount">172B</div> <!-- <button class="svelte-delgui">preview as post</button> -->
+        <button class="svelte-delgui" id="copyclipboard">copy to clipboard</button>
+      </div>
+    </div>
+    <div class="bottom full-width svelte-delgui">
+      <p><b>markdown MINUS</b> is a "worse version" of markdown for cohost which <b>doesn't</b> let you use fucked-up
+        text in your
+        everyday posts.</p>
+      <p>The intended usage is to speak like a Usenet poster, without the ability to express emotion in the text quirks
+        that cohost kindly allows us to do. Want to make your text wide? You can't! Make it wavy or shaky? Nope!</p>
+      <p>No <a target="_blank" rel="noreferrer" href="https://www.markdownguide.org/cheat-sheet/">regular markdown</a>
+        is supported, in addition to:</p>
+      <div class="container svelte-1upzuqj">
+        <div class="summary-container svelte-1upzuqj">
+          <div class="summary svelte-1upzuqj" aria-pressed="false"><span class="summary-icon svelte-1upzuqj"
+              aria-hidden="true">▸</span> <big slot="summary">Nothing</big>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="bottom full-width svelte-delgui">
+      <h2>markdown MINUS partakes in hand-in-hand combat with:</h2>
+
+      <el>
+        <li><a href="https://cohost.org/oatmealine">@oatmealine</a>'s <a href="https://oat.zone/markdown-plus/"
+            target="_blank" rel="noreferrer">markdown PLUS</a>, the thing i shamelessly ripped the html from
+      </el>
+    </div>
+    <div class="bottom full-width svelte-delgui">
+      <h2>Source code</h2>
+
+      I haven't open sourced this because it's not even mine
+    </div>
+  </app>
+</body>
+
+</html>
