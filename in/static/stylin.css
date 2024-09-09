@@ -224,7 +224,7 @@ hr.motiveblank:after { background-image: url("/img/motive/blank.png"); }
 .photogrid {
 	display: grid;
 	grid-template-columns: repeat(4, 1fr);
-	gap: 2em;
+	gap: 1em;
 	padding: 2em;
 }
 
@@ -238,7 +238,7 @@ hr.motiveblank:after { background-image: url("/img/motive/blank.png"); }
 
 .photogrid > *:focus, .photogrid > *:hover {
 	outline-width: thick;
-	outline-offset: 9px;
+	outline-offset: 6px;
 }
 
 .photogrid > *:focus { outline-color: red; }
