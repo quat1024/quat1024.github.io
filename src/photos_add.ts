@@ -9,7 +9,7 @@ import pLimit from "p-limit";
 
 //EDIT THIS when bulk uploading!!!
 const FORCED_PHOTO_PROPS: object = {
-//  category: "",
+//  category: "food",
 };
 
 type Flag = string | number;
