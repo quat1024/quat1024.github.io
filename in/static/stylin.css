@@ -223,7 +223,7 @@ hr.motiveblank:after { background-image: url("/img/motive/blank.png"); }
 
 .photogrid {
 	display: grid;
-	grid-template-columns: repeat(3, 1fr);
+	grid-template-columns: repeat(4, 1fr);
 	gap: 2em;
 	padding: 2em;
 }
@@ -306,4 +306,9 @@ article.photopage table td {
 	
 	/* desktop layouts place list bullets in the gutter, but this falls off the page with a thin left margin */
 	article ul { padding-left: 1em; }
+	
+	.photogrid {
+		grid-template-columns: repeat(2, 1fr);
+		padding: 1em;
+	}
 }
