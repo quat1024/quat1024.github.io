@@ -101,7 +101,7 @@ function getCwebpResizeFlags(exif: Exif, max: number): Flag[] {
     return [];
   }
 
-  //Passing 0 to cexif -resize will make it keep the image aspect ratio when resizing.
+  //Passing 0 to cwebp -resize will make it keep the image aspect ratio when resizing.
   if (width > height) {
     return ["-resize", max, 0];
   } else if (height > width) {
@@ -111,7 +111,7 @@ function getCwebpResizeFlags(exif: Exif, max: number): Flag[] {
   }
 }
 
-//Note that cexif will crop before resizing.
+//Note that cwebp will crop before resizing.
 function getCwebpSquareCropFlags(exif: Exif): Flag[] {
   const [width, height] = [exif.ImageWidth, exif.ImageHeight];
 
