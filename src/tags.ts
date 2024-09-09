@@ -93,7 +93,7 @@ export class Tag implements Showable {
       //is it possible?
       if(this.contents.every(e => !(e instanceof Tag))) //entirely composed of literals
         doIndent = false;
-      else if (this.name == "p" || this.attrs.class === "byline") //yeah this is bad !
+      else if (this.name == "a" || this.name == "p" || this.attrs.class === "byline") //yeah this is bad !
         doIndent = false;
       else if(rss)
         doIndent = false; //yeag

@@ -50,6 +50,7 @@ export function Layout2(props: { title?: string, head?: t.TagBody[], blurb?: str
         <a href="/">Highly Suspect Agency</a>
       </h1>
       <nav>
+        <a href="/photos/">Photos</a>
         <a href="/feed.xml">RSS</a>
       </nav>
     </header>
@@ -80,7 +81,7 @@ export function All2(props: { postdb: post.Db }): t.Showable {
   return <ul>{...infos}</ul>
 }
 
-export function Feed2(props: {postdb: post.Db}): t.Showable {
+export function Feed2(props: { postdb: post.Db }): t.Showable {
   const postdb = props.postdb;
 
   const infos = postdb.chronological
@@ -131,10 +132,10 @@ export function PostInfo2(props: { post: post.Post }): t.Showable {
   </li>
 }
 
-export function PostInfo2Feed(props: {post: post.Post}): t.Showable {
-  if(props == null) throw new Error("null props");
+export function PostInfo2Feed(props: { post: post.Post }): t.Showable {
+  if (props == null) throw new Error("null props");
   const post: post.Post = props.post;
-  
+
   return <item>
     <title>{post.title}</title>
     <link>https://highlysuspect.agency/posts/{post.slug}</link>
@@ -148,7 +149,7 @@ export function PostInfo2Feed(props: {post: post.Post}): t.Showable {
       {"]]>"}
     </content:encoded>
   </item>
-  
+
   //TODO: escape CDATA in the rendered post
 }
 

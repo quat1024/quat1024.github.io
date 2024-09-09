@@ -1,5 +1,5 @@
 import fs from "node:fs";
-import datefns from "date-fns";
+import { parseDate, compareDatesAsc } from "./date.ts"
 
 import { parse as parseMarkdown } from "./markdown.ts"
 
@@ -24,7 +24,7 @@ export class Post {
   
   id!: number; //<- int, filled in when creating a PostDb... ugly
   
-  constructor(path: any) {
+  constructor(path: string) {
     const fileContents = fs.readFileSync(path, {encoding: "utf-8"});
     const idx = fileContents.indexOf("---");
     
@@ -43,9 +43,9 @@ export class Post {
     this.subject = frontmatter.subject;
     this.draft = parseBool(frontmatter.draft) ? true : false;
     this.created_date_str = frontmatter.created_date;
-    this.created_date = datefns.parse(frontmatter.created_date, "MMM d, y", new Date());
+    this.created_date = parseDate(frontmatter.created_date);
     this.updated_date_str = frontmatter.updated_date;
-    this.updated_date = frontmatter.updated_date ? datefns.parse(frontmatter.updated_date, "MMM d, y", new Date()) : undefined;
+    this.updated_date = frontmatter.updated_date ? parseDate(frontmatter.updated_date) : undefined;
     this.description = frontmatter.description ? frontmatter.description : "";
     this.motive = frontmatter.motive;
     
@@ -98,7 +98,7 @@ export class Db {
     });
     
     //chronological
-    this.chronological = [...posts].sort((a, b) => datefns.compareAsc(a.created_date, b.created_date)).map(p => p.id);
+    this.chronological = [...posts].sort((a, b) => compareDatesAsc(a.created_date, b.created_date)).map(p => p.id);
   }
   
   subjects() {

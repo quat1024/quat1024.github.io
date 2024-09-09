@@ -1,13 +1,16 @@
 {
   "tasks": {
     "run": "deno run --allow-read --allow-write --allow-sys src/index.ts",
+    "photo": "deno run -A src/photos_add.ts",
     "clean": "rm -rf ./out",
     "serve": "miniserve ./out --index index.html -v"
   },
   "imports": {
     "@types/node": "npm:@types/node@^22.1.0",
     "date-fns": "npm:date-fns@^2.30.0",
-    "marked": "npm:marked@^11.0.1"
+    "marked": "npm:marked@^11.0.1",
+    "p-limit": "npm:p-limit@^6.1.0",
+    "zod": "npm:zod@^3.23.8"
   },
   "compilerOptions": {
     "jsxFactory": "createElement"
