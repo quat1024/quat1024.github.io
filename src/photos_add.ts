@@ -9,7 +9,7 @@ import pLimit from "p-limit";
 
 //EDIT THIS when bulk uploading!!!
 const FORCED_PHOTO_PROPS: object = {
-  category: "anthrohio-24",
+//  category: "",
 };
 
 type Flag = string | number;
@@ -292,16 +292,13 @@ async function main() {
   );
 
   //Upload to Bunny
-  const limiter = pLimit(4);
+  const limiter = pLimit(4); //TODO bump this up ifthe errors subside haha
   interface UploadedInput extends InputWithWebp {
     originalUrl: string;
     largeUrl: string;
     thumbUrl: string;
   }
   async function uploadToBunny(input: InputWithWebp): Promise<UploadedInput> {
-    //TODO rate limiting (Promise.all just shoves everything down the pipe)
-    //Kinda doubt i'll hit anything important though
-
     async function up(
       targetFilename: string,
       hostFilePath: string,
