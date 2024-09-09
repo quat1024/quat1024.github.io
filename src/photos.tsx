@@ -86,7 +86,7 @@ function Thumbnail(props: { photo: Photo }): t.Showable {
   const p = props.photo;
 
   return <a href={photoUrlPath(p)}>
-    <img class="photogrid-thumbnail" src={p.url_thumb_quality} />
+    <img class="photogrid-thumbnail" src={p.url_thumb_quality} loading="lazy" />
   </a>
 }
 
