@@ -104,10 +104,7 @@ export async function Landing2(props: { inDir: string, postdb: post.Db }): Promi
 }
 
 function buttons(): t.Showable {
-  
-  type Buton = {title: string, href: string, img: string};
-  
-  const hmm: Buton[] = [
+  const hmm: {title: string, href: string, img: string}[] = [
     {title: "Highly Suspect Agency", href: "/", img: "/img/button/hsa.gif" },
     {title: "birzeblog", href: "https://alyaza.neocities.org/", img: "/img/button/alyaza.gif"},
     {title: "Crouton", href: "https://crouton.net", img: "/img/button/crouton.png"},

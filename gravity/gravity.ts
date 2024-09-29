@@ -3,13 +3,11 @@
 import {
   Bodies,
   Body,
-  Bounds,
   Composite,
   Engine,
   Mouse,
   MouseConstraint,
 //  Render,
-  Runner,
 } from "matter-js";
 
 console.log("hello from gravity.ts :)");
@@ -92,6 +90,8 @@ function makeInteractive() {
   function loop() {
     if(!running) return;
     window.requestAnimationFrame(loop);
+    
+    Engine.update(engine);
 
     const bodies = Composite.allBodies(engine.world);
     for (const body of bodies) {
@@ -117,9 +117,6 @@ function makeInteractive() {
     }
   }
   loop();
-
-  const runner = Runner.create();
-  Runner.run(runner, engine);
 
   console.log("got thru it!");
 }
