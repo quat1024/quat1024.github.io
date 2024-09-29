@@ -98,6 +98,7 @@ export async function Landing2(props: { inDir: string, postdb: post.Db }): Promi
       <All2 postdb={props.postdb} />
       <h2>Buttons</h2>
       {buttons()}
+      <p>This one's mine: <img style="vertical-align:bottom;" src="/img/button/hsa.gif" /></p>
     </article>
   </Layout2>
 }
