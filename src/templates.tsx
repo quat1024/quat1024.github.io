@@ -1,12 +1,9 @@
 import * as t from "./tags.ts";
 import * as post from "./post.ts";
-import * as markdown from "./markdown.ts"
-import * as fs from "node:fs";
-import * as path from "node:path";
 import * as util from "./util.ts";
 import { createElement } from "./jsx.ts";
 
-export function Page2(props: { title?: string, head?: t.TagBody[], description?: string }, ...body: t.Tag[]): t.Showable {
+export function Page2(props: { title?: string, head?: t.Showable[], description?: string }, ...body: t.Tag[]): t.Showable {
   if (props == null) props = {};
 
   let fullTitle = "Highly Suspect Agency";
@@ -38,7 +35,7 @@ export function Page2(props: { title?: string, head?: t.TagBody[], description?:
   </html>
 }
 
-export function Layout2(props: { title?: string, head?: t.TagBody[], description?: string } = {}, ...body: t.Tag[]): t.Showable {
+export function Layout2(props: { title?: string, head?: t.Showable[], description?: string } = {}, ...body: t.Tag[]): t.Showable {
   if (props == null) props = {};
 
   return <Page2 {...props}>
@@ -91,12 +88,12 @@ export function Feed2(props: { postdb: post.Db }): t.Showable {
   </rss>
 }
 
-export function Landing2(props: { inDir: string, postdb: post.Db }): t.Showable {
+export async function Landing2(props: { inDir: string, postdb: post.Db }): Promise<t.Showable> {
   if (props == null) throw new Error("null props");
 
   return <Layout2>
     <article>
-      {util.readToMarkdown(props.inDir, "landing.md")}
+      {await util.readToMarkdown(props.inDir, "landing.md")}
       <h2>Blog posts</h2>
       <All2 postdb={props.postdb} />
     </article>
@@ -162,10 +159,10 @@ export function PostPage2(props: { post: post.Post }): t.Showable {
   </Layout2>
 }
 
-export function Discord3(props: {inDir: string}): t.Showable {
+export async function Discord3(props: {inDir: string}): Promise<t.Showable> {
   return <Layout2>
     <article>
-      {util.readToMarkdown(props.inDir, "discord.md")}
+      {await util.readToMarkdown(props.inDir, "discord.md")}
     </article>
   </Layout2>
 }

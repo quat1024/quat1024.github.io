@@ -3,20 +3,20 @@ import * as tags from "./tags.ts"
 declare global {
   namespace JSX {
     interface IntrinsicElements {
-      [elemName: string]: Record<string, any>
+      [elemName: string]: tags.Attrs
     }
     
     type Element = tags.Showable;
   }
 }
 
-type ValueElementFunc = (attrs: tags.Attrs, ...body: tags.TagBody[]) => tags.Showable;
+type ValueElementFunc = (props: tags.Attrs, ...body: tags.Showable[]) => tags.Showable;
 
 //jsx magic function
 export function createElement(
   tag: string | ValueElementFunc,
   props: tags.Attrs,
-  ...children: tags.TagBody[]
+  ...children: tags.Showable[]
 ): tags.Showable {
   if(typeof tag === "function") {
     return tag(props, ...children);

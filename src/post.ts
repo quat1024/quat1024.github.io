@@ -71,8 +71,6 @@ export class Db {
   
   // Post[]
   constructor(posts: Post[]) {
-    console.log("hi");
-    
     //integer ids
     this.postsById = {};
     for(let i = 0; i < posts.length; i++) {

@@ -1,11 +1,12 @@
-import * as fs from "node:fs";
+import * as fsp from "node:fs/promises";
 import * as path from "node:path";
 import * as process from "node:process";
 
 import * as post from "./post.ts";
 import * as templates from "./templates.tsx";
 import * as util from "./util.ts";
-import { Gallery2, PhotoDb, PhotoPage, safePhotoName, ZPhotoDb } from "./photos.tsx";
+import * as photos from "./photos.tsx";
+import { show } from "./tags.ts";
 
 const cwd = process.cwd();
 const inDir = path.join(cwd, "in");
@@ -17,62 +18,74 @@ console.log("out:", outDir);
 console.log();
 
 console.log("Checking in/");
-fs.accessSync(inDir, fs.constants.F_OK);
+await fsp.access(inDir, fsp.constants.F_OK);
 
 console.log("Cleaning out/");
-fs.rmSync(outDir, { force: true, recursive: true });
+await fsp.rm(outDir, { force: true, recursive: true });
 //await fs.mkdir(outDir); //https://github.com/denoland/deno/issues/24900
 
 console.log("Copying in/static/ assets");
 const staticDir = path.join(inDir, "static");
-fs.accessSync(staticDir, fs.constants.F_OK);
-fs.cpSync(staticDir, outDir, { recursive: true }); // dont copy static/ if it doesn't exist
+await fsp.access(staticDir, fsp.constants.F_OK);
+await fsp.cp(staticDir, outDir, { recursive: true }); // dont copy static/ if it doesn't exist
 
 console.log("Reading posts");
 const inPostsDir = path.join(inDir, "posts");
-//TODO wtf is promise doing here
-const posts = await Promise.all(fs.readdirSync(inPostsDir)
-  // 👇 yeah readdir just gives you filenames :/
-  .map(filename => path.join(inPostsDir, filename))
-  .map(path => new post.Post(path)));
+
+const posts = (await fsp.readdir(inPostsDir))
+  .map((filename) => path.join(inPostsDir, filename)) //readdir just gives you filenames
+  .map((path) => new post.Post(path));
 const postdb = new post.Db(posts);
 
-console.log("Reading photos");
-const photoDbJson = JSON.parse(util.readToString(inDir, "photos", "photodb.json"));
-const photodb: PhotoDb = ZPhotoDb.parse(photoDbJson);
+console.log("Reading photodb");
+const photodb = await util.readToZod(
+  photos.ZPhotoDb,
+  inDir,
+  "photos",
+  "photodb.json",
+);
 
-//photos
-console.log("Rendering photos");
-const outPhotosDir = path.join(outDir, "photos");
-fs.mkdirSync(outPhotosDir, { recursive: true });
-fs.writeFileSync(path.join(outPhotosDir, "index.html"), Gallery2({photodb}).show(0))
-for(const photo of photodb.photos) {
-  const dir = path.join(outPhotosDir, safePhotoName(photo));
-  fs.mkdirSync(dir, {recursive: true});
-  fs.writeFileSync(path.join(dir, "index.html"), PhotoPage({photo}).show(0));
+async function write(str: string, ...p: string[]) {
+  //defensive mkdir (hmm)
+  if (p.length > 1) {
+    await fsp.mkdir(path.join(...p.slice(0, -1)), { recursive: true });
+  }
+  await fsp.writeFile(path.join(...p), str);
 }
 
-//discord
-console.log("Rendering discord");
-const discord = templates.Discord3({inDir}).show(0);
-fs.writeFileSync(path.join(outDir, "discord.html"), discord); //old location
-fs.mkdirSync(path.join(outDir, "discord"), { recursive: true });
-fs.writeFileSync(path.join(outDir, "discord", "index.html"), discord); //new location
+console.log("Rendering everything");
+await Promise.all([
+  //landing
+  write(show(await templates.Landing2({ inDir, postdb })), outDir, "index.html"),
 
-//index
-console.log("Rendering index");
-fs.writeFileSync(path.join(outDir, "index.html"), templates.Landing2({inDir, postdb}).show(0));
+  //posts
+  ...(posts.map(async (post) => {
+    await write(show(post.toHtml()), outDir, "posts", post.slug, "index.html");
+  })),
 
-//rss
-console.log("Rendering feed");
-fs.writeFileSync(path.join(outDir, "feed.xml"), templates.Feed2({postdb}).show(0, true)); //rss mode
+  //feed
+  write(show(templates.Feed2({ postdb }), 0, true), outDir, "feed.xml"),
 
-//posts
-console.log("Rendering posts");
-posts.map(post => {
-  const parent = path.join(outDir, "posts", post.slug);
-  fs.mkdirSync(parent, { recursive: true });
-  fs.writeFileSync(path.join(parent, "index.html"), post.toHtml().show(0))
-});
+  //photo gallery
+  write(show(photos.Gallery2({ photodb })), outDir, "photos", "index.html"),
+
+  //photos
+  ...(photodb.photos.map(async (photo) =>
+    await write(
+      show(photos.PhotoPage({ photo })),
+      outDir,
+      "photos",
+      photos.safePhotoName(photo),
+      "index.html",
+    )
+  )),
+
+  //discord (IIFE)
+  async function () {
+    const discord = show(await templates.Discord3({ inDir }));
+    await write(discord, outDir, "discord.html"); //old location
+    await write(discord, outDir, "discord", "index.html"); //new location
+  }(),
+]);
 
 console.log("Done");
