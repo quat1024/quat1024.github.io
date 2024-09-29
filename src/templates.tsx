@@ -125,7 +125,7 @@ function buttons(): t.Showable {
   const huh = [];
   for(const b of hmm) {
     huh.push(
-      <a class="_88x31" href={b.href} title={b.title}><img src={b.img} width="88" height="31" /></a>
+      <a class="_88x31" href={b.href} title={b.title} target="_blank"><img src={b.img} width="88" height="31" /></a>
     );
   }
   
