@@ -103,6 +103,7 @@ function doIt() {
   //mouse
   const mouse = Mouse.create(gravityDiv);
   const mc = MouseConstraint.create(engine, { mouse });
+  mc.constraint.angularStiffness = 0.3;
   Composite.add(engine.world, mc);
 
   //force the mouse to release when dragged outside the arena
