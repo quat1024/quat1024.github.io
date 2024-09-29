@@ -12,7 +12,6 @@ export class Post {
   title: string;
   slug: string;
   author: string;
-  subject: string;
   draft: boolean;
   created_date_str: string;
   created_date; //Date
@@ -40,7 +39,6 @@ export class Post {
     this.title = frontmatter.title;
     this.slug = frontmatter.slug;
     this.author = frontmatter.author;
-    this.subject = frontmatter.subject;
     this.draft = parseBool(frontmatter.draft) ? true : false;
     this.created_date_str = frontmatter.created_date;
     this.created_date = parseDate(frontmatter.created_date);
@@ -68,9 +66,6 @@ export class Db {
   //string -> int
   bySlug: Record<string, number>;
   
-  //subject -> [int]
-  bySubject: Record<string, number[]>;
-  
   //[int]
   chronological: number[];
   
@@ -89,20 +84,8 @@ export class Db {
     this.bySlug = {};
     posts.forEach(post => this.bySlug[post.slug] = post.id);
     
-    //by primary tag
-    this.bySubject = {};
-    posts.forEach(post => {
-        if(!this.bySubject[post.subject])
-          this.bySubject[post.subject] = [];
-        this.bySubject[post.subject].push(post.id);
-    });
-    
     //chronological
     this.chronological = [...posts].sort((a, b) => compareDatesAsc(a.created_date, b.created_date)).map(p => p.id);
-  }
-  
-  subjects() {
-    return Object.keys(this.bySubject);
   }
 }
 

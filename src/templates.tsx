@@ -127,7 +127,6 @@ export function PostInfo2(props: { post: post.Post }): t.Showable {
     <a href={`posts/${post.slug}`}>{post.title}</a>
     {...(post.draft ? ["(DRAFT)"] : [])}
     {...(post.description ? [<br />, post.description] : [])}
-    <br /><i>{post.subject}</i>
     <br />
   </li>
 }
@@ -171,8 +170,6 @@ export function PostPage2(props: { post: post.Post }): t.Showable {
         <div class="byline">
           {...[post.author, ", ", post.created_date_str]}
           {...(post.draft ? [" &mdash; (draft post)"] : [])}
-          {" &mdash; "}
-          <i>{post.subject}</i>
         </div>
       </div>
       {post.rendered}
