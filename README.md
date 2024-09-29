@@ -8,7 +8,7 @@ TODO: find the old 404 page, write a real templating engine so I don't need to h
 
 ## photo gallery
 
-Run `./src/photos_add.ts` (actually `deno task photo`) to add a photo. Pass it the photo to add on the command line.
+Run `deno task photo` to add a photo. Pass it the photo to add on the command line.
 
 Shells out to some programs:
 
@@ -17,4 +17,4 @@ Shells out to some programs:
 
 ## notes
 
-locally serving with [miniserve](https://github.com/svenstaro/miniserve): `miniserve ./out --index index.html`, add `-v` for logspam (actually use `deno task serve` for that)
+locally serving with [miniserve](https://github.com/svenstaro/miniserve): `miniserve ./out --index index.html`, add `-v` for logspam (actually use `deno task serve` for that) (actually just do `make serve`)

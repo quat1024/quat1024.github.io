@@ -28,7 +28,7 @@ jobs:
       - uses: denoland/setup-deno@v1
         with:
           deno-version: "1.45.5"
-      - run: deno task run
+      - run: make -B ./out
       - uses: actions/configure-pages@v3
       - uses: actions/upload-pages-artifact@v2
         with:
