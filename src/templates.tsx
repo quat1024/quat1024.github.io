@@ -1,5 +1,8 @@
 import * as t from "./tags.ts";
 import * as post from "./post.ts";
+import * as markdown from "./markdown.ts"
+import * as fs from "node:fs";
+import * as path from "node:path";
 import { createElement } from "./jsx.ts";
 
 export function Page2(props: { title?: string, head?: t.TagBody[], description?: string }, ...body: t.Tag[]): t.Showable {
@@ -164,23 +167,13 @@ export function PostPage2(props: { post: post.Post }): t.Showable {
   </Layout2>
 }
 
-export function Discord2(): t.Showable {
+export function Discord3(props: {inDir: string}): t.Showable {
+  const discord = fs.readFileSync(path.join(props.inDir, "discord.md"), { encoding: "utf-8"});
+  const parsed = markdown.parse(discord);
+  
   return <Layout2>
     <article>
-      <h1>Hello!</h1>
-      <p>This is a landing page I made so I don't need to update fifteen thousand links when I need to change the invite link. If you'd like to go to my Discord server, <a href="https://discord.gg/WUXsbGH">step right this way</a></p>
-      <h2>Other methods</h2>
-      <p>If you don't want to use Discord:</p>
-      <ul>
-        <li>Open an issue on the mod's issue tracker. It's okay if you don't have "an issue" and just want to ask a question, I don't mind.
-          The issue tracker is usually on GitHub and linked on the mod's CurseForge or Modrinth page. All my mods are open-source on Github so if
-          there's no link, let me know.</li>
-        <li>Email me: <a href="mailto:quat@highlysuspect.agency">quat@highlysuspect.agency</a></li>
-      </ul>
-      <p>Unfortunately I probably cannot provide support for my old Forge 1.12 mods. I've forgotten how they work.</p>
-      <h2>Things you don't need to tell me about</h2>
-      <p>I am well aware that Minecraft 1.21 is out. Please be patient.</p>
+      {parsed}
     </article>
   </Layout2>
 }
-

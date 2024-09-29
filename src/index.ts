@@ -54,7 +54,7 @@ for(const photo of photodb.photos) {
 
 //discord
 console.log("Rendering discord");
-const discord = templates.Discord2().show(0);
+const discord = templates.Discord3({inDir}).show(0);
 fs.writeFileSync(path.join(outDir, "discord.html"), discord); //old location
 fs.mkdirSync(path.join(outDir, "discord"), { recursive: true });
 fs.writeFileSync(path.join(outDir, "discord", "index.html"), discord); //new location
