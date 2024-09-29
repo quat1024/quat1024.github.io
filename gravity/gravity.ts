@@ -58,10 +58,13 @@ function doIt() {
   };
   const netscapeButtons: NetscapeButton[] = [];
   
-  let x = 120;
   let y = -30;
   for (const child of Array.from(gravityDiv.children)) {
     if (child instanceof HTMLAnchorElement) {
+      
+      const x = (Math.random() - 0.5) * 80 + (gravityDiv.clientWidth / 2);
+      y -= 35;
+      
       const matterBody = Bodies.rectangle(x, y, 88, 31);
       matterBody.torque = (Math.random() - 0.5) * 10;
       matterBody.render.QUAT_backingElement = child;
@@ -70,12 +73,6 @@ function doIt() {
         domElement: child,
         matterBody,
       });
-
-      x += 100;
-      if (x >= gravityDiv.clientWidth - 100) {
-        x = 120;
-        y -= 40;
-      }
 
       //need to disable the link while you're click-and-dragging
       child.addEventListener("dragstart", (e) => {
