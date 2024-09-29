@@ -23,7 +23,7 @@ export function Page2(props: { title?: string, head?: t.Showable[], description?
         : []]}
       <meta property="theme-color" content="#950000" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <link rel="stylesheet" type="text/css" href="/stylin.css?cbust=2" />
+      <link rel="stylesheet" type="text/css" href="/stylin.css?cbust=3" />
       <link rel="stylesheet" type="text/css" href="/rotator.css" />
       <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
       <link rel="icon" type="image/x-icon" href="/favicon.ico" />

@@ -156,12 +156,6 @@ article a._88x31 {
 	overflow: hidden;
 }
 
-article a._88x31 img {
-	pointer-events: none;
-	user-select: none;
-	-webkit-user-drag: none;
-}
-
 /* codeblock */
 article > pre {
 	display: block;
