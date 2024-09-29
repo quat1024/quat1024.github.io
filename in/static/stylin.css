@@ -138,6 +138,8 @@ article blockquote::before {
 article ul, article ol { padding-left: 2em; }
 article ul { list-style: "- "; }
 
+article .date { font-style: italic; }
+
 /* codeblock */
 article > pre {
 	display: block;

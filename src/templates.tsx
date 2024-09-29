@@ -110,11 +110,10 @@ export function PostInfo2(props: { post: post.Post }): t.Showable {
   const post: post.Post = props.post;
 
   return <li>
-    <span class="date">{post.created_date_str}</span>
     <a href={`posts/${post.slug}`}>{post.title}</a>
     {...(post.draft ? ["(DRAFT)"] : [])}
-    {...(post.description ? [<br />, post.description] : [])}
-    <br />
+    {...(post.description ? [<p>{post.description}</p>] : [])}
+    <p class="date">{post.created_date_str}</p>
   </li>
 }
 
