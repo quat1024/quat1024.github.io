@@ -18,7 +18,9 @@ const result2 = await esbuild.build({
   })],
   entryPoints: ["gravity.ts"],
   bundle: true,
-  //minify: true,
+  minify: true,
+  treeShaking: true,
+  legalComments: "inline",
   format: "esm",
   outfile: "./out/gravity.mjs"
 });

@@ -59,7 +59,7 @@ function doIt() {
   const netscapeButtons: NetscapeButton[] = [];
   
   let x = 120;
-  let y = 0;
+  let y = -30;
   for (const child of Array.from(gravityDiv.children)) {
     if (child instanceof HTMLAnchorElement) {
       const matterBody = Bodies.rectangle(x, y, 88, 31);
@@ -74,7 +74,7 @@ function doIt() {
       x += 100;
       if (x >= gravityDiv.clientWidth - 100) {
         x = 120;
-        y += 40;
+        y -= 40;
       }
 
       //need to disable the link while you're click-and-dragging
@@ -128,8 +128,8 @@ function doIt() {
       const y = body.position.y - 15.5;
 
       if (
-        x < -90 || x > gravityDiv.clientWidth + 90 ||
-        y > gravityDiv.clientHeight * 3
+        x < -90 || x > gravityDiv.clientWidth + 20 ||
+        y > gravityDiv.clientHeight * 2
       ) {
         Body.setPosition(body, { x: gravityDiv.clientWidth / 2, y: -50 });
         Body.setVelocity(body, { x: 0, y: 0 });
@@ -146,13 +146,6 @@ function doIt() {
   Runner.run(runner, engine);
 
   console.log("got thru it!");
-
-  // debug render
-  // const debugRend = Render.create({
-  //   element: gravityDiv,
-  //   engine,
-  // });
-  // Render.run(debugRend);
 }
 
 document.addEventListener("DOMContentLoaded", doIt);
