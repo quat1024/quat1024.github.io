@@ -91,13 +91,44 @@ export function Feed2(props: { postdb: post.Db }): t.Showable {
 export async function Landing2(props: { inDir: string, postdb: post.Db }): Promise<t.Showable> {
   if (props == null) throw new Error("null props");
 
-  return <Layout2>
+  return <Layout2 head={[<script type="module" src="/js/gravity.mjs"></script>]}>
     <article>
       {await util.readToMarkdown(props.inDir, "landing.md")}
       <h2>Blog posts</h2>
       <All2 postdb={props.postdb} />
+      <h2>Buttons</h2>
+      {buttons()}
     </article>
   </Layout2>
+}
+
+function buttons(): t.Showable {
+  
+  type Buton = {title: string, href: string, img: string};
+  
+  const hmm: Buton[] = [
+    {title: "Highly Suspect Agency", href: "/", img: "/img/button/hsa.gif" },
+    {title: "birzeblog", href: "https://alyaza.neocities.org/", img: "/img/button/alyaza.gif"},
+    {title: "Crouton", href: "https://crouton.net", img: "/img/button/crouton.png"},
+    {title: "niss", href: "https://niss.website", img: "/img/button/niss.png"},
+    {title: "tom", href: "https://cervine.online", img: "/img/button/tom.png"},
+    {title: "beeps", href: "https://beeps.website", img: "/img/button/beeps.gif"},
+    {title: "Renkon", href: "https://renkotsuban.com/", img: "/img/button/renkon.gif"},
+    {title: "Heather Flowers", href: "https://buttondown.com/HTHR", img: "/img/button/hthr.png"},
+    {title: "Dex", href: "https://dexthedragon.co.uk/", img: "/img/button/dex.png"},
+    {title: "88x31", href: "http://cyber.dabamos.de/88x31/", img: "/img/button/88x31.gif"},
+  ];
+  
+  const huh = [];
+  for(const b of hmm) {
+    huh.push(
+      <a class="_88x31" href={b.href} title={b.title}><img src={b.img} width="88" height="31" /></a>
+    );
+  }
+  
+  return <div id="gravity">
+    {...huh}
+  </div>
 }
 
 export function PostInfo2(props: { post: post.Post }): t.Showable {
@@ -159,7 +190,7 @@ export function PostPage2(props: { post: post.Post }): t.Showable {
   </Layout2>
 }
 
-export async function Discord3(props: {inDir: string}): Promise<t.Showable> {
+export async function Discord3(props: { inDir: string }): Promise<t.Showable> {
   return <Layout2>
     <article>
       {await util.readToMarkdown(props.inDir, "discord.md")}

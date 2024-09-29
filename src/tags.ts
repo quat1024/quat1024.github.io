@@ -32,6 +32,7 @@ const noClosing: Record<string, boolean> = {
   link: true,
   hr: true,
   br: true,
+  img: true,
 };
 
 function hasClosing(name: string): boolean {
@@ -61,6 +62,9 @@ export function show(
   } else if (typeof thing === "number") {
     return "" + thing;
   }
+  
+  //TODO this shouldn't happen
+  if(!thing) return "";
   
   const { prelude, name, attrs, contents } = thing;
   let result = "";
@@ -96,7 +100,7 @@ export function show(
     if (contents.every((e) => !(e instanceof Tag))) { //entirely composed of literals
       doIndent = false;
     } else if (
-      name == "a" || name == "p" || attrs.class === "byline"
+      name == "a" || name == "p" || attrs.class === "byline" || attrs.id === "gravity"
     ) { //yeah this is bad !
       doIndent = false;
     } else if (rss) {

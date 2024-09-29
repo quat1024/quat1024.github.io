@@ -1,0 +1,13 @@
+{
+  "imports": {
+    "@types/matter-js": "npm:@types/matter-js@^0.19.7",
+    "esbuild": "npm:esbuild@^0.24.0",
+    "esbuild-deno-loader": "jsr:@luca/esbuild-deno-loader@^0.10.3",
+    "matter-js": "npm:matter-js@^0.20.0"
+  },
+  "compilerOptions": {
+    "lib": [
+      "dom"
+    ]
+  }
+}

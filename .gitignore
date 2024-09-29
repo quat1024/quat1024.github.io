@@ -2,6 +2,7 @@
 /out
 /node_modules
 /work
+**/out
 
 /private
 /private/*

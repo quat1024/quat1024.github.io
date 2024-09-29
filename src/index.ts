@@ -29,6 +29,9 @@ const staticDir = path.join(inDir, "static");
 await fsp.access(staticDir, fsp.constants.F_OK);
 await fsp.cp(staticDir, outDir, { recursive: true }); // dont copy static/ if it doesn't exist
 
+console.log("Copying gravity");
+await fsp.cp(path.join(cwd, "gravity", "out"), path.join(outDir, "js"), {recursive: true});
+
 console.log("Reading posts");
 const inPostsDir = path.join(inDir, "posts");
 
