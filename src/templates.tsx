@@ -112,10 +112,12 @@ function buttons(): t.Showable {
     {title: "Crouton", href: "https://crouton.net", img: "/img/button/crouton.png"},
     {title: "niss", href: "https://niss.website", img: "/img/button/niss.png"},
     {title: "tom", href: "https://cervine.online", img: "/img/button/tom.png"},
+    {title: "clip", href: "https://lizard.tools", img: "/img/button/clip.png"},
     {title: "beeps", href: "https://beeps.website", img: "/img/button/beeps.gif"},
     {title: "Renkon", href: "https://renkotsuban.com/", img: "/img/button/renkon.gif"},
     {title: "Heather Flowers", href: "https://buttondown.com/HTHR", img: "/img/button/hthr.png"},
     {title: "Dex", href: "https://dexthedragon.co.uk/", img: "/img/button/dex.png"},
+    {title: "wyx", href: "https://wyx.gay/", img: "/img/button/wyx.png"},
     {title: "88x31", href: "http://cyber.dabamos.de/88x31/", img: "/img/button/88x31.gif"},
   ];
   
