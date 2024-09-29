@@ -14,9 +14,9 @@ export class Post {
   author: string;
   draft: boolean;
   created_date_str: string;
-  created_date; //Date
+  created_date: Date;
   updated_date_str: string;
-  updated_date; //Date
+  updated_date: Date | undefined;
   description: string;
   
   motive: string | undefined; //horizontal rule icon
