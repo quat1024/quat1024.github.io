@@ -2,8 +2,9 @@ import * as fs from "node:fs";
 import * as path from "node:path";
 import * as process from "node:process";
 
-import * as post from "./post.ts"
-import * as templates from "./templates.tsx"
+import * as post from "./post.ts";
+import * as templates from "./templates.tsx";
+import * as util from "./util.ts";
 import { Gallery2, PhotoDb, PhotoPage, safePhotoName, ZPhotoDb } from "./photos.tsx";
 
 const cwd = process.cwd();
@@ -37,8 +38,7 @@ const posts = await Promise.all(fs.readdirSync(inPostsDir)
 const postdb = new post.Db(posts);
 
 console.log("Reading photos");
-const inPhotosDir = path.join(inDir, "photos");
-const photoDbJson = JSON.parse(fs.readFileSync(path.join(inPhotosDir, "photodb.json"), { encoding: "utf-8" }));
+const photoDbJson = JSON.parse(util.readToString(inDir, "photos", "photodb.json"));
 const photodb: PhotoDb = ZPhotoDb.parse(photoDbJson);
 
 //photos
@@ -61,7 +61,7 @@ fs.writeFileSync(path.join(outDir, "discord", "index.html"), discord); //new loc
 
 //index
 console.log("Rendering index");
-fs.writeFileSync(path.join(outDir, "index.html"), templates.Landing2({postdb}).show(0));
+fs.writeFileSync(path.join(outDir, "index.html"), templates.Landing2({inDir, postdb}).show(0));
 
 //rss
 console.log("Rendering feed");
