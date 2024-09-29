@@ -1,7 +1,6 @@
 slug=playing_portal_2
 title=How to play Portal 2 without losing your mind
 author=quat
-description=My keybinds and setup for playing Portal 2
 created_date=May 06, 2021
 updated_date=May 07, 2021
 tags=games,portal2

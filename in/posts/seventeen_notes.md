@@ -1,7 +1,6 @@
 slug=one_point_seventeen_notes
 title=Updating to Fabric 1.17 notes
 author=quat
-description=Aggregated notes on updating mods to Fabric 1.17
 created_date=Jun 08, 2021
 tags=mc-modding,fabric,1.17
 subject=minecraft

@@ -1,7 +1,6 @@
 slug=mostly_wrong_history_of_modloaders
 title=A brief, incomplete, and mostly wrong history of modloaders
 author=quat
-description=From base-class edits to Launchwrapper and beyond.
 created_date=Aug 13, 2024
 subject=minecraft
 draft=true

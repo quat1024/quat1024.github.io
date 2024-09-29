@@ -1,7 +1,6 @@
 slug=one_point_eightteen_notes
 title=Updating to Fabric 1.18 notes
 author=quat
-description=Aggregated notes on updating mods to Fabric 1.18
 created_date=Nov 30, 2021
 updated_date=Dec 03, 2021
 tags=mc-modding,fabric,1.18

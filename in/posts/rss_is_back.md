@@ -1,7 +1,6 @@
 slug=rss_is_back
 title=RSS feed is back; misc updates
 author=quat
-description=And other things you don't care about
 created_date=Aug 9, 2024
 subject=misc
 motive=motiveblank

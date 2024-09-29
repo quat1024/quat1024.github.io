@@ -1,7 +1,6 @@
 slug=one_point_twentyone_compiling
 title=How to at least *start* updating your mod to 1.21
 author=quat
-description=Always on a plane, always something new
 created_date=Sep 21, 2024
 subject=minecraft
 ---

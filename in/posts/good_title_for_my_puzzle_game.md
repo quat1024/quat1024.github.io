@@ -1,7 +1,6 @@
 slug=good_title_for_my_puzzle_game
 title=Good title for my puzzle game
 author=quat
-description=A little Puzzlescript game!
 created_date=Mar 20, 2021
 tags=games
 subject=games

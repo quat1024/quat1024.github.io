@@ -1,7 +1,7 @@
 slug=we_out_here_reloadin
 title=Overview of Resource Reloading in 1.14.4/Fabric
 author=quat
-description=On the new resource reloading system introduced in 1.14.
+description=On the new resource reloading system introduced in 1.14
 created_date=Jan 19, 2020
 tags=mc-modding,fabric,1.14
 subject=minecraft

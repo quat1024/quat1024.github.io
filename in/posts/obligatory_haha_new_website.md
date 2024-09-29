@@ -1,7 +1,6 @@
 slug=obligatory_haha_new_website
 title=Obligatory Haha New Website Post
 author=quat
-description=What I learned making this new site! (Ummmm its outdated now)
 created_date=Mar 16, 2021
 tags=rust,design
 subject=design

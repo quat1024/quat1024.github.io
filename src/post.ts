@@ -17,7 +17,7 @@ export class Post {
   created_date: Date;
   updated_date_str: string;
   updated_date: Date | undefined;
-  description: string;
+  description: string | undefined;
   
   motive: string | undefined; //horizontal rule icon
   
@@ -44,7 +44,7 @@ export class Post {
     this.created_date = parseDate(frontmatter.created_date);
     this.updated_date_str = frontmatter.updated_date;
     this.updated_date = frontmatter.updated_date ? parseDate(frontmatter.updated_date) : undefined;
-    this.description = frontmatter.description ? frontmatter.description : "";
+    this.description = frontmatter.description;
     this.motive = frontmatter.motive;
     
     //the rest of the owl

@@ -131,7 +131,7 @@ export function Gallery2(props: { photodb: PhotoDb }): t.Showable {
     );
   }
 
-  return <Layout2 title="Photos" blurb="My photos.">
+  return <Layout2 title="Photos" description="My photos.">
     <article>
       <h1>Photos</h1>
       <p>Oh, this is ostensibly a technical blog. Um, I'll post about how this gallery works (and fix the sideways thumbnails) later, but basically the images are taken on my phone, edited in Snapseed, processed locally on my computer with <a href="https://github.com/quat1024/quat1024.github.io/blob/master/src/photos_add.ts">this janky Deno script</a> that shells out to <code>cwebp</code> and <code>exiftool</code>, and uploaded to the <a href="https://bunny.net">Bunny</a> CDN.</p>

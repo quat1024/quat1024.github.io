@@ -2,7 +2,7 @@ import * as t from "./tags.ts";
 import * as post from "./post.ts";
 import { createElement } from "./jsx.ts";
 
-export function Page2(props: { title?: string, head?: t.TagBody[], blurb?: string }, ...body: t.Tag[]): t.Showable {
+export function Page2(props: { title?: string, head?: t.TagBody[], description?: string }, ...body: t.Tag[]): t.Showable {
   if (props == null) props = {};
 
   let fullTitle = "Highly Suspect Agency";
@@ -17,8 +17,8 @@ export function Page2(props: { title?: string, head?: t.TagBody[], blurb?: strin
       <meta property="og:type" content="website" />
       <meta property="og:url" content="https://highlysuspect.agency" />
       <meta property="og:image" content="https://highlysuspect.agency/favicon128.png" />
-      {...[props.blurb ?
-        <meta property="og:description" content={props.blurb} />
+      {...[props.description ?
+        <meta property="og:description" content={props.description} />
         : []]}
       <meta property="theme-color" content="#950000" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -34,7 +34,7 @@ export function Page2(props: { title?: string, head?: t.TagBody[], blurb?: strin
   </html>
 }
 
-export function Layout2(props: { title?: string, head?: t.TagBody[], blurb?: string } = {}, ...body: t.Tag[]): t.Showable {
+export function Layout2(props: { title?: string, head?: t.TagBody[], description?: string } = {}, ...body: t.Tag[]): t.Showable {
   if (props == null) props = {};
 
   return <Page2 {...props}>
@@ -56,19 +56,6 @@ export function Layout2(props: { title?: string, head?: t.TagBody[], blurb?: str
     </header>
     {...body}
   </Page2>
-}
-
-export function Recents2(props: { postdb: post.Db }): t.Showable {
-  const postdb = props.postdb;
-
-  const topThree = postdb.chronological.reverse().slice(0, 3)
-    .map(id => postdb.postsById[id])
-    .map(post => <PostInfo2 post={post} />);
-
-  return <div>
-    <p>Here are the three most recent posts.</p>
-    <ul>{...topThree}</ul>
-  </div>
 }
 
 export function All2(props: { postdb: post.Db }): t.Showable {
@@ -163,7 +150,7 @@ export function PostPage2(props: { post: post.Post }): t.Showable {
     motive = motives[rand % motives.length];
   }
 
-  return <Layout2 title={post.title} blurb={post.description}>
+  return <Layout2 title={post.title} description={post.description}>
     <article>
       <div class="bigheader">
         <h1>{post.title}</h1>

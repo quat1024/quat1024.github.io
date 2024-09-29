@@ -1,7 +1,6 @@
 slug=writing
 title=On writing
 author=quat
-description=From the notes app
 created_date=Jul 24, 2024
 subject=misc
 ---

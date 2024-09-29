@@ -1,7 +1,6 @@
 slug=fabric_datagens
 title=Fabric 1.16 Datagens
 author=quat
-description=Quick notes on setting up datagens in a Fabric 1.16 mod
 created_date=May 16, 2021
 tags=mc-modding,fabric,1.16
 subject=minecraft
