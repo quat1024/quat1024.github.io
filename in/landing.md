@@ -10,4 +10,4 @@ Also try some [Portal 2 tests](https://steamcommunity.com/id/quaternary/myworksh
 
 * To ask a question about Minecraft mods, [join my Discord](/discord) or shoot a [CurseForge message](https://www.curseforge.com/members/quat1024/projects).
 * Email: [quat@highlysuspect.agency](mailto:quat@highlysuspect.agency)
-* Mastodon: [@quat@woof.group](https://woof.group/@quat) 
+* Mastodon: <a rel="me" href="https://woof.group/@quat">@quat@woof.group</a> 
