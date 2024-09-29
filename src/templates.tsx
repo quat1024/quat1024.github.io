@@ -96,9 +96,9 @@ export async function Landing2(props: { inDir: string, postdb: post.Db }): Promi
       {await util.readToMarkdown(props.inDir, "landing.md")}
       <h2>Blog posts</h2>
       <All2 postdb={props.postdb} />
-      <h2>Buttons</h2>
+      <h2>Blogroll</h2>
       {buttons()}
-      <p>This one's mine: <img style="vertical-align:bottom;" src="/img/button/hsa.gif" /></p>
+      <p class="buttonsubtitle">This one's mine: <img style="vertical-align:bottom;" src="/img/button/hsa.gif" /> ~ <input type="checkbox" id="organize"/><label for="organize">Organize</label></p>
     </article>
   </Layout2>
 }

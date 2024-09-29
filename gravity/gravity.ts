@@ -12,55 +12,31 @@ import {
   Runner,
 } from "matter-js";
 
-console.log("hello from gravity.ts");
+console.log("hello from gravity.ts :)");
 
-function doIt() {
+let running: boolean = true;
+
+function makeInteractive() {
+  running = true;
+  
   const gravityDiv = document.getElementById("gravity")!;
-  gravityDiv.style.overflow = "hidden";
-  gravityDiv.style.width = "100%";
-  gravityDiv.style.height = "250px";
-  gravityDiv.style.position = "relative";
+  gravityDiv.classList.add("js");
   
   //engine
   const engine = Engine.create();
-  const ground = Bodies.rectangle(400, 260, 2000, 40, { isStatic: true });
-  
-  function sizeGround() {
-    if(true) return; //TODO can't get this to work right
-    
-    const verts = ground.parts[0].vertices;
-
-    const x0 = -100;
-    const x1 = gravityDiv.clientWidth + 100;
-    const y0 = gravityDiv.clientHeight;
-    const y1 = gravityDiv.clientHeight + 20;
-    console.log(x0, x1, y0, y1);
-
-    Object.assign(verts[0], { x: x0, y: y0 });
-    Object.assign(verts[1], { x: x0, y: y1 });
-    Object.assign(verts[2], { x: x1, y: y1 });
-    Object.assign(verts[3], { x: x1, y: y0 });
-    //clumsily copied out of Body.scale()
-    //i don't use that function b/c it's cumulative
-    Bounds.update(
-      ground.parts[0].bounds,
-      ground.parts[0].vertices,
-      ground.velocity,
-    );
-  }
-  window.addEventListener("resize", sizeGround);
-  sizeGround();
+  const ground = Bodies.rectangle(400, 260, 2000, 40, { isStatic: true });;
   
   //buttons
   type NetscapeButton = {
-    domElement: HTMLAnchorElement;
+    domElement: HTMLElement;
     matterBody: Body;
   };
   const netscapeButtons: NetscapeButton[] = [];
   
   let y = -30;
-  for (const child of Array.from(gravityDiv.children)) {
-    if (child instanceof HTMLAnchorElement) {
+  for (const child of Array.from(gravityDiv.childNodes)) {
+    if (child instanceof HTMLElement) {
+      child.classList.add("js");
       
       const x = (Math.random() - 0.5) * 80 + (gravityDiv.clientWidth / 2);
       y -= 35;
@@ -76,10 +52,12 @@ function doIt() {
 
       //need to disable the link while you're click-and-dragging
       child.addEventListener("dragstart", (e) => {
+        console.log("dragstart!", child);
         child.style.pointerEvents = "none";
         e.preventDefault();
 
         const release = () => {
+          console.log("mouseup!", child);
           child.style.pointerEvents = "auto";
           document.removeEventListener("mouseup", release);
         };
@@ -89,12 +67,10 @@ function doIt() {
       //prevent dragging the image
       for (const child2 of Array.from(child.children)) {
         (child2 as any).draggable = false; //shush
-        child2.addEventListener("drag", (e) => e.preventDefault());
       }
     }
   }
   
-  //populate
   Composite.add(engine.world, [
     ground,
     ...netscapeButtons.map((n) => n.matterBody),
@@ -102,17 +78,19 @@ function doIt() {
 
   //mouse
   const mouse = Mouse.create(gravityDiv);
+  
+  //force the mouse to release when dragged outside the arena
+  gravityDiv.addEventListener("mouseleave", (e) => {
+    mouse.mouseup(e); //event interfaces are similar enough that this type-pun works
+  });
+  
   const mc = MouseConstraint.create(engine, { mouse });
   mc.constraint.angularStiffness = 0.3;
   Composite.add(engine.world, mc);
 
-  //force the mouse to release when dragged outside the arena
-  gravityDiv.addEventListener("mouseleave", (e) => {
-    mouse.mouseup(e); //event interfaces are similar enough that this works
-  });
-
   //renderer
   function loop() {
+    if(!running) return;
     window.requestAnimationFrame(loop);
 
     const bodies = Composite.allBodies(engine.world);
@@ -144,6 +122,50 @@ function doIt() {
   Runner.run(runner, engine);
 
   console.log("got thru it!");
+}
+
+function makeNoninteractive() {
+  running = false;
+  
+  const gravityDiv = document.getElementById("gravity")!;
+  gravityDiv.classList.remove("js");
+  
+  for (const child of Array.from(gravityDiv.childNodes)) {
+    if (child instanceof HTMLElement) {
+      child.classList.remove("js");
+      child.style.transform = "";
+    }
+  }
+  
+  //kill all the event listeners
+  gravityDiv.parentNode!.replaceChild(gravityDiv.cloneNode(true), gravityDiv);
+}
+
+function doIt() {
+  const checkbox = document.getElementById("organize") as HTMLFormElement;
+  
+  const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+  if(media.matches) {
+    makeNoninteractive();
+    checkbox.checked = true;
+  } else {
+    makeInteractive();
+  }
+  
+  checkbox.addEventListener("change", () => {
+    if(checkbox.checked) makeNoninteractive();
+    else makeInteractive();
+  });
+  
+  media.addEventListener("change", () => {
+    if(media.matches) {
+      checkbox.checked = true;
+      makeNoninteractive();
+    } else {
+      checkbox.checked = false;
+      makeInteractive();
+    }
+  });
 }
 
 document.addEventListener("DOMContentLoaded", doIt);

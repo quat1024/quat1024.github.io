@@ -141,19 +141,39 @@ article ul { list-style: "- "; }
 article .date { font-style: italic; }
 
 article #gravity {
+	position: relative;
+	width: 100%;
+	min-height: 250px;
 	border-bottom: 3px solid var(--linecolor);
 }
 
-article a._88x31 {
+article #gravity.js {
+	height: 250px;
+	overflow: hidden;
+}
+
+article ._88x31 {
 	width: 88px;
 	height: 31px;
 	display: inline-block;
 	transform-origin: center center;
+	line-height: 0;
+	overflow: hidden;
+	
+	margin: 5px;
+}
+
+article ._88x31.js {
 	position: absolute;
 	left: 0px;
 	top: 0px;
-	line-height: 0;
-	overflow: hidden;
+	margin: 0;
+}
+
+article .buttonsubtitle {
+	font-size: 80%;
+	text-align: right;
+	font-style: italic;
 }
 
 /* codeblock */
