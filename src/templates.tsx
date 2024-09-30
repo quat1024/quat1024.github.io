@@ -23,7 +23,7 @@ export function Page2(props: { title?: string, head?: t.Showable[], description?
         : []]}
       <meta property="theme-color" content="#950000" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <link rel="stylesheet" type="text/css" href="/stylin.css?cbust=4" />
+      <link rel="stylesheet" type="text/css" href="/stylin.css?cbust=5" />
       <link rel="stylesheet" type="text/css" href="/rotator.css" />
       <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
       <link rel="icon" type="image/x-icon" href="/favicon.ico" />
@@ -104,7 +104,7 @@ export async function Landing2(props: { inDir: string, postdb: post.Db }): Promi
 }
 
 function buttons(): t.Showable {
-  const hmm: {title: string, href: string, img: string}[] = [
+  const imgbuttons: {title: string, href: string, img: string}[] = [
     {title: "Highly Suspect Agency", href: "/", img: "/img/button/hsa.gif" },
     {title: "birzeblog", href: "https://alyaza.neocities.org/", img: "/img/button/alyaza.gif"},
     {title: "Crouton", href: "https://crouton.net", img: "/img/button/crouton.png"},
@@ -119,11 +119,24 @@ function buttons(): t.Showable {
     {title: "88x31", href: "http://cyber.dabamos.de/88x31/", img: "/img/button/88x31.gif"},
   ];
   
+  const textbuttons: {label: string, href: string, color: string}[] = [
+    {label: "jvns", href: "https://jvns.ca/", color: "#ff5e00"},
+    {label: "rachel", href: "https://rachelbythebay.com/w/", color: "#80d0f0"},
+    {label: "aphyr", href: "https://aphyr.com/", color: "#e8e7e3"},
+    {label: "matklad", href: "https://matklad.github.io/", color: "#ba3925"}
+  ];
+  
   const huh = [];
-  for(const b of hmm) {
+  for(const b of imgbuttons) {
     huh.push(
       <a class="_88x31" href={b.href} title={b.title} target="_blank"><img src={b.img} width="88" height="31" /></a>
     );
+  }
+  for(const b of textbuttons) {
+    //const styl = "--textbutton-color: " + b
+    huh.push(
+      <a class="_88x31 textbutton" href={b.href} target="_blank" style={`--textbutton-color: ${b.color};`}>{b.label}</a>
+    ); 
   }
   
   return <div id="gravity">

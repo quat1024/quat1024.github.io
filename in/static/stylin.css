@@ -168,6 +168,18 @@ article ._88x31.js {
 	left: 0px;
 	top: 0px;
 	margin: 0;
+	user-select: none;
+}
+
+article ._88x31.textbutton {
+	background-color: color-mix(in oklab, var(--bgcolor) 50%, var(--textbutton-color) 50%);
+	border: 3px solid var(--textbutton-color);
+	color: color-mix(in oklab, var(--fgcolor) 50%, var(--textbutton-color) 50%);
+	font-weight: bold;
+	font-size: 15px;
+	text-align: center;
+	line-height: 24px;
+	text-decoration: none;
 }
 
 article .buttonsubtitle {
