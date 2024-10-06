@@ -17,7 +17,7 @@ export type Page2Props = {
 export function Page2(props: Page2Props = {}, ...body: t.Tag[]): t.Showable {
   if (props == null) props = {};
 
-  const title = props.title ? `Highly Suspect Agency - ${props.title}` : "Highly Suspect Agency";
+  const title = props.title ? `${props.title} - Highly Suspect Agency` : "Highly Suspect Agency";
 
   const ogTags: t.Showable[] = [
     <meta property="og:title" content={title} />,
