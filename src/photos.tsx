@@ -111,8 +111,13 @@ export function PhotoPage(props: { photo: Photo }): t.Showable {
   let table: t.Showable[];
   if (tableRows.length > 0) table = [<table class="photo-metadata">{...tableRows}</table>];
   else table = [];
+  
+  const og = {
+    image: p.url_thumb_quality,
+    url: `https://highlysuspect.agency${photoUrlPath(p)}/`
+  };
 
-  return <Layout2 title={p.original_filename}>
+  return <Layout2 title={p.original_filename} og={og}>
     <article class="photopage">
       <figure>
         <a href={p.url_original_quality}>
@@ -141,8 +146,12 @@ export function Gallery2(props: { photodb: PhotoDb }): t.Showable {
       </div>
     );
   }
+  
+  const og = {
+    description: "My photos."
+  };
 
-  return <Layout2 title="Photos" description="My photos.">
+  return <Layout2 title="Photos" og={og}>
     <article>
       <h1>Photos</h1>
       <p>Images are taken on my phone, edited in Snapseed, processed locally on my computer with <a href="https://github.com/quat1024/quat1024.github.io/blob/master/src/photos_add.ts">this janky Deno script</a> that shells out to <code>cwebp</code> and <code>exiftool</code>, and uploaded to the <a href="https://bunny.net">Bunny</a> CDN.</p>

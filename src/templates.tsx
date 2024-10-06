@@ -3,31 +3,52 @@ import * as post from "./post.ts";
 import * as util from "./util.ts";
 import { createElement } from "./jsx.ts";
 
-export function Page2(props: { title?: string, head?: t.Showable[], description?: string }, ...body: t.Tag[]): t.Showable {
+export type Page2Props = {
+  title?: string,
+  head?: t.Showable[],
+
+  og?: {
+    description?: string,
+    image?: string,
+    url?: string,
+  },
+}
+
+export function Page2(props: Page2Props = {}, ...body: t.Tag[]): t.Showable {
   if (props == null) props = {};
 
-  let fullTitle = "Highly Suspect Agency";
-  if (props.title) {
-    fullTitle = `${props.title} - ${fullTitle}`;
+  const title = props.title ? `Highly Suspect Agency - ${props.title}` : "Highly Suspect Agency";
+
+  const ogTags: t.Showable[] = [
+    <meta property="og:title" content={title} />,
+    <meta property="og:type" content="website" />,
+    <meta property="theme-color" content="#950000" />,
+  ];
+
+  if (props.og) {
+    ogTags.push(...[
+      <meta property="og:url" content={props.og.url || "https://highlysuspect.agency"} />,
+      <meta property="og:image" content={props.og.image || "https://highlysuspect.agency/favicon128.png"} />
+    ]);
+    if (props.og.description) {
+      ogTags.push(<meta property="og:description" content={props.og.description} />);
+    }
   }
+
+  const head = [
+    ...ogTags,
+    <meta name="viewport" content="width=device-width, initial-scale=1" />,
+    <link rel="stylesheet" type="text/css" href="/stylin.css?cbust=5" />,
+    <link rel="stylesheet" type="text/css" href="/rotator.css" />,
+    <link rel="alternate" type="application/rss+xml" href="/feed.xml" />,
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />,
+    ...(props.head || [])
+  ];
 
   return <html lang="en">
     <head>
-      <title>{fullTitle}</title>
-      <meta property="og:title" content={fullTitle} />
-      <meta property="og:type" content="website" />
-      <meta property="og:url" content="https://highlysuspect.agency" />
-      <meta property="og:image" content="https://highlysuspect.agency/favicon128.png" />
-      {...[props.description ?
-        <meta property="og:description" content={props.description} />
-        : []]}
-      <meta property="theme-color" content="#950000" />
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <link rel="stylesheet" type="text/css" href="/stylin.css?cbust=5" />
-      <link rel="stylesheet" type="text/css" href="/rotator.css" />
-      <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
-      <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-      {...(props.head ? props.head : [])}
+      <title>{title}</title>
+      {...head}
     </head>
     <body>
       {...body}
@@ -35,7 +56,7 @@ export function Page2(props: { title?: string, head?: t.Showable[], description?
   </html>
 }
 
-export function Layout2(props: { title?: string, head?: t.Showable[], description?: string } = {}, ...body: t.Tag[]): t.Showable {
+export function Layout2(props: Page2Props = {}, ...body: t.Tag[]): t.Showable {
   if (props == null) props = {};
 
   return <Page2 {...props}>
@@ -98,47 +119,47 @@ export async function Landing2(props: { inDir: string, postdb: post.Db }): Promi
       <All2 postdb={props.postdb} />
       <h2>Blogroll</h2>
       {buttons()}
-      <p class="buttonsubtitle">This one's mine: <img style="vertical-align:bottom;" src="/img/button/hsa.gif" /> ~ <input type="checkbox" id="organize"/><label for="organize">Organize</label></p>
+      <p class="buttonsubtitle">This one's mine: <img style="vertical-align:bottom;" src="/img/button/hsa.gif" /> ~ <input type="checkbox" id="organize" /><label for="organize">Organize</label></p>
     </article>
   </Layout2>
 }
 
 function buttons(): t.Showable {
-  const imgbuttons: {title: string, href: string, img: string}[] = [
-    {title: "Highly Suspect Agency", href: "/", img: "/img/button/hsa.gif" },
-    {title: "birzeblog", href: "https://alyaza.neocities.org/", img: "/img/button/alyaza.gif"},
-    {title: "Crouton", href: "https://crouton.net", img: "/img/button/crouton.png"},
-    {title: "niss", href: "https://niss.website", img: "/img/button/niss.png"},
-    {title: "tom", href: "https://cervine.online", img: "/img/button/tom.png"},
-    {title: "clip", href: "https://lizard.tools", img: "/img/button/clip.png"},
-    {title: "beeps", href: "https://beeps.website", img: "/img/button/beeps.gif"},
-    {title: "Renkon", href: "https://renkotsuban.com/", img: "/img/button/renkon.gif"},
-    {title: "Heather Flowers", href: "https://buttondown.com/HTHR", img: "/img/button/hthr.png"},
-    {title: "Dex", href: "https://dexthedragon.co.uk/", img: "/img/button/dex.png"},
-    {title: "wyx", href: "https://wyx.gay/", img: "/img/button/wyx.png"},
-    {title: "88x31", href: "http://cyber.dabamos.de/88x31/", img: "/img/button/88x31.gif"},
+  const imgbuttons: { title: string, href: string, img: string }[] = [
+    { title: "Highly Suspect Agency", href: "/", img: "/img/button/hsa.gif" },
+    { title: "birzeblog", href: "https://alyaza.neocities.org/", img: "/img/button/alyaza.gif" },
+    { title: "Crouton", href: "https://crouton.net", img: "/img/button/crouton.png" },
+    { title: "niss", href: "https://niss.website", img: "/img/button/niss.png" },
+    { title: "tom", href: "https://cervine.online", img: "/img/button/tom.png" },
+    { title: "clip", href: "https://lizard.tools", img: "/img/button/clip.png" },
+    { title: "beeps", href: "https://beeps.website", img: "/img/button/beeps.gif" },
+    { title: "Renkon", href: "https://renkotsuban.com/", img: "/img/button/renkon.gif" },
+    { title: "Heather Flowers", href: "https://buttondown.com/HTHR", img: "/img/button/hthr.png" },
+    { title: "Dex", href: "https://dexthedragon.co.uk/", img: "/img/button/dex.png" },
+    { title: "wyx", href: "https://wyx.gay/", img: "/img/button/wyx.png" },
+    { title: "88x31", href: "http://cyber.dabamos.de/88x31/", img: "/img/button/88x31.gif" },
   ];
-  
-  const textbuttons: {label: string, href: string, color: string}[] = [
-    {label: "jvns", href: "https://jvns.ca/", color: "#ff5e00"},
-    {label: "rachel", href: "https://rachelbythebay.com/w/", color: "#80d0f0"},
-    {label: "aphyr", href: "https://aphyr.com/", color: "#e8e7e3"},
-    {label: "matklad", href: "https://matklad.github.io/", color: "#ba3925"}
+
+  const textbuttons: { label: string, href: string, color: string }[] = [
+    { label: "jvns", href: "https://jvns.ca/", color: "#ff5e00" },
+    { label: "rachel", href: "https://rachelbythebay.com/w/", color: "#80d0f0" },
+    { label: "aphyr", href: "https://aphyr.com/", color: "#e8e7e3" },
+    { label: "matklad", href: "https://matklad.github.io/", color: "#ba3925" }
   ];
-  
+
   const huh = [];
-  for(const b of imgbuttons) {
+  for (const b of imgbuttons) {
     huh.push(
       <a class="_88x31" href={b.href} title={b.title} target="_blank"><img src={b.img} width="88" height="31" /></a>
     );
   }
-  for(const b of textbuttons) {
+  for (const b of textbuttons) {
     //const styl = "--textbutton-color: " + b
     huh.push(
       <a class="_88x31 textbutton" href={b.href} target="_blank" style={`--textbutton-color: ${b.color};`}>{b.label}</a>
-    ); 
+    );
   }
-  
+
   return <div id="gravity">
     {...huh}
   </div>
@@ -188,7 +209,12 @@ export function PostPage2(props: { post: post.Post }): t.Showable {
     motive = motives[rand % motives.length];
   }
 
-  return <Layout2 title={post.title} description={post.description}>
+  const og = {
+    description: post.description,
+    url: `https://highlysuspect.agency/posts/${post.slug}/`
+  }
+
+  return <Layout2 title={post.title} og={og}>
     <article>
       <div class="bigheader">
         <h1>{post.title}</h1>
@@ -204,7 +230,11 @@ export function PostPage2(props: { post: post.Post }): t.Showable {
 }
 
 export async function Discord3(props: { inDir: string }): Promise<t.Showable> {
-  return <Layout2>
+  const og = {
+    url: "https://highlysuspect.agency/discord/"
+  }
+
+  return <Layout2 og={og}>
     <article>
       {await util.readToMarkdown(props.inDir, "discord.md")}
     </article>
