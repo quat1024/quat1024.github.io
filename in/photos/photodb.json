@@ -1438,6 +1438,17 @@
 			"category": "anthrohio-oct-24-furwalk"
 		},
 		{
+			"original_filename": "ikesmartcity.png",
+			"url_thumb_quality": "https://files.highlysuspect.agency/photos/ikesmartcity-thumb.webp",
+			"url_large_quality": "https://files.highlysuspect.agency/photos/ikesmartcity-large.webp",
+			"url_original_quality": "https://files.highlysuspect.agency/photos/ikesmartcity.png",
+			"capture_date": "Oct 5, 2024",
+			"camera": "IKE Smart City Photo Booth",
+			"width": 964,
+			"height": 1312,
+			"category": "anthrohio-oct-24-furwalk"
+		},
+		{
 			"original_filename": "1000012611-01.jpeg",
 			"url_thumb_quality": "https://files.highlysuspect.agency/photos/1000012611-01-thumb.webp",
 			"url_large_quality": "https://files.highlysuspect.agency/photos/1000012611-01-large.webp",
@@ -1463,10 +1474,25 @@
 		}
 	],
 	"categoryNames": [
-		["anthrohio-oct-24-furwalk", "AnthrOhio October 2024 Furwalk"],
-		["anthrohio-sept-24-furwalk", "AnthrOhio September 2024 Furwalk"],
-		["anthrohio-24", "AnthrOhio 2024"],
-		["santamonica", "Santa Monica (with mev)"],
-		["food", "Food"]
+		[
+			"anthrohio-oct-24-furwalk",
+			"AnthrOhio October 2024 Furwalk"
+		],
+		[
+			"anthrohio-sept-24-furwalk",
+			"AnthrOhio September 2024 Furwalk"
+		],
+		[
+			"anthrohio-24",
+			"AnthrOhio 2024"
+		],
+		[
+			"santamonica",
+			"Santa Monica (with mev)"
+		],
+		[
+			"food",
+			"Food"
+		]
 	]
 }
