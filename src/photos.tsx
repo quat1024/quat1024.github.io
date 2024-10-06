@@ -112,9 +112,13 @@ export function PhotoPage(props: { photo: Photo }): t.Showable {
   if (tableRows.length > 0) table = [<table class="photo-metadata">{...tableRows}</table>];
   else table = [];
   
+  let ogDescription = `${p.width}x${p.height}`;
+  if(p.capture_date) ogDescription += ` ${writeDate(p.capture_date)}`;
+  
   const og = {
     image: p.url_thumb_quality,
-    url: `https://highlysuspect.agency${photoUrlPath(p)}/`
+    url: `https://highlysuspect.agency${photoUrlPath(p)}/`,
+    description: ogDescription
   };
 
   return <Layout2 title={p.original_filename} og={og}>
