@@ -113,7 +113,7 @@ export function PhotoPage(props: { photo: Photo }): t.Showable {
   else table = [];
   
   let ogDescription = `${p.width}x${p.height}`;
-  if(p.capture_date) ogDescription += ` ${writeDate(p.capture_date)}`;
+  if(p.capture_date) ogDescription += ` | ${writeDate(p.capture_date)}`;
   
   const og = {
     image: p.url_thumb_quality,
