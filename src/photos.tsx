@@ -42,9 +42,15 @@ export function photoUrlPath(photo: Photo): string {
 
 ///
 
+export const ZCategoryName = z.tuple([
+  z.string(), //short name
+  z.string()  //long name
+]);
+export type CategoryName = z.infer<typeof ZCategoryName>;
+
 export const ZPhotoDb = z.object({
   photos: ZPhoto.array(),
-  categoryNames: z.record(z.string(), z.string())
+  categoryNames: ZCategoryName.array()
 });
 export type PhotoDb = z.infer<typeof ZPhotoDb>;
 
@@ -77,7 +83,11 @@ export function organizePhotos(photodb: PhotoDb): Record<string, Photo[]> {
 }
 
 export function prettyCategory(photodb: PhotoDb, cat: string): string {
-  return photodb.categoryNames[cat] || cat;
+  //ugh
+  for(const [shortName, longName] of photodb.categoryNames) {
+    if(cat == shortName) return longName;
+  }
+  return cat;
 }
 
 ///////////
@@ -117,15 +127,16 @@ export function PhotoPage(props: { photo: Photo }): t.Showable {
 
 export function Gallery2(props: { photodb: PhotoDb }): t.Showable {
   //TODO: fix the fragments <> </>.
+  const photodb = props.photodb;
 
-  const organized = organizePhotos(props.photodb);
+  const organized = organizePhotos(photodb);
   const blah = [];
-  for (const category of Object.keys(organized)) {
+  for (const [categoryShort, categoryLong] of photodb.categoryNames) {
     blah.push(
       <div>
-        <h2>{prettyCategory(props.photodb, category)}</h2>
+        <h2>{categoryLong}</h2>
         <div class="photogrid">
-          {organized[category].map(photo => <Thumbnail photo={photo} />)}
+          {organized[categoryShort].map(photo => <Thumbnail photo={photo} />)}
         </div>
       </div>
     );
@@ -134,7 +145,7 @@ export function Gallery2(props: { photodb: PhotoDb }): t.Showable {
   return <Layout2 title="Photos" description="My photos.">
     <article>
       <h1>Photos</h1>
-      <p>Oh, this is ostensibly a technical blog. Um, I'll post about how this gallery works (and fix the sideways thumbnails) later, but basically the images are taken on my phone, edited in Snapseed, processed locally on my computer with <a href="https://github.com/quat1024/quat1024.github.io/blob/master/src/photos_add.ts">this janky Deno script</a> that shells out to <code>cwebp</code> and <code>exiftool</code>, and uploaded to the <a href="https://bunny.net">Bunny</a> CDN.</p>
+      <p>Images are taken on my phone, edited in Snapseed, processed locally on my computer with <a href="https://github.com/quat1024/quat1024.github.io/blob/master/src/photos_add.ts">this janky Deno script</a> that shells out to <code>cwebp</code> and <code>exiftool</code>, and uploaded to the <a href="https://bunny.net">Bunny</a> CDN.</p>
       <div class="gallery">
         {...blah}
       </div>
