@@ -137,6 +137,7 @@ function buttons(): t.Showable {
     { title: "Heather Flowers", href: "https://buttondown.com/HTHR", img: "/img/button/hthr.png" },
     { title: "Dex", href: "https://dexthedragon.co.uk/", img: "/img/button/dex.png" },
     { title: "wyx", href: "https://wyx.gay/", img: "/img/button/wyx.png" },
+    { title: "ebu", href: "https://lucario.dev/", img: "/img/button/ebu.gif" },
     { title: "88x31", href: "http://cyber.dabamos.de/88x31/", img: "/img/button/88x31.gif" },
   ];
 
