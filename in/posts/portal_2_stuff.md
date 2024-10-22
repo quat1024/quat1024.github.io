@@ -150,6 +150,6 @@ Still, the [top-rated maps of all time](https://steamcommunity.com/workshop/brow
 * [This is Teamwork](https://steamcommunity.com/workshop/filedetails/?id=292069590) by DrFauli. Two players.
 * [Gelocity](https://steamcommunity.com/workshop/filedetails/?id=368330611) by Radix. (This is *definitely* not a puzzle but even the most hardened puzzle nerds will admit it's fun.)
 
-Oh my god there's so many more puzzles I can list, but I don't want this list to be *too* overwhelming. I stuck mostly to collections for this post but there are lots of amazing puzzles that *aren't* part of a series or collection
+Oh my god there's so many more puzzles I can list, but I don't want this list to be *too* overwhelming. I stuck mostly to collections for this post but there are lots of amazing puzzles that *aren't* part of a series or collection too.
 
 Now go forth!
