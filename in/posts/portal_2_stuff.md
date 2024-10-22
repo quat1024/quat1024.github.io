@@ -109,9 +109,9 @@ A full list of commands is available [here](https://github.com/p2sr/SourceAutoRe
 
 The Puzzlemaker has some limitations that the mod cannot overcome. You can only have 32 items in your palette at any given moment, and it's not possible for BEE to add new *types* of checkboxes to the editor. But they can take the "Auto-drop first cube" checkbox from cube droppers, graft it onto another item, and make it do something else. It's weird but you get used to it, and all of the weird functions are documented in the BEEMOD application.
 
-For example, the light strip now has a "Cube Type" dropdown. The first three cube types change the color temperature of the emitted light,  and the fifth makes the light invisible (so you can route antlines.) You can also use the invisible logic gate items to route antlines. Antlines have a mind of their own sometimes; there's an art to it.
+For example, the light strip now has a "Cube Type" dropdown. The first three cube types change the color temperature of the emitted light,  and the fifth makes the light invisible (so you can route antlines.) You can also use the invisible logic gate items to create custom antlines. (Puzzlemaker antlines have a mind of their own sometimes; there's an art to it.)
 
-sadly I'm not a huge fan of the custom map themes. The "Original Clean" style is my favorite.
+Sadly I'm not a huge fan of the custom map themes. The "Original Clean" style is my favorite.
 
 # Bunnyhopping
 
