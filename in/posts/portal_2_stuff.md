@@ -35,7 +35,7 @@ I'll preface this by saying *everybody* cheats. Basically everyone has a keyboar
 It's handy to prefix cheat commands with "`sv_cheats 1;`" so you don't need to manually enable cheats before they work. When playing in co-op, only Atlas can enable `sv_cheats`, but after that both players can use cheats.
 
 * `noclip` - Toggle noclip. You can still die from laserfields, pits, etc.
-  * If you are out-of-bounds noclip is off, the screen will turn white. Set `r_portal_use_pvs_optimization 0` to fix.
+  * If you are out-of-bounds and noclip is turned off, the screen may turn white. Set `r_portal_use_pvs_optimization 0` to fix.
 * `ent_create_portal_companion_cube` - Spawn a cube in the wall at your crosshair position.
 	* There are also commands like `ent_create_portal_reflector_cube` for laser cubes, `ent_create_portal_weighted_sphere` for spheres...
 * `host_timescale 3` - Change the speed of the game. Numbers greater than 1 speed it up and numbers less than 1 slow it down.
@@ -49,14 +49,14 @@ It's handy to prefix cheat commands with "`sv_cheats 1;`" so you don't need to m
 * `buddha` - Toggle "buddha mode", where you can still take damage but can't die.
 * `notarget` - Toggle notarget mode. Turrets can't see you.
 
-I have `noclip` on `U`, `host_timescale` on  `I`/`O`/`P` for fast/normal/slow, `ent_create_portal_companion_cube` on `K`, and `ent_fire !picker use` on `C` where it's easy to reach.
+I have `noclip` on `U`, `host_timescale` on `I`/`O`/`P` for fast/normal/slow, `ent_create_portal_companion_cube` on `K`, and `ent_fire !picker use` on `C` where it's easy to reach.
 
 ### Other commands to know
 
-These aren't cheats.
+Mosst of these ones aren't cheats.
 
 * `incrementvar crosshair 0 1 1;incrementvar r_drawviewmodel 0 1 1` - Toggle the crosshair and portal gun.
-	* In some mods `r_drawviewmodel` doesn't remove all of the portal gun. Replace it with `viewmodel_offset_x 0 2000 2000` to move it way off screen instead.
+	* In some mods `r_drawviewmodel` doesn't remove all of the portal gun. Replace it with `incrementvar viewmodel_offset_x 0 2000 2000` to move it way off screen instead.
 	* Make sure to enable the HUD again before you exit a map, because `r_drawviewmodel` doesn't carry over between maps but `crosshair` does.
 * `;+remote_view` (with a semicolon at the start) - "Sticky" partner view for co-op. Pressing this key opens the viewport of your co-op partner, but you don't need to hold it down to keep it open. It is safe to replace your usual partner view bind with this if you want; you can create a separate "disable remote view" bind with `;-remote_view` as well.
 	* The remote view size can be customized with `ss_pipscale`.
@@ -75,7 +75,7 @@ These aren't cheats.
 * `setpos` and `setang` - Set your position and angle exactly. Useful for lining up screenshots.
 * `ent_fire !picker <way too many things to list here>` - There's tab-completion on this for the available options. Fires an input to the thing under your crosshair, causing "something" to happen to it. You can change the color, parent it to something, delete it, make it catch on fire...
 * `+mouse_menu_playtest` - Unused co-op ping menu with thumbs-up, thumbs-down, ?, and ?!\* reactions. Broken in singleplayer, you will softlock.
-* `restart_level` *(does not appear in autocomplete for some reason)* - Restarts the current map. The regular `restart` command is buggy when  used on community maps.
+* `restart_level` *(does not appear in autocomplete for some reason)* - Restarts the current map. The regular `restart` command is buggy when used on community maps.
 
 # Mods
 
@@ -83,7 +83,7 @@ These aren't cheats.
 
 SAR is a plugin that Portal 2 speedrunners use. It stands for "Source Auto Record" which is the *first* thing it did, but it's grown lots of features since then. You can read more about it and find installation instructions on [its website](https://wiki.portal2.sr/SAR).
 
-Most of it is nerdy speedrunner stuff, but it does come with some very significant load-time optimizations. In particular, it makes quicksaves fun and useful again: loading a quicksave created on the same map usually takes less than a second.
+Most of it is nerdy speedrunner stuff, but it does come with some very significant load-time optimizations. In particular, it makes quicksaves more fun: loading a quicksave created on the same map usually takes less than a second.
 
 After installing, put this in your `autoexec.cfg`:
 
