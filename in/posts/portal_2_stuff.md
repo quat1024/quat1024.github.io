@@ -2,7 +2,7 @@ slug=playing_portal_2
 title=How to play Portal 2 without losing your mind
 author=quat
 created_date=May 06, 2021
-updated_date=May 07, 2021
+updated_date=Oct 22, 2024
 tags=games,portal2
 subject=games
 ---
