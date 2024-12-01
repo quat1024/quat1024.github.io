@@ -20,7 +20,7 @@ export function Page2(props: Page2Props = {}, ...body: t.Tag[]): t.Showable {
   const title = props.title ? `${props.title} - Highly Suspect Agency` : "Highly Suspect Agency";
 
   const ogTags: t.Showable[] = [
-    <meta property="og:title" content={title.replaceAll('"', '&quot;')} />, //TODO HACK FIX LMAOOOOOO
+    <meta property="og:title" content={title} />,
     <meta property="og:type" content="website" />,
     <meta property="theme-color" content="#950000" />,
   ];

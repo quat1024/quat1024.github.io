@@ -87,7 +87,7 @@ export function show(
     }
 
     //value
-    result += `="${v.replace(/"/, '"')}"`;
+    result += `="${v.replaceAll("\"", "&quot;")}"`;
   }
   result += `>`;
 
