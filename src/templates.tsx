@@ -38,7 +38,7 @@ export function Page2(props: Page2Props = {}, ...body: t.Tag[]): t.Showable {
   const head = [
     ...ogTags,
     <meta name="viewport" content="width=device-width, initial-scale=1" />,
-    <link rel="stylesheet" type="text/css" href="/stylin.css?cbust=5" />,
+    <link rel="stylesheet" type="text/css" href="/stylin.css?cbust=6" />,
     <link rel="stylesheet" type="text/css" href="/rotator.css" />,
     <link rel="alternate" type="application/rss+xml" href="/feed.xml" />,
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />,
