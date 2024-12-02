@@ -140,6 +140,10 @@ article ul { list-style: "- "; }
 
 article .date { font-style: italic; }
 
+article img {
+	max-width: 100%;
+}
+
 article #gravity {
 	position: relative;
 	width: 100%;
