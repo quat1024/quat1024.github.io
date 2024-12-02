@@ -1,7 +1,7 @@
 slug=december_adventure_0
 title=I don't really know what "December Adventure" is?
 author=quat
-created_date=Dec 01, 2024
+created_date=Nov 30, 2024
 ---
 A couple people in my circles have been posting about something called "December Adventure". ~~I can't find who started this or what it's about, but from some googling, the commonalities look like:~~
 

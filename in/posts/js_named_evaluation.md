@@ -2,7 +2,7 @@ slug=js_named_evaluation
 title=Why can you define Javascript classes with dynamic names?
 description=Examining a short Javascript snippet.
 author=quat
-created_date=Nov 30, 2024
+created_date=Nov 29, 2024
 ---
 
 In Javascript, you can define a class with a name chosen at runtime using this bizarre incantation:
