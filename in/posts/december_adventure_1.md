@@ -56,3 +56,15 @@ And it's fun.
 ## Will future December Adventure posts be this long
 
 No
+
+# Day 2
+
+Not gonna make a whole new post for this but I changed the way posts look. More Mastodon-like layout, and uses CSS Grid to lay out the components instead of nested flexboxen so it's easy to change.
+
+Identified some areas of future work:
+
+* There's no "page stack" in the router. When you click onto a different SPA page it deletes the entire timeline, then navigating back requires reloading the timeline from scratch. Hmm.
+  * I don't have any other pages implemented but I added a 404 link to user profiles
+* The bluesky feed API returns replies to people you don't follow. These should be filtered out of the feed.
+* I want a "pagination" interface instead of just rendering however many posts the feed API throws at me. Which of course means I need "previous" and "next" buttons, and on the timeline widget I need somewhere to store posts I've received from the API but haven't rendered yet + fire off more HTTP requests when the bucket empties.
+* A lot of this stuff will be shared between general feed / user profile / specialty feed pages btw.
