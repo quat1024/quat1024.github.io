@@ -23,6 +23,7 @@ export function Page2(props: Page2Props = {}, ...body: t.Tag[]): t.Showable {
     <meta property="og:title" content={title} />,
     <meta property="og:type" content="website" />,
     <meta property="theme-color" content="#950000" />,
+    <meta name="fediverse:creator" content="@quat@woof.group" />
   ];
 
   if (props.og) {
