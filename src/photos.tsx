@@ -24,7 +24,7 @@ export const ZPhoto = z.object({
 export interface Photo extends z.infer<typeof ZPhoto> { }
 
 export function writePhoto(photo: Photo): object {
-  if (photo.capture_date) {
+  if (photo.capture_date && typeof photo.capture_date != "string") {
     return {
       ...photo,
       capture_date: writeDate(photo.capture_date),
