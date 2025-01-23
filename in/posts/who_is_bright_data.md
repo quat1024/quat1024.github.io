@@ -122,11 +122,11 @@ I would say something like "only download mods from trusted people and trusted s
 
 ## Mitigation?
 
-Look for a file in `~/.brightsdk/data/brd.uuid`. Windows users: that `~` means "home directory", so `C:/Users/yourname/.brightsdk/data/brd.uuid`. If it exists, you probably ran this jar.
+Look for a file in `~/.brightsdk/data/brd.uuid`. Windows users:`~` means "home directory", so `C:/Users/yourname/.brightsdk/data/brd.uuid`.
 
-But again, I don't think any data was actually sent, so there's no pressing concern.
+If that file exists, you probably ran Protection Pixel `1.1.2` or `1.1.3`. But again, the data collection code is broken and I don't think data was sent, so there is no pressing concern and you don't need to scrub your computers.
 
-If you want to play with the affected versions of Create: Protection Pixel anyway, you can install [ctrlaltmilk's Hands Off My Data](https://modrinth.com/mod/hands-off-my-data), which just uses Mixin to neutralize the `com.brightsdk` classes :)
+If you still want to play with the affected versions of Create: Protection Pixel, you can install [ctrlaltmilk's Hands Off My Data](https://modrinth.com/mod/hands-off-my-data), which just uses Mixin to neutralize the `com.brightsdk` classes :)
 
 ## Analysis
 
@@ -215,8 +215,8 @@ public class SdkProcedure {
 * Creates the `Amplitude` instance, same as before,
 * Calls `Device.getOrCreateUUID`, same as before,
 * Calls `UUID#hashCode` and prints the result: `userIdHash: _____`
-* Divides the result by `100 / rolloutPercentage`, and if it doesn't equal 0, doesn't initialize tracking.
-  * Because `rolloutPercentage` is `1`, only a 1% chance to enable tracking.
+* Divides the result by `100 / rolloutPercentage`, and enable tracking only if the remainder is 0.
+  * Because `rolloutPercentage` was set to `1`, only a 1% chance to enable tracking.
 
 This code actually does call `start`, so data collection is attempted. However, the `sdk.finalize()` function *immediately cancels data collection* and is always called next. So this function starts data collection and immediately stops it before it sends data. Interesting.
 
