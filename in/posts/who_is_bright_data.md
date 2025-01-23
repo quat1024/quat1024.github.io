@@ -116,9 +116,13 @@ I would say something like "only download mods from trusted people and trusted s
 
 <details><summary>Soapbox</summary>
 
-(I personally believe the author of this mod was just some kid having fun with MCreator who got roped into a get-rich-quick scheme. I hope JEDIGD continues modding and sharing their work with us, but learns that this kind of code is *not* okay to add to Minecraft mods, and Bright SDK's promise of "unlocking a potential revenue stream" is a scam that's too good to be true.)
+(I personally believe the author of this mod was just some kid having fun with MCreator who got roped into a get-rich-quick scheme. I hope JEDI GD continues modding and sharing their work with us, but learns that this kind of code is *not* okay to add to Minecraft mods, and Bright SDK's promise of "unlocking a potential revenue stream" is a scam that's too good to be true.)
+
+(Do *not* yell at this guy.)
 
 </details>
+
+Finally, I also want to emphasize **there is no indication Create: Protection Pixel is the *only* mod shipping code from Bright.** It's clear people from Bright SDK has been contacting plenty of owners of popular mods, hoping for just one or two bites. Don't let these fuckers into our community.
 
 ## Mitigation?
 
@@ -236,4 +240,4 @@ This post contains information from:
 * Jared, for posting the DMs he received from Bright SDK, and other people for corrobating that Bright has been contacting people
 * /u/tetrazine14 for the feedthememes post 💀
 
-If you have any additional information about Bright SDK, or if you are a modder who has been contacted by them, you can email me at `quat@highlysuspect.agency`.
+If you have any additional information about Bright SDK, or if you are a modder who has been contacted by them or any similar company, you can email me at `quat@highlysuspect.agency`.
