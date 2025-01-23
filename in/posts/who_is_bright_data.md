@@ -41,7 +41,7 @@ No version of the mod appeared to contain *functioning* data collection code.
 
 ## Who is Bright SDK?
 
-**I need to be clear that the "Bright SDK" product is not in the Minecraft mod.** The code is under `com.brightsdk`, there is a company called Bright SDK who sells a product called "Bright SDK", but I do not believe the code in the mod is not the "Bright SDK" product itself.
+**I need to be clear that the "Bright SDK" product is not in the Minecraft mod.** The code is under `com.brightsdk`, there is a company called Bright SDK who sells a product called "Bright SDK", but I do not believe the code in the mod is the "Bright SDK" product itself.
 
 With that out of the way, who is Bright and what is Bright SDK? If you head to `bright-sdk.com`, they describe themselves as such:
 
