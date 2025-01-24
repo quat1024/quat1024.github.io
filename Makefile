@@ -1,4 +1,4 @@
-.PHONY: clean serve
+.PHONY: clean serve open
 
 # aliases
 run: ./out
@@ -20,3 +20,6 @@ clean:
 
 serve:
 	miniserve ./out --index index.html -v
+
+open:
+	start "http://[::1]:8080"
