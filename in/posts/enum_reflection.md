@@ -5,6 +5,7 @@ description=Extending Java enums at runtime. What could go wrong?
 created_date=Apr 23, 2024
 tags=java
 subject=java
+good=yes
 ---
 It should go without saying that this is a bad idea.
 

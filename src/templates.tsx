@@ -39,7 +39,7 @@ export function Page2(props: Page2Props = {}, ...body: t.Tag[]): t.Showable {
   const head = [
     ...ogTags,
     <meta name="viewport" content="width=device-width, initial-scale=1" />,
-    <link rel="stylesheet" type="text/css" href="/stylin.css?cbust=6" />,
+    <link rel="stylesheet" type="text/css" href="/stylin.css?cbust=7" />,
     <link rel="stylesheet" type="text/css" href="/rotator.css" />,
     <link rel="alternate" type="application/rss+xml" href="/feed.xml" />,
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />,
@@ -170,9 +170,10 @@ function buttons(): t.Showable {
 export function PostInfo2(props: { post: post.Post }): t.Showable {
   if (props == null) throw new Error("null props");
   const post: post.Post = props.post;
+  const clazz : string = post.good ? "good" : "";
 
   return <li>
-    <a href={`posts/${post.slug}`}>{post.title}</a>
+    <a class={clazz} href={`posts/${post.slug}`}>{post.title}</a>
     {...(post.draft ? ["(DRAFT)"] : [])}
     {...(post.description ? [<p>{post.description}</p>] : [])}
     <p class="date">{post.created_date_str}</p>

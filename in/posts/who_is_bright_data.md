@@ -2,6 +2,7 @@ slug=who_is_bright_data
 title=Who is Bright Data? Into the "Create: Protection Pixel" junkware
 author=quat
 created_date=Jan 23, 2025
+good=yes
 ---
 I became aware of the mod ["Create: Protection Pixel"](https://www.curseforge.com/minecraft/mc-mods/protection-pixel) uploaded by [JEDIGD](https://www.curseforge.com/members/jedigd/projects) today through [a /r/feedthememes post](https://old.reddit.com/r/feedthememes/comments/1i7kbsj/), although the mod has been exposed [10 days before](https://old.reddit.com/r/feedthebeast/comments/1i0gyn7/) on /r/feedthebeast. Version `1.1.3` of the mod is notable for displaying a very strange GUI when you first logged into a world.
 

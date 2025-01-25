@@ -273,6 +273,9 @@ hr.cool:after { background-image: url("/img/motive/tiny_dragncool.png"); }
 hr.think:after { background-image: url("/img/motive/tiny_dragnthink.png"); }
 hr.motiveblank:after { background-image: url("/img/motive/blank.png"); }
 
+a.good { font-weight: bold; }
+li:has(a.good) { list-style-type: "⭐";}
+
 /* photo grid */
 
 .photogrid {

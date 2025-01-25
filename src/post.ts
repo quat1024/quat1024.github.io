@@ -20,6 +20,7 @@ export class Post {
   description: string | undefined;
   
   motive: string | undefined; //horizontal rule icon
+  good: boolean;
   
   id!: number; //<- int, filled in when creating a PostDb... ugly
   
@@ -46,6 +47,7 @@ export class Post {
     this.updated_date = frontmatter.updated_date ? parseDate(frontmatter.updated_date) : undefined;
     this.description = frontmatter.description;
     this.motive = frontmatter.motive;
+    this.good = frontmatter.good == "true" || frontmatter.good == "yes";
     
     //the rest of the owl
     this.markdownSource = fileContents.slice(idx + 3).trim();
