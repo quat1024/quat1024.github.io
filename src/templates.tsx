@@ -39,7 +39,7 @@ export function Page2(props: Page2Props = {}, ...body: t.Tag[]): t.Showable {
   const head = [
     ...ogTags,
     <meta name="viewport" content="width=device-width, initial-scale=1" />,
-    <link rel="stylesheet" type="text/css" href="/stylin.css?cbust=7" />,
+    <link rel="stylesheet" type="text/css" href="/stylin.css?cbust=8" />,
     <link rel="stylesheet" type="text/css" href="/rotator.css" />,
     <link rel="alternate" type="application/rss+xml" href="/feed.xml" />,
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />,
@@ -69,13 +69,16 @@ export function Layout2(props: Page2Props = {}, ...body: t.Tag[]): t.Showable {
         <div class="cover s4"></div>
         <div class="iris"></div>
       </a>
+      <div class="vert">
       <h1>
         <a href="/">Highly Suspect Agency</a>
       </h1>
       <nav>
+        <a href="https://notes.highlysuspect.agency/">Garden</a>
         <a href="/photos/">Photos</a>
         <a href="/feed.xml">RSS</a>
       </nav>
+      </div>
     </header>
     {...body}
   </Page2>

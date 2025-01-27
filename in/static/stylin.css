@@ -236,8 +236,12 @@ header h1, header h1 a {
 	overflow-wrap: normal !important;
 }
 
+header .vert {
+	display: flex;
+	flex-direction: column;
+}
+
 header nav {
-	margin-left: auto;
 	display: flex;
 	gap: 0.5ch;
 }
@@ -353,7 +357,7 @@ article.photopage table td {
 	}
 	
 	header h1, header h1 a {
-		font-size: min(8vw, 1.4em);
+		font-size: min(8vw, 1.3em);
 		display: block;
 		max-width: 1px;
 	}
