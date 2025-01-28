@@ -1,9 +1,13 @@
 slug=who_is_bright_data
 title=Who is Bright Data? Into the "Create: Protection Pixel" junkware
+description=(UPDATED Jan 28)
 author=quat
 created_date=Jan 23, 2025
 good=yes
 ---
+
+*See update at the bottom of this post*
+
 I became aware of the mod ["Create: Protection Pixel"](https://www.curseforge.com/minecraft/mc-mods/protection-pixel) uploaded by [JEDIGD](https://www.curseforge.com/members/jedigd/projects) today through [a /r/feedthememes post](https://old.reddit.com/r/feedthememes/comments/1i7kbsj/), although the mod has been exposed [10 days before](https://old.reddit.com/r/feedthebeast/comments/1i0gyn7/) on /r/feedthebeast. Version `1.1.3` of the mod is notable for displaying a very strange GUI when you first logged into a world.
 
 ![GUI saying "Can I use BrightSDK to occupy a very small amount of resources on your device to obtain public data like OS? (NO PERSONAL INFORMATION)](/img/bright_data/screen.webp)
@@ -109,7 +113,7 @@ and other people corrobate that Bright has been trying to push into the Minecraf
 
 ## Conclusions
 
-**Minecraft mods are, and always have been, arbitrary code.** Minecraft mods can do literally anything to your PC. There is no sandboxing and there never will be. Malware developers knew this, and now adware companies are catching on.
+**Minecraft mods are, and always have been, arbitrary code.** Minecraft mods can do literally anything to your PC. There is no sandboxing and there never will be (update: [maybe there will be](https://github.com/FabricMC/fabric-sandbox)). Malware developers knew this, and now adware companies are catching on.
 
 I would say something like "only download mods from trusted people and trusted sources", but this mod had half a million downloads and had every indication of being reliable. (If anything, it's more like when Chrome extension developers sell their browser extension to an adware company.)
 
@@ -242,3 +246,13 @@ This post contains information from:
 * /u/tetrazine14 for the feedthememes post 💀
 
 If you have any additional information about Bright SDK, or if you are a modder who has been contacted by them or any similar company, you can email me at `quat@highlysuspect.agency`.
+
+# Update (Jan 28, 2025)
+
+I was contacted by astei (who wrote LazyDFU and Krypton) confirming people from Bright contacted him over LinkedIn.
+
+![Message from Aldo Di Castro: Hi Andrew - I noticed you're a Mods developer, and I came across your work on Modrinth "astei". I wanted to reach out and introduce you to a new way to generate more income from your mod creations. Let's chat!](/img/bright_data/astei_message.jpg)
+
+[imb11](https://imb11.dev/) also tells me they were contacted. Both modders disregarded their messages.
+
+imb11 also showed me [FabricMC/fabric-sandbox](https://github.com/FabricMC/fabric-sandbox) which is *an experimental sandbox for the Fabric mod loader*. Very cool stuff!!
