@@ -10,5 +10,5 @@ I also build [Portal 2 tests](https://steamcommunity.com/id/quaternary/myworksho
 
 * To ask a question about Minecraft mods, [join my Discord](/discord) or shoot a [CurseForge message](https://www.curseforge.com/members/quat1024/projects).
 * Email: [quat@highlysuspect.agency](mailto:quat@highlysuspect.agency)
-* (nsfw) Mastodon: <a rel="me" href="https://woof.group/@quat">@quat@woof.group</a>
+* Mastodon: <a rel="me" href="https://types.pl/@quat">@quat@types.pl</a>
 * (nsfw) Bluesky: <a rel="me" href="https://bsky.app/profile/highlysuspect.agency">@highlysuspect.agency</a>
