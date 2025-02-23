@@ -158,7 +158,6 @@ export function Gallery2(props: { photodb: PhotoDb }): t.Showable {
   return <Layout2 title="Photos" og={og}>
     <article>
       <h1>Photos</h1>
-      <p>Images are taken on my phone, edited in Snapseed, processed locally on my computer with <a href="https://github.com/quat1024/quat1024.github.io/blob/master/src/photos_add.ts">this janky Deno script</a> that shells out to <code>cwebp</code> and <code>exiftool</code>, and uploaded to the <a href="https://bunny.net">Bunny</a> CDN.</p>
       <div class="gallery">
         {...blah}
       </div>

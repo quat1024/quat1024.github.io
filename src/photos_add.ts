@@ -9,10 +9,7 @@ import pLimit from "p-limit";
 
 //EDIT THIS when bulk uploading!!!
 const FORCED_PHOTO_PROPS: object = {
-  category: "anthrohio-holiday-awoo-24",
-  "capture_date": "Dec 14, 2024",
-  "camera": "Google Pixel 9 Pro",
-  "software": "darktable",
+  category: "wintry"
 };
 
 type Flag = string | number;
