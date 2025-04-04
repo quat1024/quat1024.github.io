@@ -2113,7 +2113,7 @@
 			"url_thumb_quality": "https://files.highlysuspect.agency/photos/pxl_20250301_233803211.raw-02.original-thumb.webp",
 			"url_large_quality": "https://files.highlysuspect.agency/photos/pxl_20250301_233803211.raw-02.original-large.webp",
 			"url_original_quality": "https://files.highlysuspect.agency/photos/pxl_20250301_233803211.raw-02.original.jpg",
-			"capture_date": "Mar 01, 2025",
+			"capture_date": "Mar 1, 2025",
 			"camera": "Pixel 9 Pro",
 			"software": "darktable 5.0.0",
 			"width": 3056,
@@ -2125,15 +2125,115 @@
 			"url_thumb_quality": "https://files.highlysuspect.agency/photos/pxl_20250302_002824990.raw-02.original-thumb.webp",
 			"url_large_quality": "https://files.highlysuspect.agency/photos/pxl_20250302_002824990.raw-02.original-large.webp",
 			"url_original_quality": "https://files.highlysuspect.agency/photos/pxl_20250302_002824990.raw-02.original.jpg",
-			"capture_date": "Mar 01, 2025",
+			"capture_date": "Mar 1, 2025",
 			"camera": "Pixel 9 Pro",
 			"software": "darktable 5.0.0",
 			"width": 1374,
 			"height": 1032,
 			"category": "anthrohio-mar-25-furwalk"
+		},
+		{
+			"original_filename": "img_opencamera_20250311_161744.jpg",
+			"url_thumb_quality": "https://files.highlysuspect.agency/photos/img_opencamera_20250311_161744-thumb.webp",
+			"url_large_quality": "https://files.highlysuspect.agency/photos/img_opencamera_20250311_161744-large.webp",
+			"url_original_quality": "https://files.highlysuspect.agency/photos/img_opencamera_20250311_161744.jpg",
+			"capture_date": "Mar 11, 2025",
+			"camera": "Pixel 9 Pro",
+			"software": "darktable 5.0.0",
+			"width": 2526,
+			"height": 1534,
+			"category": "category-lamenting"
+		},
+		{
+			"original_filename": "img_opencamera_20250311_163912.jpg",
+			"url_thumb_quality": "https://files.highlysuspect.agency/photos/img_opencamera_20250311_163912-thumb.webp",
+			"url_large_quality": "https://files.highlysuspect.agency/photos/img_opencamera_20250311_163912-large.webp",
+			"url_original_quality": "https://files.highlysuspect.agency/photos/img_opencamera_20250311_163912.jpg",
+			"capture_date": "Mar 11, 2025",
+			"camera": "Pixel 9 Pro",
+			"software": "darktable 5.0.0",
+			"width": 3802,
+			"height": 3056,
+			"category": "category-lamenting"
+		},
+		{
+			"original_filename": "pxl_20250226_185102093.raw-02.original_01.jpg",
+			"url_thumb_quality": "https://files.highlysuspect.agency/photos/pxl_20250226_185102093.raw-02.original_01-thumb.webp",
+			"url_large_quality": "https://files.highlysuspect.agency/photos/pxl_20250226_185102093.raw-02.original_01-large.webp",
+			"url_original_quality": "https://files.highlysuspect.agency/photos/pxl_20250226_185102093.raw-02.original_01.jpg",
+			"capture_date": "Feb 26, 2025",
+			"camera": "Pixel 9 Pro",
+			"software": "darktable 5.0.0",
+			"width": 3667,
+			"height": 2933,
+			"category": "category-lamenting"
+		},
+		{
+			"original_filename": "pxl_20250311_195522587.raw-02.original.jpg",
+			"url_thumb_quality": "https://files.highlysuspect.agency/photos/pxl_20250311_195522587.raw-02.original-thumb.webp",
+			"url_large_quality": "https://files.highlysuspect.agency/photos/pxl_20250311_195522587.raw-02.original-large.webp",
+			"url_original_quality": "https://files.highlysuspect.agency/photos/pxl_20250311_195522587.raw-02.original.jpg",
+			"capture_date": "Mar 11, 2025",
+			"camera": "Pixel 9 Pro",
+			"software": "darktable 5.0.0",
+			"width": 2876,
+			"height": 2399,
+			"category": "category-lamenting"
+		},
+		{
+			"original_filename": "pxl_20250320_145400503.raw-02.original.jpg",
+			"url_thumb_quality": "https://files.highlysuspect.agency/photos/pxl_20250320_145400503.raw-02.original-thumb.webp",
+			"url_large_quality": "https://files.highlysuspect.agency/photos/pxl_20250320_145400503.raw-02.original-large.webp",
+			"url_original_quality": "https://files.highlysuspect.agency/photos/pxl_20250320_145400503.raw-02.original.jpg",
+			"capture_date": "Mar 20, 2025",
+			"camera": "Pixel 9 Pro",
+			"software": "darktable 5.0.0",
+			"width": 4056,
+			"height": 3046,
+			"category": "category-lamenting"
+		},
+		{
+			"original_filename": "pxl_20250320_150005748.raw-02.original.jpg",
+			"url_thumb_quality": "https://files.highlysuspect.agency/photos/pxl_20250320_150005748.raw-02.original-thumb.webp",
+			"url_large_quality": "https://files.highlysuspect.agency/photos/pxl_20250320_150005748.raw-02.original-large.webp",
+			"url_original_quality": "https://files.highlysuspect.agency/photos/pxl_20250320_150005748.raw-02.original.jpg",
+			"capture_date": "Mar 20, 2025",
+			"camera": "Pixel 9 Pro",
+			"software": "darktable 5.0.0",
+			"width": 1747,
+			"height": 1372,
+			"category": "category-lamenting"
+		},
+		{
+			"original_filename": "pxl_20250327_005751166.raw-02.original_01.jpg",
+			"url_thumb_quality": "https://files.highlysuspect.agency/photos/pxl_20250327_005751166.raw-02.original_01-thumb.webp",
+			"url_large_quality": "https://files.highlysuspect.agency/photos/pxl_20250327_005751166.raw-02.original_01-large.webp",
+			"url_original_quality": "https://files.highlysuspect.agency/photos/pxl_20250327_005751166.raw-02.original_01.jpg",
+			"capture_date": "Mar 26, 2025",
+			"camera": "Pixel 9 Pro",
+			"software": "darktable 5.0.0",
+			"width": 1852,
+			"height": 1390,
+			"category": "category-lamenting"
+		},
+		{
+			"original_filename": "pxl_20250331_175137997.raw-02.original.jpg",
+			"url_thumb_quality": "https://files.highlysuspect.agency/photos/pxl_20250331_175137997.raw-02.original-thumb.webp",
+			"url_large_quality": "https://files.highlysuspect.agency/photos/pxl_20250331_175137997.raw-02.original-large.webp",
+			"url_original_quality": "https://files.highlysuspect.agency/photos/pxl_20250331_175137997.raw-02.original.jpg",
+			"capture_date": "Mar 31, 2025",
+			"camera": "Pixel 9 Pro",
+			"software": "darktable 5.0.0",
+			"width": 3595,
+			"height": 2169,
+			"category": "category-lamenting"
 		}
 	],
 	"categoryNames": [
+		[
+			"category-lamenting",
+			"Uncategorized stuff I guess"
+		],
 		[
 			"anthrohio-mar-25-furwalk",
 			"AnthrOhio March 2025 Furwalk"
