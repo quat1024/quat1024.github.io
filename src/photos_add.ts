@@ -90,8 +90,12 @@ interface Exif extends z.infer<typeof ZExif> {}
 
 async function parseExifWithExiftool(file: string): Promise<Exif> {
   const exiftoolResult = await spawnToString("exiftool", "-json", file);
-  const exif = ZExif.parse(JSON.parse(exiftoolResult.stdout)[0]);
-  return exif;
+  try {
+    const exif = ZExif.parse(JSON.parse(exiftoolResult.stdout)[0]);
+    return exif;
+  } catch(e) {
+    throw new Error("failed to parse " + exiftoolResult + " into json", {cause: e});
+  }
 }
 
 function getCwebpResizeFlags(exif: Exif, max: number): Flag[] {
@@ -222,13 +226,14 @@ async function main() {
   }
 
   //Read EXIF
+  const exifLimiter = pLimit(4); //something explodes when trying to parse too fast??
   interface InputWithMeta extends Input {
     exif: Exif;
   }
   async function readExif(input: Input): Promise<InputWithMeta> {
     return {
       ...input,
-      exif: await parseExifWithExiftool(input.imgPath),
+      exif: await exifLimiter(() => parseExifWithExiftool(input.imgPath)),
     };
   }
 
@@ -254,6 +259,7 @@ async function main() {
     );
 
     async function makeLarge(): Promise<void> {
+      if(fs.existsSync(largeWebpOutput)) return;
       await spawn(
         "cwebp",
         "-q",
@@ -266,6 +272,7 @@ async function main() {
     }
 
     async function makeThumb(): Promise<void> {
+      if(fs.existsSync(thumbWebpOutput)) return;
       await spawn(
         "cwebp",
         "-q",
@@ -319,25 +326,25 @@ async function main() {
         `https://${bunnyCreds.bucketHostname}/${bunnyCreds.bucketUsername}/${suffix}`;
 
       //try 5 times to upload the file
-      let tries = 0;
-      let result;
-      do {
-        result = await limiter(() => fetch(uploadUrl, {
-          method: "PUT",
-          headers: {
-            "Content-Length": "" + contentLength,
-            "AccessKey": bunnyCreds.bucketPassword,
-            "Content-Type": "application/octet-stream",
-            "Accept": "application/json",
-          },
-          body,
-        }))
-        if(!result.ok) console.log("Bunny http failure", result);
-        else break;
-      } while (tries++ < 5)
-      if(!result.ok) {
-        throw new Error(`Failed to upload ${targetFilename} to Bunny`);
-      }
+      //let tries = 0;
+      //let result;
+      //do {
+      //  result = await limiter(() => fetch(uploadUrl, {
+      //    method: "PUT",
+      //    headers: {
+      //      "Content-Length": "" + contentLength,
+      //      "AccessKey": bunnyCreds.bucketPassword,
+      //      "Content-Type": "application/octet-stream",
+      //      "Accept": "application/json",
+      //    },
+      //    body,
+      //  }))
+      //  if(!result.ok) console.log("Bunny http failure", result);
+      //  else break;
+      //} while (tries++ < 5)
+      //if(!result.ok) {
+      //  throw new Error(`Failed to upload ${targetFilename} to Bunny`);
+      //}
 
       console.log(`Uploaded ${targetFilename} to Bunny`);
       return `${bunnyCreds.cdnBaseUrl}/${suffix}`;
@@ -378,10 +385,8 @@ async function main() {
   }
 
   //save the new photo db
-  fs.writeFileSync(
-    photoDbPath,
-    JSON.stringify(writePhotoDb(photodb), null, "\t"),
-  );
+  const newPhotoDb = JSON.stringify(writePhotoDb(photodb), null, "\t");
+  fs.writeFileSync(photoDbPath + ".test", newPhotoDb);
   
   console.log("Done");
 }
