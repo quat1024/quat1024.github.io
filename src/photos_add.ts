@@ -9,7 +9,7 @@ import pLimit from "p-limit";
 
 //EDIT THIS when bulk uploading!!!
 const FORCED_PHOTO_PROPS: object = {
-  category: "category-lamenting"
+  category: "anthrohio-25"
 };
 
 type Flag = string | number;
@@ -318,8 +318,11 @@ async function main() {
       const uploadUrl =
         `https://${bunnyCreds.bucketHostname}/${bunnyCreds.bucketUsername}/${suffix}`;
 
-      const result = await limiter(() =>
-        fetch(uploadUrl, {
+      //try 5 times to upload the file
+      let tries = 0;
+      let result;
+      do {
+        result = await limiter(() => fetch(uploadUrl, {
           method: "PUT",
           headers: {
             "Content-Length": "" + contentLength,
@@ -328,14 +331,14 @@ async function main() {
             "Accept": "application/json",
           },
           body,
-        })
-      );
-
-      if (!result.ok) {
-        throw new Error(
-          `Bunny http error ${result.status}: ` + await result.text(),
-        );
+        }))
+        if(!result.ok) console.log("Bunny http failure", result);
+        else break;
+      } while (tries++ < 5)
+      if(!result.ok) {
+        throw new Error(`Failed to upload ${targetFilename} to Bunny`);
       }
+
       console.log(`Uploaded ${targetFilename} to Bunny`);
       return `${bunnyCreds.cdnBaseUrl}/${suffix}`;
     }
