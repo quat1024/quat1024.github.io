@@ -10,7 +10,9 @@ import { compareDatesAsc } from "./date.ts";
 
 //EDIT THIS when bulk uploading!!!
 const FORCED_PHOTO_PROPS: object = {
-  category: "anthrohio-25"
+  category: "anthrohio-25",
+	"camera": "Google Pixel 9 Pro",
+	"software": "darktable 5.0.1",
 };
 
 type Flag = string | number;
@@ -326,6 +328,16 @@ async function main() {
       const uploadUrl =
         `https://${bunnyCreds.bucketHostname}/${bunnyCreds.bucketUsername}/${suffix}`;
 
+      //UHHHH fix those two that weren't uploading
+      //let awaw =
+      //  uploadUrl == "https://ny.storage.bunnycdn.com/quaternary-files/photos/pxl_20250420_173855066.raw-02.original-thumb.webp" ||
+      //  uploadUrl == "https://ny.storage.bunnycdn.com/quaternary-files/photos/pxl_20250420_180948446.raw-02.original.jpg"
+      //if(!awaw) {
+      //  //good
+      //  return `${bunnyCreds.cdnBaseUrl}/${suffix}`;
+      //}
+      //if(true) return `${bunnyCreds.cdnBaseUrl}/${suffix}`;
+        
       //try 5 times to upload the file
       let tries = 0;
       let result;
