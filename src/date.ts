@@ -35,8 +35,11 @@ export function parseExifDate(date: string): Date {
   return result;
 }
 
-export function compareDatesAsc(a: Date, b: Date): number {
-  return datefns.compareAsc(a, b);
+export function compareDatesAsc(a: Date | undefined, b: Date | undefined): number {
+  if(!a && !b) return 0;
+  else if(!a) return -1; //TODO do these signs make sense...
+  else if(!b) return 1;
+  else return datefns.compareAsc(a, b);
 }
 
 export function writeDate(date: Date): string {

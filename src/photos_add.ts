@@ -6,6 +6,7 @@ import { z } from "zod";
 import { Photo, PhotoDb, writePhotoDb, ZPhotoDb } from "./photos.tsx";
 import { parseExifDate } from "./date.ts";
 import pLimit from "p-limit";
+import { compareDatesAsc } from "./date.ts";
 
 //EDIT THIS when bulk uploading!!!
 const FORCED_PHOTO_PROPS: object = {
@@ -326,25 +327,25 @@ async function main() {
         `https://${bunnyCreds.bucketHostname}/${bunnyCreds.bucketUsername}/${suffix}`;
 
       //try 5 times to upload the file
-      //let tries = 0;
-      //let result;
-      //do {
-      //  result = await limiter(() => fetch(uploadUrl, {
-      //    method: "PUT",
-      //    headers: {
-      //      "Content-Length": "" + contentLength,
-      //      "AccessKey": bunnyCreds.bucketPassword,
-      //      "Content-Type": "application/octet-stream",
-      //      "Accept": "application/json",
-      //    },
-      //    body,
-      //  }))
-      //  if(!result.ok) console.log("Bunny http failure", result);
-      //  else break;
-      //} while (tries++ < 5)
-      //if(!result.ok) {
-      //  throw new Error(`Failed to upload ${targetFilename} to Bunny`);
-      //}
+      let tries = 0;
+      let result;
+      do {
+        result = await limiter(() => fetch(uploadUrl, {
+          method: "PUT",
+          headers: {
+            "Content-Length": "" + contentLength,
+            "AccessKey": bunnyCreds.bucketPassword,
+            "Content-Type": "application/octet-stream",
+            "Accept": "application/json",
+          },
+          body,
+        }))
+        if(!result.ok) console.log("Bunny http failure", result);
+        else break;
+      } while (tries++ < 5)
+      if(!result.ok) {
+        throw new Error(`Failed to upload ${targetFilename} to Bunny`);
+      }
 
       console.log(`Uploaded ${targetFilename} to Bunny`);
       return `${bunnyCreds.cdnBaseUrl}/${suffix}`;
@@ -362,6 +363,9 @@ async function main() {
   const inputsUploaded = await allSettledGood(
     inputsProcessed.map((i) => uploadToBunny(i)),
   );
+  
+  console.log("Sorting by capture date...");
+  inputsUploaded.sort((a, b) => compareDatesAsc(a.exif.DateTimeOriginal, b.exif.DateTimeOriginal))
 
   //add everything to photo db
   console.log("Writing new photo db...");
@@ -386,7 +390,7 @@ async function main() {
 
   //save the new photo db
   const newPhotoDb = JSON.stringify(writePhotoDb(photodb), null, "\t");
-  fs.writeFileSync(photoDbPath + ".test", newPhotoDb);
+  fs.writeFileSync(photoDbPath, newPhotoDb);
   
   console.log("Done");
 }
