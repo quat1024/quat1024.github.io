@@ -165,6 +165,7 @@ export function Gallery2(props: { photodb: PhotoDb }): t.Showable {
   return <Layout2 title="Photos" og={og}>
     <article>
       <h1>Photos</h1>
+      <p>All photos CC-BY. I also have a <a href="https://www.furtrack.com/user/quaternary/photography">Furtrack</a> profile which contains just fursuit stuff.</p>
       <div class="gallery">
         {...blah}
       </div>
