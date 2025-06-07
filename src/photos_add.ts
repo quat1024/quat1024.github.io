@@ -328,10 +328,8 @@ async function main() {
       const uploadUrl =
         `https://${bunnyCreds.bucketHostname}/${bunnyCreds.bucketUsername}/${suffix}`;
 
-      //UHHHH fix those two that weren't uploading
-      //let awaw =
-      //  uploadUrl == "https://ny.storage.bunnycdn.com/quaternary-files/photos/pxl_20250420_173855066.raw-02.original-thumb.webp" ||
-      //  uploadUrl == "https://ny.storage.bunnycdn.com/quaternary-files/photos/pxl_20250420_180948446.raw-02.original.jpg"
+      //UHHHH fix those ones that weren't uploading
+      //let awaw = uploadUrl.includes("010935898");
       //if(!awaw) {
       //  //good
       //  return `${bunnyCreds.cdnBaseUrl}/${suffix}`;
