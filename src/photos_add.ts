@@ -10,7 +10,7 @@ import { compareDatesAsc } from "./date.ts";
 
 //EDIT THIS when bulk uploading!!!
 const FORCED_PHOTO_PROPS: object = {
-  category: "fwa-25",
+  category: "prance-may-25",
 	"camera": "Google Pixel 9 Pro",
 	"software": "darktable 5.0.1",
 };
