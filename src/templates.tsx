@@ -119,8 +119,8 @@ export async function Landing2(props: { inDir: string, postdb: post.Db }): Promi
   return <Layout2 head={[<script type="module" src="/js/gravity.mjs"></script>]}>
     <article>
       {await util.readToMarkdown(props.inDir, "landing.md")}
-      <h2>Blog posts</h2>
-      <All2 postdb={props.postdb} />
+      {/* <h2>Blog posts</h2>
+      <All2 postdb={props.postdb} /> */}
       <h2>Blogroll</h2>
       {buttons()}
       <p class="buttonsubtitle">This one's mine: <img style="vertical-align:bottom;" src="/img/button/hsa.gif" /> ~ <input type="checkbox" id="organize" /><label for="organize">Organize</label></p>

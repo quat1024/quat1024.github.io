@@ -12,3 +12,7 @@ I also build [Portal 2 tests](https://steamcommunity.com/id/quaternary/myworksho
 * Email: [quat@highlysuspect.agency](mailto:quat@highlysuspect.agency)
 * Mastodon: <a rel="me" href="https://types.pl/@quat">@quat@types.pl</a>
 * (nsfw) Bluesky: <a rel="me" href="https://bsky.app/profile/highlysuspect.agency">@highlysuspect.agency</a>
+
+## Blog posts
+
+My blog has moved to [notes.highlysuspect.agency](https://notes.highlysuspect.agency/blog/).
