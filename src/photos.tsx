@@ -24,6 +24,13 @@ export const ZPhoto = z.object({
 export interface Photo extends z.infer<typeof ZPhoto> { }
 
 export function writePhoto(photo: Photo): object {
+  //console.log("writePhoto", photo.original_filename, "with capture date", photo.capture_date);
+  
+  //TODO i have no idea man
+  if((photo.capture_date as any) == "Invalid Date") {
+    delete photo.capture_date;
+  }
+  
   if (photo.capture_date && typeof photo.capture_date != "string") {
     return {
       ...photo,
@@ -158,6 +165,7 @@ export function Gallery2(props: { photodb: PhotoDb }): t.Showable {
   return <Layout2 title="Photos" og={og}>
     <article>
       <h1>Photos</h1>
+      <p>All photos CC-BY. I also have a <a href="https://www.furtrack.com/user/quaternary/photography">Furtrack</a> profile which contains just fursuit stuff.</p>
       <div class="gallery">
         {...blah}
       </div>
