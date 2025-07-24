@@ -84,43 +84,37 @@ export function Layout2(props: Page2Props = {}, ...body: t.Tag[]): t.Showable {
   </Page2>
 }
 
-export function All2(props: { postdb: post.Db }): t.Showable {
-  const postdb = props.postdb;
-
-  const infos = postdb.chronological.reverse()
-    .map(id => postdb.postsById[id])
-    .map(post => <PostInfo2 post={post} />);
-
-  return <ul>{...infos}</ul>
-}
-
-export function Feed2(props: { postdb: post.Db }): t.Showable {
-  const postdb = props.postdb;
-
-  const infos = postdb.chronological
-    .map(id => postdb.postsById[id])
-    .filter(post => !post.draft)
-    .map(post => <PostInfo2Feed post={post} />);
-
+export function Feed2(): t.Showable {
   return <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
     <channel>
       <title>Highly Suspect Agency</title>
       <description>🤔</description>
       <link>https://highlysuspect.agency/feed.xml</link>
       <atom:link href="https://highlysuspect.agency/feed.xml" rel="self" type="application/rss+xml" />
-      {...infos}
+      <item>
+        <title>301 Moved Permanently</title>
+        <link>https://notes.highlysuspect.agency/blog/</link>
+        <guid>https://notes.highlysuspect.agency/blog/</guid>
+        <pubDate>Thu, 24 Jul 2025 16:37:39 GMT</pubDate>
+        <content:encoded>
+          {"<![CDATA["}
+          I've moved my blog over to https://notes.highlysuspect.agency/blog/ .
+          I ended up preferring the more unstructured "digital-garden" style of internet writing, and I'm more than happy to blast through
+          the mountain of tech-debt powering <i>this</i> website.
+          Sorry for the trouble! I'll update here one final time when I add a new RSS feed to subscribe to.
+          {"]]>"}
+        </content:encoded>
+      </item>
     </channel>
   </rss>
 }
 
-export async function Landing2(props: { inDir: string, postdb: post.Db }): Promise<t.Showable> {
+export async function Landing2(props: { inDir: string }): Promise<t.Showable> {
   if (props == null) throw new Error("null props");
 
   return <Layout2 head={[<script type="module" src="/js/gravity.mjs"></script>]}>
     <article>
       {await util.readToMarkdown(props.inDir, "landing.md")}
-      {/* <h2>Blog posts</h2>
-      <All2 postdb={props.postdb} /> */}
       <h2>Blogroll</h2>
       {buttons()}
       <p class="buttonsubtitle">This one's mine: <img style="vertical-align:bottom;" src="/img/button/hsa.gif" /> ~ <input type="checkbox" id="organize" /><label for="organize">Organize</label></p>
@@ -170,67 +164,21 @@ function buttons(): t.Showable {
   </div>
 }
 
-export function PostInfo2(props: { post: post.Post }): t.Showable {
-  if (props == null) throw new Error("null props");
-  const post: post.Post = props.post;
-  const clazz : string = post.good ? "good" : "";
-
-  return <li>
-    <a class={clazz} href={`posts/${post.slug}`}>{post.title}</a>
-    {...(post.draft ? ["(DRAFT)"] : [])}
-    {...(post.description ? [<p>{post.description}</p>] : [])}
-    <p class="date">{post.created_date_str}</p>
-  </li>
-}
-
-export function PostInfo2Feed(props: { post: post.Post }): t.Showable {
-  if (props == null) throw new Error("null props");
-  const post: post.Post = props.post;
-
-  return <item>
-    <title>{post.title}</title>
-    <link>https://highlysuspect.agency/posts/{post.slug}</link>
-    <guid>https://highlysuspect.agency/posts/{post.slug}</guid>
-    <pubDate>{post.created_date.toUTCString()}</pubDate>
-    {...(post.description ?
-      [<description>{post.description}</description>] : [])}
-    <content:encoded>
-      {"<![CDATA["}
-      {post.rendered}
-      {"]]>"}
-    </content:encoded>
-  </item>
-
-  //TODO: escape CDATA in the rendered post
-}
-
 export function PostPage2(props: { post: post.Post }): t.Showable {
   if (props == null) throw new Error("null props");
   const post = props.post;
 
-  let motive = post.motive;
-  if (!motive) {
-    const rand = post.slug.split("").reduce((acc, t) => acc + t.charCodeAt(0), 0)
-    const motives = ["cool", "mlem", "think"];
-    motive = motives[rand % motives.length];
-  }
-
-  const og = {
-    description: post.description,
-    url: `https://highlysuspect.agency/posts/${post.slug}/`
-  }
-
-  return <Layout2 title={post.title} og={og}>
+  const newlink = `https://notes.highlysuspect.agency/blog/${post.slug}`;
+  const meta_refresh = <meta http-equiv="refresh" content={"3;url=" + newlink}></meta>
+  
+  const og = { description: post.description, url: newlink}
+  return <Layout2 title={"MOVED - " + post.title} og={og} head={[meta_refresh]}>
     <article>
       <div class="bigheader">
-        <h1>{post.title}</h1>
-        <div class="byline">
-          {...[post.author, ", ", post.created_date_str]}
-          {...(post.draft ? [" &mdash; (draft post)"] : [])}
-        </div>
+        <h1>Content moved</h1>
       </div>
-      {post.rendered}
-      <hr class={motive} />
+      <p>Content moved to my new website. Sorry for the trouble.</p>
+      <p>You should be redirected shortly. <a href={newlink}>If you are not redirected, click here</a>.</p>
     </article>
   </Layout2>
 }

@@ -32,13 +32,9 @@ await fsp.cp(staticDir, outDir, { recursive: true }); // dont copy static/ if it
 console.log("Copying gravity");
 await fsp.cp(path.join(cwd, "gravity", "out"), path.join(outDir, "js"), {recursive: true});
 
-console.log("Reading posts");
-const inPostsDir = path.join(inDir, "posts");
+console.log("Reading tombstones");
 
-const posts = (await fsp.readdir(inPostsDir))
-  .map((filename) => path.join(inPostsDir, filename)) //readdir just gives you filenames
-  .map((path) => new post.Post(path));
-const postdb = new post.Db(posts);
+const posts = post.Tombstones;
 
 console.log("Reading photodb");
 const photodb = await util.readToZod(
@@ -59,7 +55,7 @@ async function write(str: string, ...p: string[]) {
 console.log("Rendering everything");
 await Promise.all([
   //landing
-  write(show(await templates.Landing2({ inDir, postdb })), outDir, "index.html"),
+  write(show(await templates.Landing2({ inDir })), outDir, "index.html"),
 
   //posts
   ...(posts.map(async (post) => {
@@ -67,7 +63,7 @@ await Promise.all([
   })),
 
   //feed
-  write(show(templates.Feed2({ postdb }), 0, true), outDir, "feed.xml"),
+  write(show(templates.Feed2(), 0, true), outDir, "feed.xml"),
 
   //photo gallery
   write(show(photos.Gallery2({ photodb })), outDir, "photos", "index.html"),
